@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="scheduleTableViewCellIdentifier" rowHeight="66" id="sl4-cU-qwQ" customClass="RGSScheduleTableViewCell" customModule="SummerSchool" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="66"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sl4-cU-qwQ" id="J1w-hV-P1q">
+                <rect key="frame" x="0.0" y="0.0" width="342" height="65"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfU-ZQ-E6D">
+                        <rect key="frame" x="8" y="8" width="62" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="62" id="2J6-xu-DIg"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <color key="textColor" red="0.92156862750000001" green="0.25490196079999999" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harmony Building: Oude Kijk in Het Jatstraat 26, 9712 EK Groningen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YoV-Uh-kKE">
+                        <rect key="frame" x="8" y="37" width="326" height="21"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USCSS Nostromo: The Catalyst for a Worlds End" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptn-QE-V07">
+                        <rect key="frame" x="78" y="8" width="256" height="21"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="lfU-ZQ-E6D" firstAttribute="top" secondItem="J1w-hV-P1q" secondAttribute="topMargin" id="6CM-V0-2vz"/>
+                    <constraint firstItem="Ptn-QE-V07" firstAttribute="top" secondItem="J1w-hV-P1q" secondAttribute="topMargin" id="8NO-mI-tzX"/>
+                    <constraint firstItem="YoV-Uh-kKE" firstAttribute="trailing" secondItem="J1w-hV-P1q" secondAttribute="trailingMargin" id="A1B-Gm-04u"/>
+                    <constraint firstItem="Ptn-QE-V07" firstAttribute="trailing" secondItem="J1w-hV-P1q" secondAttribute="trailingMargin" id="C8r-YG-H0h"/>
+                    <constraint firstItem="YoV-Uh-kKE" firstAttribute="leading" secondItem="J1w-hV-P1q" secondAttribute="leadingMargin" id="DQr-wh-b1a"/>
+                    <constraint firstItem="lfU-ZQ-E6D" firstAttribute="leading" secondItem="J1w-hV-P1q" secondAttribute="leadingMargin" id="RzT-tQ-dSz"/>
+                    <constraint firstItem="YoV-Uh-kKE" firstAttribute="top" secondItem="Ptn-QE-V07" secondAttribute="bottom" constant="8" id="Szs-Vb-tnd"/>
+                    <constraint firstItem="YoV-Uh-kKE" firstAttribute="bottom" secondItem="J1w-hV-P1q" secondAttribute="bottomMargin" id="TzO-mq-7cB"/>
+                    <constraint firstItem="Ptn-QE-V07" firstAttribute="leading" secondItem="lfU-ZQ-E6D" secondAttribute="trailing" constant="8" id="egQ-gv-Zms"/>
+                    <constraint firstItem="Ptn-QE-V07" firstAttribute="height" secondItem="lfU-ZQ-E6D" secondAttribute="height" id="z9T-XQ-7Ke"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addressLabel" destination="YoV-Uh-kKE" id="ioO-wL-Kxk"/>
+                <outlet property="startDateLabel" destination="lfU-ZQ-E6D" id="d5z-z2-FFP"/>
+                <outlet property="titleLabel" destination="Ptn-QE-V07" id="K75-TP-yvd"/>
+            </connections>
+            <point key="canvasLocation" x="-35.5" y="-25"/>
+        </tableViewCell>
+    </objects>
+</document>

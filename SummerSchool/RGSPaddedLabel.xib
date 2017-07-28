@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1611" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RGSPaddedLabel" customModule="SummerSchool" customModuleProvider="target">
+            <connections>
+                <outlet property="contentTextView" destination="Mrg-cW-gdE" id="HAC-Of-GYt"/>
+                <outlet property="titleLabel" destination="Iox-i0-uMo" id="FPg-EC-KsV"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="181"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mrg-cW-gdE">
+                    <rect key="frame" x="16" y="47" width="343" height="127"/>
+                    <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="tintColor" red="0.92156862750000001" green="0.25490196079999999" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <attributedString key="attributedText">
+                        <fragment>
+                            <string key="content">Marina De Giorgi, Special advisor for diversity and inclusion at the University of Groningen, and Chloé Chambraud, Research and Policy Manager at BITCGender. Lean in - Lean out: coping mechanisms?.</string>
+                            <attributes>
+                                <font key="NSFont" metaFont="menu" size="14"/>
+                            </attributes>
+                        </fragment>
+                    </attributedString>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iox-i0-uMo">
+                    <rect key="frame" x="16" y="9" width="343" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="qHU-dD-nCD"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Mrg-cW-gdE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="5rU-XR-ktE"/>
+                <constraint firstAttribute="bottom" secondItem="Mrg-cW-gdE" secondAttribute="bottom" constant="7" id="96G-7r-fKW"/>
+                <constraint firstAttribute="trailing" secondItem="Mrg-cW-gdE" secondAttribute="trailing" constant="16" id="aQo-Hh-XSB"/>
+                <constraint firstItem="Mrg-cW-gdE" firstAttribute="top" secondItem="Iox-i0-uMo" secondAttribute="bottom" constant="8" id="ixm-FR-jKy"/>
+                <constraint firstItem="Iox-i0-uMo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="9" id="nXs-jP-phe"/>
+                <constraint firstAttribute="trailing" secondItem="Iox-i0-uMo" secondAttribute="trailing" constant="16" id="sqe-37-D89"/>
+                <constraint firstItem="Iox-i0-uMo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="xjM-vv-hdD"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-221.5" y="-277.5"/>
+        </view>
+    </objects>
+</document>

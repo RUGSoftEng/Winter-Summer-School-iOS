@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G1611" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AnnouncementEntity" representedClassName="AnnouncementEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="announcementDescription" attributeType="String" syncable="YES"/>
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="poster" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="address" attributeType="String" syncable="YES"/>
+        <attribute name="endDateString" attributeType="String" syncable="YES"/>
+        <attribute name="eventDescription" attributeType="String" syncable="YES"/>
+        <attribute name="ssid" attributeType="String" syncable="YES"/>
+        <attribute name="startDateString" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <relationship name="weekDay" maxCount="1" deletionRule="Nullify" destinationEntity="WeekDayEntity" inverseName="events" inverseEntity="WeekDayEntity" syncable="YES"/>
+    </entity>
+    <entity name="GeneralInfoEntity" representedClassName="GeneralInfoEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="generalInfoDescription" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="WeekDayEntity" representedClassName="WeekDayEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EventEntity" inverseName="weekDay" inverseEntity="EventEntity" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AnnouncementEntity" positionX="-234" positionY="-99" width="128" height="118"/>
+        <element name="EventEntity" positionX="-45" positionY="0" width="128" height="148"/>
+        <element name="WeekDayEntity" positionX="-45" positionY="-99" width="128" height="75"/>
+        <element name="GeneralInfoEntity" positionX="-396" positionY="-99" width="128" height="90"/>
+    </elements>
+</model>
