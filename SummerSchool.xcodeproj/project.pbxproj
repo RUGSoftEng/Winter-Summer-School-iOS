@@ -32,6 +32,8 @@
 		6BA886371F1E9AB0007D0341 /* RGSInfoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA886361F1E9AB0007D0341 /* RGSInfoDetailViewController.swift */; };
 		6BA886391F1EAC3F007D0341 /* AppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA886381F1EAC3F007D0341 /* AppearanceManager.swift */; };
 		6BB0CF691EE5AC730018A7CD /* RGSBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB0CF681EE5AC730018A7CD /* RGSBaseViewController.swift */; };
+		6BB3EE2A1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB3EE281F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.swift */; };
+		6BB3EE2B1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB3EE291F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib */; };
 		6BB7A94A1EE4A208005FA5B0 /* RGSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7A9491EE4A208005FA5B0 /* RGSMainViewController.swift */; };
 		6BB7A94D1EE4A79E005FA5B0 /* RGSInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7A94C1EE4A79E005FA5B0 /* RGSInfoViewController.swift */; };
 		6BB7A94F1EE4A7B0005FA5B0 /* RGSAnnouncementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7A94E1EE4A7B0005FA5B0 /* RGSAnnouncementViewController.swift */; };
@@ -74,6 +76,8 @@
 		6BA886361F1E9AB0007D0341 /* RGSInfoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSInfoDetailViewController.swift; sourceTree = "<group>"; };
 		6BA886381F1EAC3F007D0341 /* AppearanceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearanceManager.swift; sourceTree = "<group>"; };
 		6BB0CF681EE5AC730018A7CD /* RGSBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSBaseViewController.swift; sourceTree = "<group>"; };
+		6BB3EE281F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLecturerCollectionViewCell.swift; sourceTree = "<group>"; };
+		6BB3EE291F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSLecturerCollectionViewCell.xib; sourceTree = "<group>"; };
 		6BB7A9491EE4A208005FA5B0 /* RGSMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSMainViewController.swift; sourceTree = "<group>"; };
 		6BB7A94C1EE4A79E005FA5B0 /* RGSInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSInfoViewController.swift; sourceTree = "<group>"; };
 		6BB7A94E1EE4A7B0005FA5B0 /* RGSAnnouncementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementViewController.swift; sourceTree = "<group>"; };
@@ -215,6 +219,7 @@
 				6B362F9E1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib */,
 				6BDFBA2C1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib */,
 				6B461E691F1FB80500C7992B /* RGSEmptyTableViewCell.xib */,
+				6BB3EE291F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib */,
 				6B461E621F1F805600C7992B /* RGSPaddedLabel.xib */,
 			);
 			name = Nibs;
@@ -227,6 +232,7 @@
 				6B362F9D1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.swift */,
 				6BDFBA2E1EEC2C0A0018EC84 /* RGSScheduleTableViewCell.swift */,
 				6B461E681F1FB80500C7992B /* RGSEmptyTableViewCell.swift */,
+				6BB3EE281F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.swift */,
 				6B461E601F1F802C00C7992B /* RGSPaddedLabel.swift */,
 			);
 			name = Views;
@@ -305,6 +311,7 @@
 				6B1E35F21ECF9DE400E2CD77 /* Main.storyboard in Resources */,
 				6B362FA01F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib in Resources */,
 				6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */,
+				6BB3EE2B1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib in Resources */,
 				6BDFBA2D1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib in Resources */,
 				6B461E631F1F805600C7992B /* RGSPaddedLabel.xib in Resources */,
 				6B362F9A1F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib in Resources */,
@@ -347,6 +354,7 @@
 				6BA886391F1EAC3F007D0341 /* AppearanceManager.swift in Sources */,
 				6BB7A9641EE4BBAA005FA5B0 /* RGSControlBarDelegate.swift in Sources */,
 				6BA81F411EEFD51D00386B9C /* ActionManager.swift in Sources */,
+				6BB3EE2A1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

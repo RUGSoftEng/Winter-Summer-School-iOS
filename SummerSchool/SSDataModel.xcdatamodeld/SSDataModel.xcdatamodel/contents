@@ -21,6 +21,14 @@
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="LecturerEntity" representedClassName="LecturerEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lecturerDescription" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="WeekDayEntity" representedClassName="WeekDayEntity" syncable="YES" codeGenerationType="class">
         <attribute name="dateString" attributeType="String" syncable="YES"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EventEntity" inverseName="weekDay" inverseEntity="EventEntity" syncable="YES"/>
@@ -28,7 +36,8 @@
     <elements>
         <element name="AnnouncementEntity" positionX="-234" positionY="-99" width="128" height="118"/>
         <element name="EventEntity" positionX="-45" positionY="0" width="128" height="148"/>
-        <element name="WeekDayEntity" positionX="-45" positionY="-99" width="128" height="75"/>
         <element name="GeneralInfoEntity" positionX="-396" positionY="-99" width="128" height="90"/>
+        <element name="WeekDayEntity" positionX="-45" positionY="-99" width="128" height="75"/>
+        <element name="LecturerEntity" positionX="-207" positionY="0" width="128" height="135"/>
     </elements>
 </model>

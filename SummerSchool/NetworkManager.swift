@@ -13,6 +13,7 @@ enum ServerPath: String {
     case announcementPath = "/announcement/item"
     case eventPath = "/calendar/event"
     case loginCodePath = "/loginCode"
+    case lecturerPath = "/lecturer/item"
 }
 
 
@@ -65,6 +66,18 @@ final class NetworkManager {
         return serverAddress + ServerPath.loginCodePath.rawValue
     }
     
+    /// Returns the address needed to extract lecturers 
+    /// from the server
+    func URLForLecturers() -> String {
+        return serverAddress + ServerPath.lecturerPath.rawValue
+    }
+    
+    /// Returns a concatenated address needed to extract the
+    /// resource from the server.
+    func URLForResourceWithPath(_ path: String) -> String {
+        return serverAddress + path
+    }
+    
     /// Returns the address needed to extract events for the specified week
     /// from the server.
     ///
@@ -92,5 +105,33 @@ final class NetworkManager {
         task.resume()
     }
     
+}
+
+/// Extension to URLSession for allowing synchronous network requests
+extension URLSession {
+    
+    /// What a let down, I thought it would actually perform a synchonous call.
+    /// not just wait for a flag to be set. Pretty much what I was doing already.
+    /// I guess it technically is synchronous now; just in an ugly manner.
+    func synchronousDataTask(with url: URL) -> (Data?, URLResponse?, Error?) {
+        var data: Data?
+        var response: URLResponse?
+        var error: Error?
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        let dataTask = self.dataTask(with: url) {
+            data = $0
+            response = $1
+            error = $2
+            
+            semaphore.signal()
+        }
+        
+        dataTask.resume()
+        _ = semaphore.wait(timeout: .distantFuture)
+        
+        return (data, response, error)
+    }
 }
 

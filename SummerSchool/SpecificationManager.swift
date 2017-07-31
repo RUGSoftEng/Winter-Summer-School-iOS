@@ -23,6 +23,9 @@ final class SpecificationManager {
     /// The drag offset at which a UITableView should refresh its contents
     let tableViewContentRefreshOffset: CGFloat = -100
     
+    /// The drag offset at which a UICollectionView should refresh its contents
+    let collectionViewContentRefreshOffset: CGFloat = -60
+    
     /// The length of a login code
     let loginCodeLength: Int = 8
     
