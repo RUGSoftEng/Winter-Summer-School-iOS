@@ -41,6 +41,11 @@ class RGSInfoDetailViewController: RGSBaseViewController {
         
         // Configure contents
         if (generalInfoItem != nil) {
+            
+            // Set description to render HTML
+            descriptionPaddedLabel.isHTMLContent = true
+            
+            // Set content
             titlePaddedLabel.content = generalInfoItem.title
             descriptionPaddedLabel.content = generalInfoItem.description
         }

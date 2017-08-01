@@ -42,6 +42,11 @@ class RGSAnnouncementEventViewController: RGSBaseViewController {
         
         // Configure Contents
         if (announcement != nil) {
+            
+            // Set description to render HTML
+            descriptionPaddedLabel.isHTMLContent = true
+            
+            // Set content
             dateLabel.text = DateManager.sharedInstance.dateToISOString(announcement.date, format: .announcementDateFormat)! + " at " + DateManager.sharedInstance.hoursAndMinutesFromDate(announcement.date)!
             titlePaddedLabel.content = announcement.title
             descriptionPaddedLabel.content = announcement.description

@@ -23,7 +23,19 @@ class RGSPaddedLabel: UIView {
     var content: String! {
         didSet (oldContent) {
             if (content != nil && content != oldContent) {
-                contentTextView.text = content
+                if (isHTMLContent) {
+                    contentTextView.attributedText = asHTMLString(content)
+                } else {
+                    contentTextView.text = content
+                }
+            }
+        }
+    }
+    
+    var isHTMLContent: Bool = false {
+        didSet {
+            if content != nil {
+                contentTextView.attributedText = asHTMLString(content)
             }
         }
     }
@@ -41,6 +53,14 @@ class RGSPaddedLabel: UIView {
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var contentTextView: UITextView!
+    
+    // MARK: - Private Methods
+    
+    func asHTMLString(_ string: String) -> NSAttributedString {
+        let HTMLData = NSString(string: string).data(using: String.Encoding.unicode.rawValue)
+        let attributedString = try! NSAttributedString(data: HTMLData!, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+        return attributedString
+    }
     
     // MARK: - Nib Initializer
     
