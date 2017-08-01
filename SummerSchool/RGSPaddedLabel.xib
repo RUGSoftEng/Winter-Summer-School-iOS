@@ -33,6 +33,7 @@
                         </fragment>
                     </attributedString>
                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                    <dataDetectorType key="dataDetectorTypes" link="YES"/>
                 </textView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iox-i0-uMo">
                     <rect key="frame" x="16" y="9" width="343" height="30"/>

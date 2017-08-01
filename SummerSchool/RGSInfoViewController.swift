@@ -21,7 +21,9 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     /// Data for the UITableView
     var generalInfo: [GeneralInfo]! {
         didSet (oldGeneralInfo) {
-            tableView.reloadData()
+            if (generalInfo != nil) {
+                tableView.reloadData()
+            }
         }
     }
     
@@ -127,10 +129,13 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
         let generalInfoTableViewCell: UINib = UINib(nibName: "RGSGeneralInfoTableViewCell", bundle: nil)
         tableView.register(generalInfoTableViewCell, forCellReuseIdentifier: generalInfoTableViewCellIdentifier)
         
-        // Attempt to load Announcement Model from DataBase
+        // Attempt to load GeneralInfo Model from DataBase
         if let generalInfo = DataManager.sharedInstance.loadGeneralInfoData() {
             self.generalInfo = generalInfo
         }
+        
+        // Attempt to refresh GeneralInfo Model by querying the server.
+        self.refreshModelData()
         
     }
 

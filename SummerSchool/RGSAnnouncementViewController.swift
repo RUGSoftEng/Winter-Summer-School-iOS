@@ -21,7 +21,9 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
     /// Data for the UITableView
     var announcements: [Announcement]! {
         didSet (oldAnnouncements) {
-            tableView.reloadData()
+            if (announcements != nil) {
+                tableView.reloadData()
+            }
         }
     }
     
@@ -85,7 +87,11 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
             let fetched: [Announcement]? = DataManager.sharedInstance.parseDataToAnnouncements(data: data)
             DispatchQueue.main.async {
-                self.announcements = fetched
+                if (fetched == nil) {
+                    
+                } else {
+                    self.announcements = fetched
+                }
             }
         })
     }
@@ -129,6 +135,9 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         if let announcements = DataManager.sharedInstance.loadAnnouncementData() {
             self.announcements = announcements
         }
+        
+        // Attempt to refresh Announcement Model by querying the server.
+        self.refreshModelData()
     }
 
     override func didReceiveMemoryWarning() {

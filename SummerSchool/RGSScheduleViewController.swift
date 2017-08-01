@@ -189,10 +189,6 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         }
     }
     
-    //func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    //    return sections[section].dateString
-    //}
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerFooterViewIdentifier) as? RGSCollapsibleTableViewHeader ?? RGSCollapsibleTableViewHeader(reuseIdentifier: headerFooterViewIdentifier)
         header.titleLabel.text = sections[section].dateString
@@ -318,6 +314,9 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         if let eventPacket = DataManager.sharedInstance.loadScheduleData() {
             self.events = eventPacket.events
         }
+        
+        // Attempt to refresh Schedule Model by querying the server.
+        self.refreshModelWithDataForWeek(self.week)
         
         // Auto resizing the height of the cell
         tableView.estimatedRowHeight = 44.0

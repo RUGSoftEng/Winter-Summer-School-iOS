@@ -44,6 +44,12 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
         return (lecturers == nil) ? 0 : lecturers.count
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell: RGSLecturerCollectionViewCell = collectionView.cellForItem(at: indexPath) as! RGSLecturerCollectionViewCell
+        collectionView.deselectItem(at: indexPath, animated: false)
+        performSegue(withIdentifier: "RGSLecturerProfileViewController", sender: cell)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: RGSLecturerCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: lecturerCollectionViewCellIdentifier, for: indexPath) as! RGSLecturerCollectionViewCell
         let lecturer: Lecturer = lecturers[indexPath.row]
@@ -91,6 +97,18 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
     }
     
     // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // Extract destination ViewController, cell tapped in question.
+        let lecturerProfileViewController: RGSLecturerProfileViewController = segue.destination as! RGSLecturerProfileViewController
+        let indexPath: IndexPath = collectionView.indexPath(for: sender as! RGSLecturerCollectionViewCell)!
+        
+        // Set event to be displayed to that corresponding to the tapped cell.
+        let lecturer: Lecturer = lecturers[indexPath.row]
+        lecturerProfileViewController.lecturer = lecturer
+    }
+    
     
     // MARK: - Superclass Method Overrides
     
@@ -167,12 +185,11 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
         
         // Attempt to load Lecturers from DataBase
         if let lecturers = DataManager.sharedInstance.loadLecturerData() {
-            print("Lecturers available from memory!")
             self.lecturers = lecturers
-        } else {
-            print("Fetching lecturers")
-            refreshModelData()
         }
+        // Attempt to refresh Lecturer Model by querying the server.
+        self.refreshModelData()
+        
     }
 
     override func didReceiveMemoryWarning() {
