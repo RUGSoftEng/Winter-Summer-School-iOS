@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum ServerPath: String {
     case generalInfoPath = "/generalinfo/item"
@@ -95,13 +96,26 @@ final class NetworkManager {
     ///     - url: A String describing the resource to aim the request at.
     ///     - onCompletion: A closure to execute upon completion.
     func makeGetRequest(url: String, onCompletion: @escaping (_: Data?) -> Void) -> Void {
+        
+        // Construct Request
         var request: URLRequest = URLRequest(url: URL(string: url)!)
         request.httpMethod = "GET"
         let session: URLSession = URLSession.shared
         
+        // Start Network Activity Indicator
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         let task = session.dataTask(with: request) {data, response, err in
+            
+            // Stop Network Activity Indicator
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
+            
+            // Execute callback
             onCompletion(data)
         }
+        
         task.resume()
     }
     

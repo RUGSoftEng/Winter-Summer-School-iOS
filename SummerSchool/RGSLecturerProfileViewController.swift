@@ -8,12 +8,21 @@
 
 import UIKit
 
-class RGSLecturerProfileViewController: RGSBaseViewController {
+class RGSLecturerProfileViewController: RGSBaseViewController, UIScrollViewDelegate {
     
     // MARK: - Variables & Constants
     
     /// The lecturer
     var lecturer: Lecturer!
+    
+    /// The maximum height of the banner.
+    let extendedBannerOffset: CGFloat = 8
+    
+    /// The minimum height of the banner.
+    let collapsedBannerOffset: CGFloat = -180
+    
+    /// The contentView (description and website)
+    var lecturerContentView: RGSLecturerContentView!
     
     // MARK: - Outlets
     
@@ -22,6 +31,18 @@ class RGSLecturerProfileViewController: RGSBaseViewController {
     
     /// Label for the lecturer name.
     @IBOutlet weak var nameLabel: UILabel!
+    
+    /// The enclosing bannerView
+    @IBOutlet weak var bannerView: UIView!
+    
+    /// Constraint for the slider
+    @IBOutlet weak var bannerOffset: NSLayoutConstraint!
+    
+    /// Button to toggle animation
+    @IBOutlet weak var button: UIButton!
+    
+    /// ScrollView containing description and website info.
+    @IBOutlet weak var scrollView: UIScrollView!
     
     /// PaddedLabel for the lecturer description.
     @IBOutlet weak var descriptionPaddedLabel: RGSPaddedLabel!
@@ -41,6 +62,23 @@ class RGSLecturerProfileViewController: RGSBaseViewController {
     
     // MARK: - Private Class Methods
     
+    /// Button to execute collapse animation
+    @IBAction func didPressButton(_ sender: UIButton) {
+        collapseBanner(with: true)
+    }
+    
+    /// Executes an animation which collapses the banner.
+    func collapseBanner(with animation: Bool) -> Void {
+        let duration = 0.5 * (animation ? 1.0 : 0.0)
+        
+        UIView.animate(withDuration: duration, delay: 0.0, options: [], animations: {
+            self.bannerOffset.constant = self.collapsedBannerOffset
+            self.imageView.alpha = 0.0
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        
+    }
+    
     func configureViews() -> Void {
         
         // Round the profile image view
@@ -48,9 +86,10 @@ class RGSLecturerProfileViewController: RGSBaseViewController {
         self.imageView.layer.masksToBounds = true
         self.imageView.clipsToBounds = true
         
-        // Configure titles
-        self.descriptionPaddedLabel.title = "Description"
-        self.websitePaddedLabel.title = "Website"
+        // Load the ContentView
+        self.lecturerContentView = RGSLecturerContentView(frame: scrollView.bounds)
+        scrollView.contentSize = lecturerContentView.frame.size
+        scrollView.addSubview(lecturerContentView)
         
         // Configure contents
         if (lecturer != nil) {
@@ -64,13 +103,23 @@ class RGSLecturerProfileViewController: RGSBaseViewController {
             self.nameLabel.text = lecturer.name
             
             // Set the description
-            self.descriptionPaddedLabel.content = lecturer.description
+            lecturerContentView.lecturerDescription = lecturer.description
             
             // Set the website
             if let website = lecturer.website {
-                self.websitePaddedLabel.content = website
+                lecturerContentView.website = website
             }
+            
+            // Reset the content size
+            scrollView.contentSize = lecturerContentView.frame.size
         }
+    }
+    
+    // MARK: - UIScrollView Delegate Methods
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset
+        print("Offset = \(offset)")
     }
     
     // MARK: - Class Method Overrides
