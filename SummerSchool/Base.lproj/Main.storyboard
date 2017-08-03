@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -241,33 +242,70 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2pn-cm-d8L">
-                                <rect key="frame" x="0.0" y="304" width="375" height="314"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cea-fM-Zj6">
+                                <rect key="frame" x="0.0" y="562" width="375" height="48"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Etz-Ec-eDH">
+                                        <rect key="frame" x="8" y="8" width="359" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <state key="normal" title="Visit Dan's Website!">
+                                            <color key="titleColor" red="0.92156862750000001" green="0.25490196079999999" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapWebsiteButton:" destination="Sb3-oN-gYT" eventType="touchUpInside" id="3Cw-fF-CET"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Etz-Ec-eDH" firstAttribute="top" secondItem="cea-fM-Zj6" secondAttribute="top" constant="8" id="3EN-5s-jU0"/>
+                                    <constraint firstAttribute="height" constant="48" id="F5o-s0-ced"/>
+                                    <constraint firstAttribute="trailing" secondItem="Etz-Ec-eDH" secondAttribute="trailing" constant="8" id="d1a-Qw-FNc"/>
+                                    <constraint firstAttribute="bottom" secondItem="Etz-Ec-eDH" secondAttribute="bottom" constant="8" id="sjv-jB-t4N"/>
+                                    <constraint firstItem="Etz-Ec-eDH" firstAttribute="leading" secondItem="cea-fM-Zj6" secondAttribute="leading" constant="8" id="w2V-KS-DpF"/>
+                                </constraints>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vq5-OF-0wD">
+                                <rect key="frame" x="16" y="304" width="343" height="250"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <attributes>
+                                            <font key="NSFont" metaFont="menu" size="14"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <outlet property="delegate" destination="Sb3-oN-gYT" id="SSz-7f-lwR"/>
+                                    <outlet property="delegate" destination="Sb3-oN-gYT" id="Ps2-Ra-CSs"/>
                                 </connections>
-                            </scrollView>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="cea-fM-Zj6" firstAttribute="top" secondItem="Vq5-OF-0wD" secondAttribute="bottom" constant="8" id="3Fj-1j-krq"/>
                             <constraint firstItem="Om7-CX-9r5" firstAttribute="leading" secondItem="Ce5-3L-eTF" secondAttribute="leading" id="3Zn-9i-11v"/>
+                            <constraint firstItem="Vq5-OF-0wD" firstAttribute="trailing" secondItem="Ce5-3L-eTF" secondAttribute="trailingMargin" id="40M-IE-zU0"/>
+                            <constraint firstItem="Vq5-OF-0wD" firstAttribute="top" secondItem="n4X-Fk-RMR" secondAttribute="bottom" constant="8" id="51B-Fj-cnG"/>
+                            <constraint firstItem="Vq5-OF-0wD" firstAttribute="leading" secondItem="Ce5-3L-eTF" secondAttribute="leadingMargin" id="7a2-eN-9nh"/>
+                            <constraint firstItem="cea-fM-Zj6" firstAttribute="leading" secondItem="Ce5-3L-eTF" secondAttribute="leading" id="Irk-eT-6j5"/>
+                            <constraint firstItem="UbV-Cl-yeF" firstAttribute="top" secondItem="cea-fM-Zj6" secondAttribute="bottom" constant="8" id="Mzq-Am-ARU"/>
                             <constraint firstItem="n4X-Fk-RMR" firstAttribute="top" secondItem="Om7-CX-9r5" secondAttribute="bottom" id="XMT-mD-Tq6"/>
-                            <constraint firstItem="UbV-Cl-yeF" firstAttribute="top" secondItem="2pn-cm-d8L" secondAttribute="bottom" id="cmb-Bj-9JB"/>
-                            <constraint firstItem="2pn-cm-d8L" firstAttribute="top" secondItem="n4X-Fk-RMR" secondAttribute="bottom" constant="8" id="eLy-sz-WHD"/>
                             <constraint firstItem="Om7-CX-9r5" firstAttribute="top" secondItem="GlH-EF-5yf" secondAttribute="bottom" constant="8" id="eap-mj-HbT"/>
                             <constraint firstAttribute="trailing" secondItem="n4X-Fk-RMR" secondAttribute="trailing" id="gPZ-Cr-K2U"/>
+                            <constraint firstAttribute="trailing" secondItem="cea-fM-Zj6" secondAttribute="trailing" id="jLm-Pm-GcM"/>
                             <constraint firstAttribute="trailing" secondItem="Om7-CX-9r5" secondAttribute="trailing" id="mUL-OI-dsC"/>
                             <constraint firstItem="n4X-Fk-RMR" firstAttribute="leading" secondItem="Ce5-3L-eTF" secondAttribute="leading" id="t6X-LT-I7M"/>
-                            <constraint firstAttribute="trailing" secondItem="2pn-cm-d8L" secondAttribute="trailing" id="x5a-cy-VhW"/>
-                            <constraint firstItem="2pn-cm-d8L" firstAttribute="leading" secondItem="Ce5-3L-eTF" secondAttribute="leading" id="xPq-Td-4xJ"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bannerOffset" destination="eap-mj-HbT" id="Kqm-YP-1eZ"/>
-                        <outlet property="bannerView" destination="Om7-CX-9r5" id="7KA-Fe-wVt"/>
-                        <outlet property="imageView" destination="a5a-Yv-if3" id="JHF-yA-a7d"/>
-                        <outlet property="nameLabel" destination="n4X-Fk-RMR" id="vro-dC-KRm"/>
-                        <outlet property="scrollView" destination="2pn-cm-d8L" id="RUU-Rs-eFC"/>
+                        <outlet property="descriptionTextView" destination="Vq5-OF-0wD" id="fPe-aF-adf"/>
+                        <outlet property="footerOffsetConstraint" destination="Mzq-Am-ARU" id="Qw6-zj-XHg"/>
+                        <outlet property="headerOffsetConstraint" destination="eap-mj-HbT" id="8UG-o2-W2p"/>
+                        <outlet property="nameLabel" destination="n4X-Fk-RMR" id="R5E-UT-2Ur"/>
+                        <outlet property="profileImageView" destination="a5a-Yv-if3" id="9j0-tS-Tw9"/>
+                        <outlet property="websiteButton" destination="Etz-Ec-eDH" id="OD3-L3-Vjv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mks-as-aaA" userLabel="First Responder" sceneMemberID="firstResponder"/>

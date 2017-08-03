@@ -24,7 +24,12 @@ class RGSPaddedLabel: UIView {
         didSet (oldContent) {
             if (content != nil && content != oldContent) {
                 if (isHTMLContent) {
-                    contentTextView.attributedText = asHTMLString(content)
+                    do {
+                        try contentTextView.attributedText = NSAttributedString(HTMLString: content, font: contentTextView.font)
+                    } catch {
+                        print("Couldn't display font optimally: \(error)")
+                        contentTextView.attributedText = ActionManager.sharedInstance.stringAsAttributedHTMLString(content)
+                    }
                 } else {
                     contentTextView.text = content
                 }
@@ -35,7 +40,12 @@ class RGSPaddedLabel: UIView {
     var isHTMLContent: Bool = false {
         didSet {
             if content != nil {
-                contentTextView.attributedText = asHTMLString(content)
+                do {
+                    try contentTextView.attributedText = NSAttributedString(HTMLString: content, font: contentTextView.font)
+                } catch {
+                    print("Couldn't display font optimally: \(error)")
+                    contentTextView.attributedText = ActionManager.sharedInstance.stringAsAttributedHTMLString(content)
+                }
             }
         }
     }
@@ -56,11 +66,6 @@ class RGSPaddedLabel: UIView {
     
     // MARK: - Private Methods
     
-    func asHTMLString(_ string: String) -> NSAttributedString {
-        let HTMLData = NSString(string: string).data(using: String.Encoding.unicode.rawValue)
-        let attributedString = try! NSAttributedString(data: HTMLData!, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
-        return attributedString
-    }
     
     // MARK: - Nib Initializer
     

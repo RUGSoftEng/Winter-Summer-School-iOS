@@ -62,6 +62,13 @@ final class ActionManager {
         return mapURL
     }
     
+    /// Returns an AttributedString interpreted from string as a HTML text doument.
+    func stringAsAttributedHTMLString(_ string: String) -> NSAttributedString {
+        let HTMLData = NSString(string: string).data(using: String.Encoding.unicode.rawValue)
+        let attributedString = try! NSAttributedString(data: HTMLData!, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+        return attributedString
+    }
+    
     func getActionSheet(title: String, message: String, dismissMessage: String) -> UIAlertController {
         let controller: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let dismissAction: UIAlertAction = UIAlertAction(title: dismissMessage, style: .cancel, handler: nil)

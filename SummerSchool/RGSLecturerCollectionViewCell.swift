@@ -43,6 +43,9 @@ class RGSLecturerCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        // Force subviews to be drawn before changes are made.
+        self.layoutIfNeeded()
+        
         // Round the imageView to improve aesthetics.
         self.imageView.layer.cornerRadius = self.imageView.frame.size.width / 2
         self.imageView.layer.masksToBounds = true

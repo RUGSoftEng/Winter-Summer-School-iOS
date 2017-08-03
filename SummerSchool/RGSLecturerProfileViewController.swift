@@ -8,47 +8,65 @@
 
 import UIKit
 
-class RGSLecturerProfileViewController: RGSBaseViewController, UIScrollViewDelegate {
+struct Toggle {
+    var show: CGFloat
+    var hide: CGFloat
+}
+
+class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegate {
     
     // MARK: - Variables & Constants
     
     /// The lecturer
     var lecturer: Lecturer!
     
-    /// The maximum height of the banner.
-    let extendedBannerOffset: CGFloat = 8
+    /// The height of the header when extended.
+    let maximumHeaderOffset: CGFloat = 8
     
-    /// The minimum height of the banner.
-    let collapsedBannerOffset: CGFloat = -180
+    /// The height of the header when collapsed.
+    let minimumHeaderOffset: CGFloat = -180
     
-    /// The contentView (description and website)
-    var lecturerContentView: RGSLecturerContentView!
+    /// The toogle heights for the header.
+    let headerToggleHeights: Toggle = Toggle(show: -10, hide: 10)
     
-    // MARK: - Outlets
+    /// Header state
+    var isHeaderExtended = true
+    
+    /// The height of the footer when extended.
+    let maximumFooterOffset: CGFloat = 8
+    
+    /// The height of the footer when collapsed.
+    let minimumFooterOffset: CGFloat = -56
+    
+    // MARK: - Outlets: Views
     
     /// View for the lecturer profile image.
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var profileImageView: UIImageView!
     
     /// Label for the lecturer name.
     @IBOutlet weak var nameLabel: UILabel!
     
-    /// The enclosing bannerView
-    @IBOutlet weak var bannerView: UIView!
+    /// The UITextView for the lecturer description.
+    @IBOutlet weak var descriptionTextView: UITextView!
     
-    /// Constraint for the slider
-    @IBOutlet weak var bannerOffset: NSLayoutConstraint!
+    /// The UIButton for the lecturer's website.
+    @IBOutlet weak var websiteButton: UIButton!
     
-    /// Button to toggle animation
-    @IBOutlet weak var button: UIButton!
+    // MARK: - Outlets: Constraints
     
-    /// ScrollView containing description and website info.
-    @IBOutlet weak var scrollView: UIScrollView!
+    /// Constraint for the offset between the top of the enclosing view and the header.
+    @IBOutlet weak var headerOffsetConstraint: NSLayoutConstraint!
     
-    /// PaddedLabel for the lecturer description.
-    @IBOutlet weak var descriptionPaddedLabel: RGSPaddedLabel!
+    /// Constraint for the offset between the bottom of the enclosing view and the footer.
+    @IBOutlet weak var footerOffsetConstraint: NSLayoutConstraint!
     
-    /// PaddedLabel for the lecturer website.
-    @IBOutlet weak var websitePaddedLabel: RGSPaddedLabel!
+    // MARK: - Actions
+    
+    @IBAction func didTapWebsiteButton(_ sender: UIButton) {
+        if let website = lecturer.website {
+            UIApplication.shared.open(URL(string: website)!, options: [:], completionHandler: nil)
+        }
+    }
     
     // MARK: - Superclass Method Overrides
     
@@ -62,56 +80,64 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UIScrollViewDeleg
     
     // MARK: - Private Class Methods
     
-    /// Button to execute collapse animation
-    @IBAction func didPressButton(_ sender: UIButton) {
-        collapseBanner(with: true)
-    }
-    
-    /// Executes an animation which collapses the banner.
-    func collapseBanner(with animation: Bool) -> Void {
-        let duration = 0.5 * (animation ? 1.0 : 0.0)
+    /// Animates the collapse/extension of the header.
+    func toggleHeader(animated: Bool) -> Void {
+        var constant: CGFloat
+        var alpha: CGFloat
+        let duration: TimeInterval = animated ? 0.5 : 0
         
-        UIView.animate(withDuration: duration, delay: 0.0, options: [], animations: {
-            self.bannerOffset.constant = self.collapsedBannerOffset
-            self.imageView.alpha = 0.0
+        if (isHeaderExtended) {
+            constant = minimumHeaderOffset
+            alpha = 0.0
+        } else {
+            constant = maximumHeaderOffset
+            alpha = 1.0
+        }
+        
+        isHeaderExtended = !isHeaderExtended
+        
+        UIView.animate(withDuration: duration, animations: {
+            self.headerOffsetConstraint.constant = constant
+            self.profileImageView.alpha = alpha
             self.view.layoutIfNeeded()
         }, completion: nil)
-        
     }
-    
+
     func configureViews() -> Void {
         
-        // Round the profile image view
-        self.imageView.layer.cornerRadius = self.imageView.bounds.size.width / 2
-        self.imageView.layer.masksToBounds = true
-        self.imageView.clipsToBounds = true
-        
-        // Load the ContentView
-        self.lecturerContentView = RGSLecturerContentView(frame: scrollView.bounds)
-        scrollView.contentSize = lecturerContentView.frame.size
-        scrollView.addSubview(lecturerContentView)
+        // Round the profile UIImageView
+        profileImageView.layer.cornerRadius = profileImageView.bounds.size.width / 2
+        profileImageView.layer.masksToBounds = true
+        profileImageView.clipsToBounds = true
         
         // Configure contents
         if (lecturer != nil) {
             
             // Set the profile image
             if let image = lecturer.image {
-                imageView.image = image
+                profileImageView.image = image
             }
             
             // Set the name.
-            self.nameLabel.text = lecturer.name
+            let name: String = lecturer.name!
+            nameLabel.text = name
             
             // Set the description
-            lecturerContentView.lecturerDescription = lecturer.description
-            
-            // Set the website
-            if let website = lecturer.website {
-                lecturerContentView.website = website
+            do {
+                try descriptionTextView.attributedText = NSAttributedString(HTMLString: lecturer.description!, font: descriptionTextView.font)
+            } catch {
+                print("Couldn't set the lecturer description: \(error)")
             }
             
-            // Reset the content size
-            scrollView.contentSize = lecturerContentView.frame.size
+            // If the website exists, show the footer.
+            if lecturer.website != nil && lecturer.website!.isEmpty == false {
+                let nameComponents = name.components(separatedBy: " ")
+                websiteButton.setTitle("Visit " + nameComponents[0] + "'s Website!", for: .normal)
+                footerOffsetConstraint.constant = maximumFooterOffset
+            } else {
+                websiteButton.isHidden = true
+                footerOffsetConstraint.constant = minimumFooterOffset
+            }
         }
     }
     
@@ -119,10 +145,34 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UIScrollViewDeleg
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset
-        print("Offset = \(offset)")
+        print("ContentOffset = \(offset)")
+        if (isHeaderExtended && offset.y > headerToggleHeights.hide) {
+            print("Toggled header!")
+            toggleHeader(animated: true)
+        }
+        
+        if (isHeaderExtended == false && offset.y < headerToggleHeights.show) {
+            toggleHeader(animated: true)
+        }
+        
     }
     
     // MARK: - Class Method Overrides
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        // Reset the ContentOffset to zero.
+        self.descriptionTextView.setContentOffset(CGPoint.zero, animated: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        // Enable the scrollView at this point. If enabled earlier, undesired
+        // calls will be made to the scrollViewDidScroll function, making it
+        // believe it is below toggle height and the header will collaps.
+        
+        self.descriptionTextView.isScrollEnabled = true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

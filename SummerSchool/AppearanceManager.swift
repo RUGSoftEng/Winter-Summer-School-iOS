@@ -42,6 +42,5 @@ final class AppearanceManager {
         let result = filter?.value(forKey: "outputImage") as! CIImage
         return UIImage(ciImage: result)
     }
-    
-    
 }
+

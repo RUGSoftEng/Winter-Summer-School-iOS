@@ -120,32 +120,3 @@ final class NetworkManager {
     }
     
 }
-
-/// Extension to URLSession for allowing synchronous network requests
-extension URLSession {
-    
-    /// What a let down, I thought it would actually perform a synchonous call.
-    /// not just wait for a flag to be set. Pretty much what I was doing already.
-    /// I guess it technically is synchronous now; just in an ugly manner.
-    func synchronousDataTask(with url: URL) -> (Data?, URLResponse?, Error?) {
-        var data: Data?
-        var response: URLResponse?
-        var error: Error?
-        
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        let dataTask = self.dataTask(with: url) {
-            data = $0
-            response = $1
-            error = $2
-            
-            semaphore.signal()
-        }
-        
-        dataTask.resume()
-        _ = semaphore.wait(timeout: .distantFuture)
-        
-        return (data, response, error)
-    }
-}
-
