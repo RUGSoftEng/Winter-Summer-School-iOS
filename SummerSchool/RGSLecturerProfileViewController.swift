@@ -145,9 +145,8 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset
-        print("ContentOffset = \(offset)")
+        
         if (isHeaderExtended && offset.y > headerToggleHeights.hide) {
-            print("Toggled header!")
             toggleHeader(animated: true)
         }
         

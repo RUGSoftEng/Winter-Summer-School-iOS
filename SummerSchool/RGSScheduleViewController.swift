@@ -20,74 +20,7 @@ struct Section {
     }
 }
 
-protocol RGSCollapsibleTableViewHeaderDelegate {
-    func toggleSection(header: RGSCollapsibleTableViewHeader, section: Int)
-}
-
-class RGSCollapsibleTableViewHeader: UITableViewHeaderFooterView {
-    let titleLabel = UILabel()
-    let arrowLabel = UILabel()
-    var section: Int = 0
-    var delegate: RGSCollapsibleTableViewHeaderDelegate?
-    
-    func setCollapsed(_ collapsed: Bool) {
-        
-    }
-    
-    func tapHeader(_ gestureRecognizer: UITapGestureRecognizer) {
-        guard let cell = gestureRecognizer.view as? RGSCollapsibleTableViewHeader else {
-            return
-        }
-        delegate?.toggleSection(header: self, section: cell.section)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let views = [
-            "titleLabel" : titleLabel,
-            "arrowLabel" : arrowLabel,
-            ]
-        contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-20-[titleLabel]-[arrowLabel]-20-|",
-            options: [],
-            metrics: nil,
-            views: views
-        ))
-        contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-[titleLabel]-|",
-            options: [],
-            metrics: nil,
-            views: views
-        ))
-        contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-[arrowLabel]-|",
-            options: [],
-            metrics: nil,
-            views: views
-        ))
-    }
-    
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
-        
-        // Add subiews, gesture recognizer
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(arrowLabel)
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapHeader(_:))))
-        
-        // Add constraints
-        arrowLabel.widthAnchor.constraint(equalToConstant: 12).isActive = true
-        arrowLabel.heightAnchor.constraint(equalToConstant: 12).isActive = true
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        arrowLabel.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented yet!")
-    }
-}
-
-class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIScrollViewDelegate, UITableViewDataSource, RGSCollapsibleTableViewHeaderDelegate {
+class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIScrollViewDelegate, UITableViewDataSource, RGSScheduleTableViewHeaderFooterViewProtocol {
     
     // MARK: - Variables & Constants
     
@@ -101,7 +34,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     }
     
     /// UITableViewHeaderFooterView Identifier
-    let headerFooterViewIdentifier: String = "headerFooterViewIdentifier"
+    let scheduleTableViewHeaderFooterViewIdentifier: String = "scheduleTableViewHeaderFooterViewIdentifier"
     
     /// UITableViewCell Identifier
     let scheduleTableViewCellIdentifier: String = "scheduleTableViewCellIdentifier"
@@ -114,6 +47,11 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     /// Empty UITableViewCell Custom Height
     let scheduleEmptyTableViewCellHeight: CGFloat = 44
+    
+    /// TableViewHeaderFooterView Custom Height
+    var scheduleTableViewHeaderFooterViewHeight: CGFloat {
+        return tableView == nil ? CGFloat(44) : CGFloat(tableView.bounds.height / 7)
+    }
     
     /// Data for the UITableView
     var events: [(Date, [Event])]? {
@@ -177,7 +115,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
+        return scheduleTableViewHeaderFooterViewHeight
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -190,10 +128,9 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerFooterViewIdentifier) as? RGSCollapsibleTableViewHeader ?? RGSCollapsibleTableViewHeader(reuseIdentifier: headerFooterViewIdentifier)
-        header.titleLabel.text = sections[section].dateString
-        header.arrowLabel.text = ">"
-        header.setCollapsed(sections[section].isCollapsed)
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: scheduleTableViewHeaderFooterViewIdentifier) as? RGSScheduleTableViewHeaderFooterView ?? RGSScheduleTableViewHeaderFooterView(reuseIdentifier: scheduleTableViewHeaderFooterViewIdentifier)
+        
+        header.title = sections[section].dateString
         header.section = section
         header.delegate = self
         return header
@@ -224,7 +161,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
                 return cell
             } else {
                 let cell: RGSEmptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleEmptyTableViewCellIdentifier, for: indexPath) as! RGSEmptyTableViewCell
-                cell.title = "Nothing scheduled today!"
+                cell.title = "Nothing scheduled!"
                 return cell
             }
         } else {
@@ -244,14 +181,16 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     // MARK: - RGSCollapsibleTableViewHeader Delegate Protocol Methods
     
-    func toggleSection(header: RGSCollapsibleTableViewHeader, section: Int) {
+    func toggleSection(header: RGSScheduleTableViewHeaderFooterView, section: Int) {
+        
+        // Assign the inverse state to collapsed.
         let collapsed = !sections[section].isCollapsed
         
-        // Toggle collapse
+        // Toggle collapse/expansion
         sections[section].isCollapsed = collapsed
-        header.setCollapsed(collapsed)
+        header.isCollapsed = collapsed
         
-        // Reload section
+        // Reload the section
         tableView.reloadSections(NSIndexSet(index: section) as IndexSet, with: .automatic)
     }
     
@@ -310,6 +249,10 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         let scheduleEmptyTableViewCellNib: UINib = UINib(nibName: "RGSEmptyTableViewCell", bundle: nil)
         tableView.register(scheduleEmptyTableViewCellNib, forCellReuseIdentifier: scheduleEmptyTableViewCellIdentifier)
         
+        // Register custom UITableViewHeaderFooterView
+        let scheduleTableViewHeaderFooterViewNib: UINib = UINib(nibName: "RGSScheduleTableViewHeaderFooterView", bundle: nil)
+        tableView.register(scheduleTableViewHeaderFooterViewNib, forHeaderFooterViewReuseIdentifier: scheduleTableViewHeaderFooterViewIdentifier)
+        
         // Attempt to load Schedule Model from Database
         if let eventPacket = DataManager.sharedInstance.loadScheduleData() {
             self.events = eventPacket.events
@@ -319,8 +262,8 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         self.refreshModelWithDataForWeek(self.week)
         
         // Auto resizing the height of the cell
-        tableView.estimatedRowHeight = 44.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+        //tableView.estimatedRowHeight = 44.0
+        //tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func didReceiveMemoryWarning() {

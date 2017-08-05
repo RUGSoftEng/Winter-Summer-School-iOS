@@ -32,6 +32,8 @@
 		6BA8860B1F1E4E61007D0341 /* SpecificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA8860A1F1E4E61007D0341 /* SpecificationManager.swift */; };
 		6BA886371F1E9AB0007D0341 /* RGSInfoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA886361F1E9AB0007D0341 /* RGSInfoDetailViewController.swift */; };
 		6BA886391F1EAC3F007D0341 /* AppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA886381F1EAC3F007D0341 /* AppearanceManager.swift */; };
+		6BA97DF21F34A72B002D0A32 /* RGSScheduleTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA97DF11F34A72B002D0A32 /* RGSScheduleTableViewHeaderFooterView.swift */; };
+		6BA97DF41F34A74E002D0A32 /* RGSScheduleTableViewHeaderFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BA97DF31F34A74E002D0A32 /* RGSScheduleTableViewHeaderFooterView.xib */; };
 		6BB0CF691EE5AC730018A7CD /* RGSBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB0CF681EE5AC730018A7CD /* RGSBaseViewController.swift */; };
 		6BB3EE2A1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB3EE281F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.swift */; };
 		6BB3EE2B1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB3EE291F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib */; };
@@ -77,6 +79,8 @@
 		6BA8860A1F1E4E61007D0341 /* SpecificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecificationManager.swift; sourceTree = "<group>"; };
 		6BA886361F1E9AB0007D0341 /* RGSInfoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSInfoDetailViewController.swift; sourceTree = "<group>"; };
 		6BA886381F1EAC3F007D0341 /* AppearanceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearanceManager.swift; sourceTree = "<group>"; };
+		6BA97DF11F34A72B002D0A32 /* RGSScheduleTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSScheduleTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
+		6BA97DF31F34A74E002D0A32 /* RGSScheduleTableViewHeaderFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSScheduleTableViewHeaderFooterView.xib; sourceTree = "<group>"; };
 		6BB0CF681EE5AC730018A7CD /* RGSBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSBaseViewController.swift; sourceTree = "<group>"; };
 		6BB3EE281F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLecturerCollectionViewCell.swift; sourceTree = "<group>"; };
 		6BB3EE291F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSLecturerCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -229,6 +233,7 @@
 				6B362F981F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib */,
 				6B362F9E1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib */,
 				6BDFBA2C1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib */,
+				6BA97DF31F34A74E002D0A32 /* RGSScheduleTableViewHeaderFooterView.xib */,
 				6B461E691F1FB80500C7992B /* RGSEmptyTableViewCell.xib */,
 				6BB3EE291F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib */,
 				6B461E621F1F805600C7992B /* RGSPaddedLabel.xib */,
@@ -242,6 +247,7 @@
 				6B362F971F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift */,
 				6B362F9D1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.swift */,
 				6BDFBA2E1EEC2C0A0018EC84 /* RGSScheduleTableViewCell.swift */,
+				6BA97DF11F34A72B002D0A32 /* RGSScheduleTableViewHeaderFooterView.swift */,
 				6B461E681F1FB80500C7992B /* RGSEmptyTableViewCell.swift */,
 				6BB3EE281F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.swift */,
 				6B461E601F1F802C00C7992B /* RGSPaddedLabel.swift */,
@@ -327,6 +333,7 @@
 				6B461E631F1F805600C7992B /* RGSPaddedLabel.xib in Resources */,
 				6B362F9A1F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib in Resources */,
 				6B1D7D101F2125EC003B453B /* Settings.bundle in Resources */,
+				6BA97DF41F34A74E002D0A32 /* RGSScheduleTableViewHeaderFooterView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +347,7 @@
 				6B123B4B1EEDBD6F0006EC08 /* DataManager.swift in Sources */,
 				6BB7A9511EE4A7BF005FA5B0 /* RGSLecturerViewController.swift in Sources */,
 				6B42480C1F3092D800D03082 /* RGSLecturerProfileViewController.swift in Sources */,
+				6BA97DF21F34A72B002D0A32 /* RGSScheduleTableViewHeaderFooterView.swift in Sources */,
 				6BB7A9591EE4A80C005FA5B0 /* RGSLockScreenViewController.swift in Sources */,
 				6BB0CF691EE5AC730018A7CD /* RGSBaseViewController.swift in Sources */,
 				6B362F991F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift in Sources */,

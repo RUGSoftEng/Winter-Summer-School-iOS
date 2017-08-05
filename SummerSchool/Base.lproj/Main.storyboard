@@ -325,62 +325,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="chZ-hI-ZQd">
-                                <rect key="frame" x="0.0" y="110" width="375" height="508"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="T6J-SD-IM6" id="Evh-yN-D9k"/>
                                     <outlet property="delegate" destination="T6J-SD-IM6" id="MZd-Mo-LL2"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MGn-xW-Hhx">
-                                <rect key="frame" x="0.0" y="65" width="375" height="45"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEs-9S-5Su">
-                                        <rect key="frame" x="8" y="8" width="73" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                        <state key="normal" title="Last Week">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="didPressLastWeekButton:" destination="T6J-SD-IM6" eventType="touchUpInside" id="Ei8-dX-taA"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tZb-7D-3Bo">
-                                        <rect key="frame" x="292" y="8" width="76" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                        <state key="normal" title="Next Week">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="didPressNextWeekButton:" destination="T6J-SD-IM6" eventType="touchUpInside" id="F4I-Yp-M88"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.92156862745098034" green="0.25490196078431371" blue="0.25882352941176467" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="5AB-ux-nal"/>
-                                    <constraint firstAttribute="trailing" secondItem="tZb-7D-3Bo" secondAttribute="trailing" constant="7" id="V9j-6e-X4y"/>
-                                    <constraint firstItem="LEs-9S-5Su" firstAttribute="centerY" secondItem="MGn-xW-Hhx" secondAttribute="centerY" id="XFm-7m-x2U"/>
-                                    <constraint firstItem="LEs-9S-5Su" firstAttribute="leading" secondItem="MGn-xW-Hhx" secondAttribute="leading" constant="8" id="YsJ-Ze-hmq"/>
-                                    <constraint firstItem="tZb-7D-3Bo" firstAttribute="centerY" secondItem="MGn-xW-Hhx" secondAttribute="centerY" id="aip-Tp-cRI"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XQL-Gf-vtb" firstAttribute="top" secondItem="chZ-hI-ZQd" secondAttribute="bottom" id="0ei-cv-hzz"/>
-                            <constraint firstAttribute="trailing" secondItem="MGn-xW-Hhx" secondAttribute="trailing" id="B8p-U1-2vt"/>
-                            <constraint firstItem="chZ-hI-ZQd" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="Ix1-Zo-1aO"/>
-                            <constraint firstItem="chZ-hI-ZQd" firstAttribute="top" secondItem="MGn-xW-Hhx" secondAttribute="bottom" id="PbA-CF-6BM"/>
-                            <constraint firstItem="MGn-xW-Hhx" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" constant="1" id="QE0-7y-OoE"/>
-                            <constraint firstItem="MGn-xW-Hhx" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="hqT-oZ-kI9"/>
-                            <constraint firstAttribute="trailing" secondItem="chZ-hI-ZQd" secondAttribute="trailing" id="x25-P1-Whf"/>
+                            <constraint firstItem="XQL-Gf-vtb" firstAttribute="top" secondItem="chZ-hI-ZQd" secondAttribute="bottom" id="Cf7-vW-oY5"/>
+                            <constraint firstItem="chZ-hI-ZQd" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="EH6-zS-YSh"/>
+                            <constraint firstItem="chZ-hI-ZQd" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" id="Kch-n1-ZCA"/>
+                            <constraint firstAttribute="trailing" secondItem="chZ-hI-ZQd" secondAttribute="trailing" id="fMl-c0-ACD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cjs-Rx-Bhp"/>
                     <connections>
-                        <outlet property="lastWeekButton" destination="LEs-9S-5Su" id="dVp-z5-XTA"/>
-                        <outlet property="nextWeekButton" destination="tZb-7D-3Bo" id="DON-H2-xRJ"/>
                         <outlet property="tableView" destination="chZ-hI-ZQd" id="cnv-F7-sNG"/>
                         <segue destination="d1i-pk-8EY" kind="show" identifier="RGSScheduleEventViewController" id="gjR-aK-uAm"/>
                     </connections>
@@ -480,33 +442,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7eo-6L-Bcl" customClass="RGSPaddedLabel" customModule="SummerSchool" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="375" height="128"/>
-                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to the University of Groningen: Anthropology Summer School" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CEQ-Jd-9ik">
+                                <rect key="frame" x="16" y="72" width="343" height="56"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="gUR-KJ-ZYb"/>
+                                    <constraint firstAttribute="height" constant="56" id="Mbe-re-QdV"/>
                                 </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tc4-fO-eVN" customClass="RGSPaddedLabel" customModule="SummerSchool" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="200" width="375" height="410"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QI0-r9-uWj">
+                                <rect key="frame" x="16" y="136" width="343" height="474"/>
                                 <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Tc4-fO-eVN" firstAttribute="leading" secondItem="jtc-ta-RbK" secondAttribute="leading" id="Pl1-6G-yoX"/>
-                            <constraint firstItem="8Ja-s9-xKb" firstAttribute="top" secondItem="Tc4-fO-eVN" secondAttribute="bottom" constant="8" id="Q7B-lL-1yo"/>
-                            <constraint firstItem="Tc4-fO-eVN" firstAttribute="top" secondItem="7eo-6L-Bcl" secondAttribute="bottom" constant="8" id="SeC-gt-DkB"/>
-                            <constraint firstAttribute="trailing" secondItem="Tc4-fO-eVN" secondAttribute="trailing" id="TNH-cN-fqD"/>
-                            <constraint firstItem="7eo-6L-Bcl" firstAttribute="top" secondItem="3aq-Cg-zgS" secondAttribute="bottom" id="cwX-IT-emv"/>
-                            <constraint firstItem="7eo-6L-Bcl" firstAttribute="leading" secondItem="jtc-ta-RbK" secondAttribute="leading" id="gZu-uF-VjN"/>
-                            <constraint firstAttribute="trailing" secondItem="7eo-6L-Bcl" secondAttribute="trailing" id="k6t-ew-oEP"/>
+                            <constraint firstItem="QI0-r9-uWj" firstAttribute="trailing" secondItem="jtc-ta-RbK" secondAttribute="trailingMargin" id="2ai-hy-snH"/>
+                            <constraint firstItem="CEQ-Jd-9ik" firstAttribute="leading" secondItem="jtc-ta-RbK" secondAttribute="leadingMargin" id="768-Hj-hY7"/>
+                            <constraint firstItem="QI0-r9-uWj" firstAttribute="top" secondItem="CEQ-Jd-9ik" secondAttribute="bottom" constant="8" id="9vE-cw-qsM"/>
+                            <constraint firstItem="CEQ-Jd-9ik" firstAttribute="trailing" secondItem="jtc-ta-RbK" secondAttribute="trailingMargin" id="H78-Q8-Q3l"/>
+                            <constraint firstItem="CEQ-Jd-9ik" firstAttribute="top" secondItem="3aq-Cg-zgS" secondAttribute="bottom" constant="8" id="Oxn-cj-9YI"/>
+                            <constraint firstItem="QI0-r9-uWj" firstAttribute="leading" secondItem="jtc-ta-RbK" secondAttribute="leadingMargin" id="jZh-Ow-0iN"/>
+                            <constraint firstItem="8Ja-s9-xKb" firstAttribute="top" secondItem="QI0-r9-uWj" secondAttribute="bottom" constant="8" id="xIi-Tn-NHL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3EO-5a-UdY"/>
                     <connections>
-                        <outlet property="descriptionPaddedLabel" destination="Tc4-fO-eVN" id="6lH-dA-Jfa"/>
-                        <outlet property="titlePaddedLabel" destination="7eo-6L-Bcl" id="0xv-wj-JEv"/>
+                        <outlet property="descriptionTextView" destination="QI0-r9-uWj" id="YlT-na-qdM"/>
+                        <outlet property="titleLabel" destination="CEQ-Jd-9ik" id="Y5s-YC-0bX"/>
+                        <outlet property="titleLabelHeight" destination="Mbe-re-QdV" id="GWF-No-TM5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6O3-Qv-VHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -524,7 +493,19 @@
                     <view key="view" contentMode="scaleToFill" id="qmf-6b-pVO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unavailable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kte-02-kFa">
+                                <rect key="frame" x="142" y="323" width="90.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <color key="textColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Kte-02-kFa" firstAttribute="centerY" secondItem="qmf-6b-pVO" secondAttribute="centerY" id="DhE-3m-xez"/>
+                            <constraint firstItem="Kte-02-kFa" firstAttribute="centerX" secondItem="qmf-6b-pVO" secondAttribute="centerX" id="Qyn-mz-V9Q"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xec-21-TbP"/>
                 </viewController>

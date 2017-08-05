@@ -10,6 +10,15 @@ import UIKit
 
 class RGSForumViewController: RGSBaseViewController {
     
+    // MARK: - Variables & Constants
+    
+    // MARK: - Outlets
+    
+    
+    // MARK: - Actions
+    
+
+    
     // MARK: - Superclass Method Overrides
     
     override func shouldShowTitleLabel() -> (Bool, String?) {
