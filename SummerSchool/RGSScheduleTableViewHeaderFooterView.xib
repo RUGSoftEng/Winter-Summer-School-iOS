@@ -27,7 +27,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="26" identifier="labelHeight" id="Tjs-Fv-xS4"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>

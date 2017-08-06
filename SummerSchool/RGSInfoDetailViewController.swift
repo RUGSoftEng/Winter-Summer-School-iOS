@@ -39,33 +39,20 @@ class RGSInfoDetailViewController: RGSBaseViewController {
     
     // MARK: - Private Class Methods
     
-    private func sizeForString(string: String, with font: UIFont, bounded byWidth: CGFloat) -> CGSize {
-        let maxSize: CGSize = CGSize(width: byWidth, height: 10000)
-        
-        // Define options and style to allow line drawing.
-        let options: NSStringDrawingOptions = NSStringDrawingOptions.usesLineFragmentOrigin
-        let style: NSMutableParagraphStyle = NSMutableParagraphStyle()
-        style.lineBreakMode = NSLineBreakMode.byCharWrapping
-        
-        // Prepare attributes, defined style.
-        let attributes = [NSFontAttributeName: font, NSParagraphStyleAttributeName: style]
-        
-        // Determine size, return.
-        let s: NSString = string as NSString
-        let rect = s.boundingRect(with: maxSize, options: options, attributes: attributes, context: nil)
-        
-        return rect.size
-    }
-    
     private func configureViews() -> Void {
+        
+        // Set fonts.
+        titleLabel.font = SpecificationManager.sharedInstance.titleLabelFont
+        descriptionTextView.font = SpecificationManager.sharedInstance.textViewFont
         
         // Configure contents
         if (generalInfoItem != nil) {
             
             // Configure titleLabel frame to accomodate title, set title.
             if let title = generalInfoItem.title {
-                titleLabelHeight.constant = sizeForString(string: title, with: titleLabel.font, bounded: titleLabel.bounds.width).height
                 titleLabel.text = title
+                let heightThatFits: CGFloat = UILabel.heightForString(text: title, with: titleLabel.font, bounded: titleLabel.bounds.width)
+                titleLabelHeight.constant = min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits)
             }
         
             // Round the textView, set it to display rendered HTML. If that fails, it will display the raw HTML.

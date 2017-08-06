@@ -83,3 +83,19 @@ extension UIView {
         self.layer.transform = CATransform3DMakeRotation(radians, 0.0, 0.0, 1.0)
     }
 }
+
+/// Extension allowing UILabel to provide an appropriate frame size for a given string.
+extension UILabel {
+    
+    class func heightForString(text: String, with font: UIFont, bounded byWidth: CGFloat) -> CGFloat {
+        let label: UILabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: byWidth, height: CGFloat.greatestFiniteMagnitude)))
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.font = font
+        label.text = text
+        label.sizeToFit()
+        
+        return label.frame.height
+    }
+}
+

@@ -16,16 +16,6 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Push Notifications</string>
-			<key>Key</key>
-			<string>shouldDisplayPushNotifications</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
 			<string>Show lockscreen</string>
 			<key>Key</key>
 			<string>shouldDisplayLockScreen</string>

@@ -26,6 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Synchronize settings
         UserDefaults.standard.synchronize()
         
+        // Force WebCore to initialize (this method is ugly, but explicit initialization is in a private framework).
+        do { try _ = NSAttributedString(HTMLString: "", font: nil) } catch { }
+        
+        
         return true
     }
     

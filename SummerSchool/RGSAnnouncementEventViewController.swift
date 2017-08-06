@@ -12,15 +12,27 @@ class RGSAnnouncementEventViewController: RGSBaseViewController {
     
     // MARK: Variables & Constants
     
+    /// The announcement.
     var announcement: Announcement!
     
     // MARK: Outlets
     
+    /// The UILabel for the announcement title.
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    /// The UILabel for the author of the announcement.
+    @IBOutlet weak var authorLabel: UILabel!
+    
+    /// The UILabel for the date of the announcement.
     @IBOutlet weak var dateLabel: UILabel!
     
-    @IBOutlet weak var titlePaddedLabel: RGSPaddedLabel!
+    /// The UITextView for the description of the announcement.
+    @IBOutlet weak var descriptionTextView: UITextView!
     
-    @IBOutlet weak var descriptionPaddedLabel: RGSPaddedLabel!
+    // MARK: Outlets: Constraints
+    
+    /// The height of the titleLabel.
+    @IBOutlet weak var titleLabelHeight: NSLayoutConstraint!
     
     // MARK: - Superclass Method Overrides
     
@@ -36,20 +48,37 @@ class RGSAnnouncementEventViewController: RGSBaseViewController {
     
     private func configureViews() -> Void {
         
-        // Configure Titles
-        titlePaddedLabel.title = "Title"
-        descriptionPaddedLabel.title = "Description"
+        // Set fonts.
+        titleLabel.font = SpecificationManager.sharedInstance.titleLabelFont
+        authorLabel.font = SpecificationManager.sharedInstance.subTitleLabelFont
+        dateLabel.font = SpecificationManager.sharedInstance.subTitleLabelFont
+        descriptionTextView.font = SpecificationManager.sharedInstance.textViewFont
         
         // Configure Contents
         if (announcement != nil) {
             
-            // Set description to render HTML
-            descriptionPaddedLabel.isHTMLContent = true
+            // Set the title, adjust label height to best fit.
+            if let title = announcement.title {
+                titleLabel.text = title
+                let heightThatFits: CGFloat = UILabel.heightForString(text: title, with: titleLabel.font, bounded: titleLabel.bounds.width)
+                titleLabelHeight.constant = min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits)
+            }
             
-            // Set content
-            dateLabel.text = DateManager.sharedInstance.dateToISOString(announcement.date, format: .announcementDateFormat)! + " at " + DateManager.sharedInstance.hoursAndMinutesFromDate(announcement.date)!
-            titlePaddedLabel.content = announcement.title
-            descriptionPaddedLabel.content = announcement.description
+            // Set the Author and Date.
+            if let author = announcement.poster, let date = announcement.date {
+                authorLabel.text = "By " + author
+                dateLabel.text = DateManager.sharedInstance.dateToISOString(date, format: .announcementDateFormat)
+            }
+            
+            // Set the Description, Round the textView.
+            if let description = announcement.description {
+                do {
+                    descriptionTextView.attributedText = try NSAttributedString(HTMLString: description, font: descriptionTextView.font)
+                } catch {
+                    descriptionTextView.text = description
+                }
+            }
+            descriptionTextView.layer.cornerRadius = 10.0
         }
 
     }
