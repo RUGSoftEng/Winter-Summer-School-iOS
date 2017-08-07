@@ -48,14 +48,14 @@ class RGSInfoDetailViewController: RGSBaseViewController {
         // Configure contents
         if (generalInfoItem != nil) {
             
-            // Configure titleLabel frame to accomodate title, set title.
+            // Set title, adjust height to best fit.
             if let title = generalInfoItem.title {
                 titleLabel.text = title
                 let heightThatFits: CGFloat = UILabel.heightForString(text: title, with: titleLabel.font, bounded: titleLabel.bounds.width)
                 titleLabelHeight.constant = min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits)
             }
         
-            // Round the textView, set it to display rendered HTML. If that fails, it will display the raw HTML.
+            // Set the description, round the textView.
             descriptionTextView.layer.cornerRadius = 10.0
             do {
                 descriptionTextView.attributedText = try NSAttributedString(HTMLString: generalInfoItem.description!, font: descriptionTextView.font)

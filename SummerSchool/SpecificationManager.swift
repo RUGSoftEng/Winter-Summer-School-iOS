@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 /// Enumeration of all valid keys for use with UserDefaults
 enum UserDefaultKey: String {
@@ -39,6 +40,14 @@ final class SpecificationManager {
     
     /// The standard font for all UITextViews
     let textViewFont: UIFont = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightRegular)
+    
+    // MARK: - Variables & Constants: Maps
+    
+    /// Coordinates for the city of Groningen, the Netherlands.
+    let defaultMapCoordinates: CLLocation = CLLocation(latitude: 53.2194, longitude: 6.5665)
+    
+    /// The default map radius (in meters).
+    let defaultMapRadius: CLLocationDistance = 4000
     
     // MARK: - Variables & Constants: UserDefaults, Misc.
     

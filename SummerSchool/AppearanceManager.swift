@@ -16,6 +16,12 @@ final class AppearanceManager {
     /// Color: Standard grey for Navigation UI.
     let grey: UIColor = UIColor(displayP3Red: 160.0/255.0, green: 160.0/255.0, blue: 160.0/255.0, alpha: 1.0)
     
+    /// Color: Light grey for backgrounds.
+    let lightBackgroundGrey: UIColor = UIColor(displayP3Red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+    
+    /// Color: Light grey for text.
+    let lightTextGrey: UIColor = UIColor(displayP3Red: 184.0/255.0, green: 184.0/255.0, blue: 184.0/255.0, alpha: 1.0)
+    
     /// Color: Standard red for Navigation UI.
     let red: UIColor = UIColor(displayP3Red: 235.0/255.0, green: 65.0/255.0, blue: 66.0/255.0, alpha: 1.0)
     

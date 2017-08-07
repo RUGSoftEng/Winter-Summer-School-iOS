@@ -57,20 +57,20 @@ class RGSAnnouncementEventViewController: RGSBaseViewController {
         // Configure Contents
         if (announcement != nil) {
             
-            // Set the title, adjust label height to best fit.
+            // Set title, adjust label height to best fit.
             if let title = announcement.title {
                 titleLabel.text = title
                 let heightThatFits: CGFloat = UILabel.heightForString(text: title, with: titleLabel.font, bounded: titleLabel.bounds.width)
                 titleLabelHeight.constant = min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits)
             }
             
-            // Set the Author and Date.
+            // Set Author and Date.
             if let author = announcement.poster, let date = announcement.date {
                 authorLabel.text = "By " + author
                 dateLabel.text = DateManager.sharedInstance.dateToISOString(date, format: .announcementDateFormat)
             }
             
-            // Set the Description, Round the textView.
+            // Set Description, Round the textView.
             if let description = announcement.description {
                 do {
                     descriptionTextView.attributedText = try NSAttributedString(HTMLString: description, font: descriptionTextView.font)

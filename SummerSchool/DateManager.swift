@@ -12,7 +12,8 @@ import Foundation
 enum DateFormat: String {
     case eventPacketDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     case eventDateFormat = "yyyy-MM-dd'T'HH:mm:ssxxxxx"
-    case announcementDateFormat = "dd/mm/yyyy"
+    case scheduleEventDateFormat = "MMM d, HH:mm"
+    case announcementDateFormat = "dd/MM/yyyy"
 }
 
 final class DateManager {

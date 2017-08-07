@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 /// Extension to URLSession for allowing synchronous network requests
 extension URLSession {
