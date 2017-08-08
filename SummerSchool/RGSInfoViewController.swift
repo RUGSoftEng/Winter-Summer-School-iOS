@@ -29,9 +29,11 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     
     // MARK: - Outlets
     
-    /// The UITableView
+    /// The UITableView.
     @IBOutlet weak var tableView: UITableView!
     
+    /// The RGSLoadingIndicatorView.
+    @IBOutlet weak var loadingIndicator: RGSLoadingIndicatorView!
     
     // MARK: - Superclass Method Overrides
     
@@ -72,6 +74,14 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     }
     
     // MARK: - UITableView ScrollView Delegate Protocol Methods
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset: CGPoint = scrollView.contentOffset
+        if (offset.y <= 0) {
+            let progress = CGFloat(offset.y / SpecificationManager.sharedInstance.tableViewContentRefreshOffset)
+            loadingIndicator.progress = progress
+        }
+    }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let released: CGPoint = scrollView.contentOffset
