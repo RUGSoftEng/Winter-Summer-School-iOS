@@ -87,6 +87,9 @@ class RGSScheduleTableViewHeaderFooterView: UITableViewHeaderFooterView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
+        // Set contentView background color
+        self.contentView.backgroundColor = AppearanceManager.sharedInstance.lightBackgroundGrey
+        
         // Add Tap Gesture Recognizer.
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(didTapHeaderFooterView(_:))))
     }

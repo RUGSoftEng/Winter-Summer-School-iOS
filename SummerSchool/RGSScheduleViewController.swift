@@ -80,6 +80,8 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var loadingIndicator: RGSLoadingIndicatorView!
+    
     @IBOutlet weak var lastWeekButton: UIButton!
     
     @IBOutlet weak var nextWeekButton: UIButton!
@@ -171,6 +173,14 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     // MARK: - UITableView ScrollView Delegate Protocol Methods
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset: CGPoint = scrollView.contentOffset
+        if (offset.y <= 0) {
+            let progress = CGFloat(offset.y / SpecificationManager.sharedInstance.tableViewContentRefreshOffset)
+            loadingIndicator.progress = progress
+        }
+    }
+    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let released: CGPoint = scrollView.contentOffset
         if (released.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
@@ -261,9 +271,8 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         // Attempt to refresh Schedule Model by querying the server.
         self.refreshModelWithDataForWeek(self.week)
         
-        // Auto resizing the height of the cell
-        //tableView.estimatedRowHeight = 44.0
-        //tableView.rowHeight = UITableViewAutomaticDimension
+        // Set background color for the UITableView.
+        self.tableView.backgroundColor = UIColor.clear
     }
 
     override func didReceiveMemoryWarning() {

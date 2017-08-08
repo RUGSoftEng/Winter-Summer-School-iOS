@@ -73,9 +73,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C6O-kx-27Q" userLabel="Loading Indicator" customClass="RGSLoadingIndicatorView" customModule="SummerSchool" customModuleProvider="target">
+                                <rect key="frame" x="165" y="72" width="45" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="45" id="jr2-AW-Ka0"/>
+                                    <constraint firstAttribute="height" constant="45" id="osc-Xb-ylc"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6dn-PW-XW4">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="SjP-xx-q7Y" id="PiE-bC-UhG"/>
                                     <outlet property="delegate" destination="SjP-xx-q7Y" id="RKZ-sH-BvT"/>
@@ -87,11 +95,14 @@
                             <constraint firstItem="6dn-PW-XW4" firstAttribute="leading" secondItem="yZa-cO-sFR" secondAttribute="leading" id="4fp-nW-Izr"/>
                             <constraint firstItem="Uzl-Lm-I6r" firstAttribute="top" secondItem="6dn-PW-XW4" secondAttribute="bottom" id="Ot2-8c-WBL"/>
                             <constraint firstItem="6dn-PW-XW4" firstAttribute="top" secondItem="oQD-ql-cgI" secondAttribute="bottom" id="lLl-Ud-KYK"/>
+                            <constraint firstItem="C6O-kx-27Q" firstAttribute="top" secondItem="oQD-ql-cgI" secondAttribute="bottom" constant="8" id="qfg-sI-vF6"/>
+                            <constraint firstItem="C6O-kx-27Q" firstAttribute="centerX" secondItem="yZa-cO-sFR" secondAttribute="centerX" id="uOP-3b-vf7"/>
                             <constraint firstAttribute="trailing" secondItem="6dn-PW-XW4" secondAttribute="trailing" id="zdB-Uu-UOu"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="dax-iF-vwx"/>
                     <connections>
+                        <outlet property="loadingIndicator" destination="C6O-kx-27Q" id="Evy-07-hnB"/>
                         <outlet property="tableView" destination="6dn-PW-XW4" id="PUh-1s-goM"/>
                         <segue destination="S0i-x7-1ZJ" kind="show" identifier="RGSAnnouncementEventViewController" id="4kT-fi-0h4"/>
                     </connections>
@@ -354,7 +365,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="chZ-hI-ZQd">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5c1-CI-cI5" customClass="RGSLoadingIndicatorView" customModule="SummerSchool" customModuleProvider="target">
+                                <rect key="frame" x="165" y="72" width="45" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="ptt-td-Ww9"/>
+                                    <constraint firstAttribute="width" constant="45" id="uhP-6M-Js4"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="chZ-hI-ZQd">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
@@ -368,11 +387,14 @@
                             <constraint firstItem="XQL-Gf-vtb" firstAttribute="top" secondItem="chZ-hI-ZQd" secondAttribute="bottom" id="Cf7-vW-oY5"/>
                             <constraint firstItem="chZ-hI-ZQd" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="EH6-zS-YSh"/>
                             <constraint firstItem="chZ-hI-ZQd" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" id="Kch-n1-ZCA"/>
+                            <constraint firstItem="5c1-CI-cI5" firstAttribute="centerX" secondItem="VxF-mh-CWm" secondAttribute="centerX" id="ZLO-Ak-UzQ"/>
+                            <constraint firstItem="5c1-CI-cI5" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" constant="8" id="eVm-Mn-w18"/>
                             <constraint firstAttribute="trailing" secondItem="chZ-hI-ZQd" secondAttribute="trailing" id="fMl-c0-ACD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cjs-Rx-Bhp"/>
                     <connections>
+                        <outlet property="loadingIndicator" destination="5c1-CI-cI5" id="KYE-B1-N8H"/>
                         <outlet property="tableView" destination="chZ-hI-ZQd" id="cnv-F7-sNG"/>
                         <segue destination="d1i-pk-8EY" kind="show" identifier="RGSScheduleEventViewController" id="gjR-aK-uAm"/>
                     </connections>
