@@ -46,7 +46,7 @@ class Location: NSObject, MKAnnotation {
     }
 }
 
-class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate, MKMapViewDelegate {
+class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate, NSLayoutManagerDelegate, MKMapViewDelegate {
     
     // MARK: - Variables & Constants
     
@@ -135,7 +135,7 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
         descriptionTextView.font = SpecificationManager.sharedInstance.textViewFont
         
         // Set descriptionTextView colors.
-        descriptionTextView.backgroundColor = AppearanceManager.sharedInstance.lightBackgroundGrey
+        descriptionTextView.backgroundColor = UIColor.white
         
         // Set tabView colors.
         tabView.setColors(AppearanceManager.sharedInstance.lightBackgroundGrey, AppearanceManager.sharedInstance.lightTextGrey, AppearanceManager.sharedInstance.red, AppearanceManager.sharedInstance.lightBackgroundGrey)
@@ -156,7 +156,13 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
             // Set times.
             if let startDate = event.startDate, let endDate = event.endDate {
                 let startDateString: String = DateManager.sharedInstance.dateToISOString(startDate, format: .scheduleEventDateFormat)!
-                let endDateString: String = DateManager.sharedInstance.dateToISOString(endDate, format: .scheduleEventDateFormat)!
+                var endDateString: String = DateManager.sharedInstance.dateToISOString(endDate, format: .scheduleEventDateFormat)!
+                
+                // If it's the same day, present a shorter format.
+                if (DateManager.sharedInstance.calendar.isDate(startDate, inSameDayAs: endDate)) {
+                    endDateString = DateManager.sharedInstance.dateToISOString(endDate, format: .hoursAndMinutesFormat)!
+                }
+
                 timesButton.setTitle(startDateString + " - " + endDateString, for: .normal)
             }
             
@@ -197,6 +203,13 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
 
             }
         }
+    }
+    
+    // MARK: - NSLayoutManager Delegate Methods
+    
+    /// Handler for the UITextView line spacing.
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return SpecificationManager.sharedInstance.textViewLineSpacing
     }
     
     // MARK: - MKMapView Delegate Methods
@@ -253,6 +266,9 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
         // Set constraints.
         embedViewWithMargins(subView: descriptionTextView, to: contentView, with: 8.0)
         embedViewWithMargins(subView: mapView, to: contentView, with: 0.0)
+        
+        // Set TextView layoutManager delegate.
+        descriptionTextView.layoutManager.delegate = self
         
         // Set mapView hidden.
         mapView.isHidden = true

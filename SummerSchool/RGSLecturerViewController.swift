@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     // MARK: - Variables & Constants
     
@@ -30,7 +30,11 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
     
     // MARK: - Outlets
     
+    /// The UICollectionView
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    /// The RGSLoadingIndicatorView
+    @IBOutlet weak var loadingIndicator: RGSLoadingIndicatorView!
     
     // MARK: - Actions
     
@@ -80,6 +84,24 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
+    }
+    
+    // MARK: - UITableView ScrollView Delegate Protocol Methods
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset: CGPoint = scrollView.contentOffset
+        if (offset.y <= 0) {
+            let progress = CGFloat(offset.y / SpecificationManager.sharedInstance.collectionViewContentRefreshOffset)
+            loadingIndicator.progress = progress
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let released: CGPoint = scrollView.contentOffset
+        if (released.y <= SpecificationManager.sharedInstance.collectionViewContentRefreshOffset) {
+            print("Should reload content now!")
+            refreshModelData()
+        }
     }
     
     // MARK: - Superclass Method Overrides

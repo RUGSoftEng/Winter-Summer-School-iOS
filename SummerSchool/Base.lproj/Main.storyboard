@@ -164,7 +164,6 @@
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="STS-39-LJV">
                                 <rect key="frame" x="16" y="181" width="343" height="429"/>
-                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -209,9 +208,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jng-nB-LLm" customClass="RGSLoadingIndicatorView" customModule="SummerSchool" customModuleProvider="target">
+                                <rect key="frame" x="165" y="72" width="45" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="45" id="BPe-cG-F9s"/>
+                                    <constraint firstAttribute="height" constant="45" id="cl5-MP-thL"/>
+                                </constraints>
+                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lUk-3R-2dl">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8bP-6F-hjX">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -227,8 +234,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Jng-nB-LLm" firstAttribute="centerX" secondItem="vAe-h4-VTV" secondAttribute="centerX" id="0aC-kp-fM6"/>
                             <constraint firstItem="lUk-3R-2dl" firstAttribute="leading" secondItem="vAe-h4-VTV" secondAttribute="leading" id="A6t-4q-Nh5"/>
                             <constraint firstItem="bwU-gm-adg" firstAttribute="top" secondItem="lUk-3R-2dl" secondAttribute="bottom" id="W8w-eb-70v"/>
+                            <constraint firstItem="Jng-nB-LLm" firstAttribute="top" secondItem="t9B-5p-CAy" secondAttribute="bottom" constant="8" id="u9a-hh-ASA"/>
                             <constraint firstAttribute="trailing" secondItem="lUk-3R-2dl" secondAttribute="trailing" id="uqN-m4-fuf"/>
                             <constraint firstItem="lUk-3R-2dl" firstAttribute="top" secondItem="t9B-5p-CAy" secondAttribute="bottom" id="vzg-W5-njp"/>
                         </constraints>
@@ -236,6 +245,7 @@
                     <navigationItem key="navigationItem" id="Avh-Lc-Juc"/>
                     <connections>
                         <outlet property="collectionView" destination="lUk-3R-2dl" id="gMm-B1-9Nj"/>
+                        <outlet property="loadingIndicator" destination="Jng-nB-LLm" id="tgW-tK-LZO"/>
                         <segue destination="Sb3-oN-gYT" kind="show" identifier="RGSLecturerProfileViewController" id="RMX-MQ-xkC"/>
                     </connections>
                 </viewController>
@@ -274,7 +284,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dan Hassler-Forest" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4X-Fk-RMR">
-                                <rect key="frame" x="0.0" y="252" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="260" width="375" height="44"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="hJz-i9-EyS"/>
@@ -307,7 +317,7 @@
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vq5-OF-0wD">
-                                <rect key="frame" x="16" y="304" width="343" height="250"/>
+                                <rect key="frame" x="16" y="312" width="343" height="241"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText">
                                     <fragment>
@@ -325,14 +335,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="cea-fM-Zj6" firstAttribute="top" secondItem="Vq5-OF-0wD" secondAttribute="bottom" constant="8" id="3Fj-1j-krq"/>
+                            <constraint firstItem="cea-fM-Zj6" firstAttribute="top" secondItem="Vq5-OF-0wD" secondAttribute="bottom" constant="9" id="3Fj-1j-krq"/>
                             <constraint firstItem="Om7-CX-9r5" firstAttribute="leading" secondItem="Ce5-3L-eTF" secondAttribute="leading" id="3Zn-9i-11v"/>
                             <constraint firstItem="Vq5-OF-0wD" firstAttribute="trailing" secondItem="Ce5-3L-eTF" secondAttribute="trailingMargin" id="40M-IE-zU0"/>
                             <constraint firstItem="Vq5-OF-0wD" firstAttribute="top" secondItem="n4X-Fk-RMR" secondAttribute="bottom" constant="8" id="51B-Fj-cnG"/>
                             <constraint firstItem="Vq5-OF-0wD" firstAttribute="leading" secondItem="Ce5-3L-eTF" secondAttribute="leadingMargin" id="7a2-eN-9nh"/>
                             <constraint firstItem="cea-fM-Zj6" firstAttribute="leading" secondItem="Ce5-3L-eTF" secondAttribute="leading" id="Irk-eT-6j5"/>
                             <constraint firstItem="UbV-Cl-yeF" firstAttribute="top" secondItem="cea-fM-Zj6" secondAttribute="bottom" constant="8" id="Mzq-Am-ARU"/>
-                            <constraint firstItem="n4X-Fk-RMR" firstAttribute="top" secondItem="Om7-CX-9r5" secondAttribute="bottom" id="XMT-mD-Tq6"/>
+                            <constraint firstItem="n4X-Fk-RMR" firstAttribute="top" secondItem="Om7-CX-9r5" secondAttribute="bottom" constant="8" id="XMT-mD-Tq6"/>
                             <constraint firstItem="Om7-CX-9r5" firstAttribute="top" secondItem="GlH-EF-5yf" secondAttribute="bottom" constant="8" id="eap-mj-HbT"/>
                             <constraint firstAttribute="trailing" secondItem="n4X-Fk-RMR" secondAttribute="trailing" id="gPZ-Cr-K2U"/>
                             <constraint firstAttribute="trailing" secondItem="cea-fM-Zj6" secondAttribute="trailing" id="jLm-Pm-GcM"/>
@@ -501,7 +511,6 @@
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QI0-r9-uWj">
                                 <rect key="frame" x="16" y="136" width="343" height="474"/>
-                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

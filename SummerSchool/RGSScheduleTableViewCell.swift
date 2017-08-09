@@ -16,7 +16,7 @@ class RGSScheduleTableViewCell: UITableViewCell {
     var startDate: Date? {
         didSet (oldDate) {
             if (startDate != nil && startDate != oldDate) {
-               let hoursAndMinutesString: String? = DateManager.sharedInstance.hoursAndMinutesFromDate(startDate)
+                let hoursAndMinutesString: String? = DateManager.sharedInstance.dateToISOString(startDate!, format: .hoursAndMinutesFormat)
                 startDateLabel.text = hoursAndMinutesString
             }
         }

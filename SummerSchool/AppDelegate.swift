@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        // Set the Status Bar Style App-wide.
+        UIApplication.shared.statusBarStyle = .lightContent
+        
         // Update UserDefault settings displayed in Settings
         UserDefaults.standard.register(defaults: SpecificationManager.sharedInstance.applicationLaunchDefaults)
         
@@ -28,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Force WebCore to initialize (this method is ugly, but explicit initialization is in a private framework).
         do { try _ = NSAttributedString(HTMLString: "", font: nil) } catch { }
-        
         
         return true
     }

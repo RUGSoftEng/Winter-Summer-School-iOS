@@ -78,23 +78,14 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     // MARK: - Outlets
     
+    /// The UITableView
     @IBOutlet weak var tableView: UITableView!
     
+    /// The RGSLoadingIndicatorView
     @IBOutlet weak var loadingIndicator: RGSLoadingIndicatorView!
-    
-    @IBOutlet weak var lastWeekButton: UIButton!
-    
-    @IBOutlet weak var nextWeekButton: UIButton!
     
     // MARK: - Actions
     
-    @IBAction func didPressLastWeekButton(_ sender: UIButton) {
-        week = (week - 1)
-    }
-    
-    @IBAction func didPressNextWeekButton(_ sender: UIButton) {
-        week = (week + 1)
-    }
     
     // MARK: - Superclass Method Overrides
     

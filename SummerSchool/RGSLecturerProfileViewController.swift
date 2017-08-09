@@ -13,7 +13,7 @@ struct Toggle {
     var hide: CGFloat
 }
 
-class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegate {
+class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegate, NSLayoutManagerDelegate {
     
     // MARK: - Variables & Constants
     
@@ -27,7 +27,7 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
     let minimumHeaderOffset: CGFloat = -180
     
     /// The toogle heights for the header.
-    let headerToggleHeights: Toggle = Toggle(show: -10, hide: 10)
+    let headerToggleHeights: Toggle = Toggle(show: -80, hide: 10)
     
     /// Header state
     var isHeaderExtended = true
@@ -156,6 +156,13 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
         
     }
     
+    // MARK: - NSLayoutManager Delegate Methods
+    
+    /// Handler for the UITextView line spacing.
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return SpecificationManager.sharedInstance.textViewLineSpacing
+    }
+    
     // MARK: - Class Method Overrides
     
     override func viewWillAppear(_ animated: Bool) {
@@ -178,6 +185,9 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
         
         // Set the Navigation Bar Theme (Mandatory)
         setNavigationBarTheme()
+        
+        // Set the descriptionTextView LayoutManager delegate
+        descriptionTextView.layoutManager.delegate = self
 
         // Configure views
         self.configureViews()

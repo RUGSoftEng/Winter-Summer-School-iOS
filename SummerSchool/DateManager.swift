@@ -13,6 +13,7 @@ enum DateFormat: String {
     case eventPacketDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     case eventDateFormat = "yyyy-MM-dd'T'HH:mm:ssxxxxx"
     case scheduleEventDateFormat = "MMM d, HH:mm"
+    case hoursAndMinutesFormat = "HH:mm"
     case announcementDateFormat = "dd/MM/yyyy"
 }
 
@@ -37,20 +38,6 @@ final class DateManager {
     
     
     // MARK: - Public Methods
-    
-    /// Returns the time for a given Date instance.
-    ///
-    /// - Parameters:
-    ///     - date: The Date instance.
-    func hoursAndMinutesFromDate(_ date: Date?) -> String? {
-        if (date == nil) {
-            return nil
-        }
-        stringFormatter.dateFormat = "HH:mm"
-        let dateString: String = stringFormatter.string(from: date!)
-        stringFormatter.dateStyle = .full
-        return dateString
-    }
     
     /// Returns the date without the weekday for a given
     /// Date instance.

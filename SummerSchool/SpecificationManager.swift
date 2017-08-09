@@ -27,6 +27,9 @@ final class SpecificationManager {
     /// The drag offset at which a UICollectionView should refresh its contents
     let collectionViewContentRefreshOffset: CGFloat = -60
     
+    /// The minimum allowed height for a title label.
+    let titleLabelMinimumHeight: CGFloat = 56
+    
     /// The maxmimum allowed height for a title label.
     let titleLabelMaximumHeight: CGFloat = 128
     
@@ -50,6 +53,9 @@ final class SpecificationManager {
     let defaultMapRadius: CLLocationDistance = 4000
     
     // MARK: - Variables & Constants: UserDefaults, Misc.
+    
+    /// The line spacing for all UITextViews.
+    let textViewLineSpacing: CGFloat = 8
     
     /// The length of a login code
     let loginCodeLength: Int = 8

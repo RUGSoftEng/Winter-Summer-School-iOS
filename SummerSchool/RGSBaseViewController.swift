@@ -41,11 +41,11 @@ class RGSBaseViewController: UIViewController {
         
         // Initialize custom settings icon. Set color as it is always displayed.
         let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(image: AppearanceManager.sharedInstance.settingsNutImage, style: .plain, target: self, action: #selector(pushSettingsController(_:)))
-        rightBarButtonItem.tintColor = AppearanceManager.sharedInstance.grey
+        rightBarButtonItem.tintColor = AppearanceManager.sharedInstance.lightBackgroundGrey
         
         // Configure the return arrow conditionally
         if (shouldShowReturnButton()) {
-            leftBarButtonItem.tintColor = AppearanceManager.sharedInstance.grey
+            leftBarButtonItem.tintColor = AppearanceManager.sharedInstance.lightBackgroundGrey
         } else {
             leftBarButtonItem.tintColor = UIColor.clear
             leftBarButtonItem.isEnabled = false
@@ -54,8 +54,11 @@ class RGSBaseViewController: UIViewController {
         // Configure the title conditionally
         if (withTitle == true) {
             self.navigationItem.title = title
-            self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : AppearanceManager.sharedInstance.grey]
+            self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : AppearanceManager.sharedInstance.lightBackgroundGrey]
         }
+        
+        // Configure bar colors
+        self.navigationController?.navigationBar.barTintColor = AppearanceManager.sharedInstance.rugRed
         
         self.navigationItem.leftBarButtonItem = leftBarButtonItem
         self.navigationItem.rightBarButtonItem = rightBarButtonItem

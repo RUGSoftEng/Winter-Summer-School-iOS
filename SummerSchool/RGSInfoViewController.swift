@@ -12,6 +12,13 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     
     // MARK: - Variables & Constants
     
+    /// Overridden StatusBarStyle. Set to light to contrast off red background.
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
+    }
+    
     /// UITableViewCellIdentifier
     let generalInfoTableViewCellIdentifier: String = "generalInfoTableViewCellIdentifier"
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RGSInfoDetailViewController: RGSBaseViewController {
+class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegate {
     
     
     // MARK: - Variables & Constants
@@ -52,7 +52,7 @@ class RGSInfoDetailViewController: RGSBaseViewController {
             if let title = generalInfoItem.title {
                 titleLabel.text = title
                 let heightThatFits: CGFloat = UILabel.heightForString(text: title, with: titleLabel.font, bounded: titleLabel.bounds.width)
-                titleLabelHeight.constant = min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits)
+                titleLabelHeight.constant = max(min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits), SpecificationManager.sharedInstance.titleLabelMinimumHeight)
             }
         
             // Set the description, round the textView.
@@ -65,6 +65,13 @@ class RGSInfoDetailViewController: RGSBaseViewController {
         }
     }
     
+    // MARK: - NSLayoutManager Delegate Methods
+    
+    /// Handler for the UITextView line spacing.
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return SpecificationManager.sharedInstance.textViewLineSpacing
+    }
+    
     // MARK: - Class Method Overrides
 
     override func viewDidLoad() {
@@ -72,6 +79,9 @@ class RGSInfoDetailViewController: RGSBaseViewController {
         
         // Set Navigation Bar Theme
         setNavigationBarTheme()
+        
+        // Set DescriptionTextView LayoutManager Delegate
+        descriptionTextView.layoutManager.delegate = self
         
         // Configure Contents
         configureViews()

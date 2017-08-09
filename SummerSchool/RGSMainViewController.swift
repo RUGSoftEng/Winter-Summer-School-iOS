@@ -12,6 +12,13 @@ class RGSMainViewController: UITabBarController {
     
     // MARK: - Variables & Constants
     
+    /// Overridden StatusBarStyle. Set to light to contrast off red background.
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
+    }
+    
     // MARK: - Actions
     
     @IBAction func prepareForUnwind(_ segue: UIStoryboardSegue) {

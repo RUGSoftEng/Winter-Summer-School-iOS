@@ -15,11 +15,8 @@ class RGSLoadingIndicatorView: UIView {
     /// The fractional progress for the loading indicator (0 <= progress <= 1).
     var progress: CGFloat = 0.0 {
         didSet (oldProgress) {
-            if (progress < 0 || progress > 1) {
-                progress = oldProgress
-            } else {
-                setNeedsDisplay()
-            }
+            progress = max(min(progress, 1.0), 0.0)
+            setNeedsDisplay()
         }
     }
     

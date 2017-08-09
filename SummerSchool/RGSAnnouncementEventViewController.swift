@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RGSAnnouncementEventViewController: RGSBaseViewController {
+class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManagerDelegate {
     
     // MARK: Variables & Constants
     
@@ -61,7 +61,7 @@ class RGSAnnouncementEventViewController: RGSBaseViewController {
             if let title = announcement.title {
                 titleLabel.text = title
                 let heightThatFits: CGFloat = UILabel.heightForString(text: title, with: titleLabel.font, bounded: titleLabel.bounds.width)
-                titleLabelHeight.constant = min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits)
+                titleLabelHeight.constant = max(min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits), SpecificationManager.sharedInstance.titleLabelMinimumHeight)
             }
             
             // Set Author and Date.
@@ -83,6 +83,13 @@ class RGSAnnouncementEventViewController: RGSBaseViewController {
 
     }
     
+    // MARK: - NSLayoutManager Delegate Methods
+    
+    /// Handler for the UITextView line spacing.
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return SpecificationManager.sharedInstance.textViewLineSpacing
+    }
+    
     // MARK: - Class Method Overrides
 
     override func viewDidLoad() {
@@ -90,6 +97,9 @@ class RGSAnnouncementEventViewController: RGSBaseViewController {
 
         // Set Navigation Bar Theme
         self.setNavigationBarTheme()
+        
+        // Set DescriptionTextView LayoutManager delegate.
+        descriptionTextView.layoutManager.delegate = self
         
         // Configure contents
         configureViews()
