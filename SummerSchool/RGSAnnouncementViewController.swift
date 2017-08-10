@@ -75,33 +75,55 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset: CGPoint = scrollView.contentOffset
-        if (offset.y <= 0) {
-            let progress = CGFloat(offset.y / SpecificationManager.sharedInstance.tableViewContentRefreshOffset)
-            loadingIndicator.progress = progress
+        
+        // If the TableView is enabled, animate reload indicator when tugging. If it is disabled, lock to reload position.
+        if (tableView.isUserInteractionEnabled) {
+            
+            if (offset.y <= 0) {
+                let progress = CGFloat(offset.y / SpecificationManager.sharedInstance.tableViewContentRefreshOffset)
+                loadingIndicator.progress = progress
+            }
+            
+        } else {
+            
+            if (offset.y >= SpecificationManager.sharedInstance.tableViewContentReloadOffset) {
+                let reloadOffset: CGPoint = CGPoint(x: 0, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset)
+                tableView.contentOffset = reloadOffset
+            }
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let released: CGPoint = scrollView.contentOffset
-        if (released.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
+        let offset: CGPoint = scrollView.contentOffset
+        if (offset.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
             print("Should reload content now!")
+            suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
             refreshModelData()
         }
     }
     
-    
     // MARK: - Private Class Methods
+    
+    func suspendTableViewInteraction(contentOffset offset: CGPoint) {
+        tableView.setContentOffset(offset, animated: true)
+        tableView.isUserInteractionEnabled = false
+        loadingIndicator.startAnimation()
+    }
+    
+    func resumeTableViewInteraction() {
+        loadingIndicator.stopAnimation()
+        tableView.isUserInteractionEnabled = true
+        tableView.setContentOffset(.zero, animated: true)
+    }
     
     func refreshModelData() {
         let url: String = NetworkManager.sharedInstance.URLForAnnouncements()
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
             let fetched: [Announcement]? = DataManager.sharedInstance.parseDataToAnnouncements(data: data)
+            sleep(1)
             DispatchQueue.main.async {
-                if (fetched == nil) {
-                    
-                } else {
-                    self.announcements = fetched
-                }
+                self.announcements = fetched
+                self.resumeTableViewInteraction()
             }
         })
     }

@@ -557,18 +557,30 @@
                                 <color key="textColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Abh-aC-YpO" customClass="RGSLoadingIndicatorView" customModule="SummerSchool" customModuleProvider="target">
+                                <rect key="frame" x="165" y="72" width="45" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="4CJ-nT-GXp"/>
+                                    <constraint firstAttribute="width" constant="45" id="tZQ-el-iB5"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Kte-02-kFa" firstAttribute="centerY" secondItem="qmf-6b-pVO" secondAttribute="centerY" id="DhE-3m-xez"/>
                             <constraint firstItem="Kte-02-kFa" firstAttribute="centerX" secondItem="qmf-6b-pVO" secondAttribute="centerX" id="Qyn-mz-V9Q"/>
+                            <constraint firstItem="Abh-aC-YpO" firstAttribute="centerX" secondItem="qmf-6b-pVO" secondAttribute="centerX" id="pnD-cg-ZLb"/>
+                            <constraint firstItem="Abh-aC-YpO" firstAttribute="top" secondItem="H4y-TM-gwa" secondAttribute="bottom" constant="8" id="uza-0W-xyZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xec-21-TbP"/>
+                    <connections>
+                        <outlet property="standbyIndicator" destination="Abh-aC-YpO" id="SCK-KD-wSE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rob-Yc-LPW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4802" y="2130"/>
+            <point key="canvasLocation" x="4800.8000000000002" y="2129.6851574212897"/>
         </scene>
         <!--RGSMainViewController-->
         <scene sceneID="0Gn-3v-VTR">

@@ -90,16 +90,29 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset: CGPoint = scrollView.contentOffset
-        if (offset.y <= 0) {
-            let progress = CGFloat(offset.y / SpecificationManager.sharedInstance.collectionViewContentRefreshOffset)
-            loadingIndicator.progress = progress
+        
+        // If the CollectionView is enabled, animate reload indicator when tugging. If it is disabled, lock to reload position.
+        if (scrollView.isUserInteractionEnabled) {
+            
+            if (offset.y <= 0) {
+                let progress = CGFloat(offset.y / SpecificationManager.sharedInstance.collectionViewContentRefreshOffset)
+                loadingIndicator.progress = progress
+            }
+            
+        } else {
+            
+            if (offset.y >= SpecificationManager.sharedInstance.collectionViewContentReloadOffset) {
+                let reloadOffset: CGPoint = CGPoint(x: 0, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset)
+                collectionView.contentOffset = reloadOffset
+            }
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let released: CGPoint = scrollView.contentOffset
-        if (released.y <= SpecificationManager.sharedInstance.collectionViewContentRefreshOffset) {
+        let offset: CGPoint = scrollView.contentOffset
+        if (offset.y <= SpecificationManager.sharedInstance.collectionViewContentRefreshOffset) {
             print("Should reload content now!")
+            suspendCollectionViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset))
             refreshModelData()
         }
     }
@@ -140,12 +153,26 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
     
     // MARK: - Private Class Methods
     
+    func suspendCollectionViewInteraction(contentOffset offset: CGPoint) {
+        collectionView.setContentOffset(offset, animated: true)
+        collectionView.isUserInteractionEnabled = false
+        loadingIndicator.startAnimation()
+    }
+    
+    func resumeContentViewInteraction() {
+        loadingIndicator.stopAnimation()
+        collectionView.isUserInteractionEnabled = true
+        collectionView.setContentOffset(.zero, animated: true)
+    }
+    
     func refreshModelData() {
         let url: String = NetworkManager.sharedInstance.URLForLecturers()
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
             let fetched: [Lecturer]? = DataManager.sharedInstance.parseDataToLecturers(data: data)
+            sleep(1)
             DispatchQueue.main.async {
                 self.lecturers = fetched
+                self.resumeContentViewInteraction()
                 
                 // Try to update images
                 self.getLecturerImages()

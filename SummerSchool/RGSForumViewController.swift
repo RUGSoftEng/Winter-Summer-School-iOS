@@ -12,11 +12,12 @@ class RGSForumViewController: RGSBaseViewController {
     
     // MARK: - Variables & Constants
     
+    
     // MARK: - Outlets
     
+    @IBOutlet weak var standbyIndicator: RGSLoadingIndicatorView!
     
     // MARK: - Actions
-    
 
     
     // MARK: - Superclass Method Overrides
@@ -30,7 +31,13 @@ class RGSForumViewController: RGSBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set the Navigation Bar Theme.
         setNavigationBarTheme()
+        
+        // Animate the standbyIndicator
+        //standbyIndicator.beginAnimation()
+    
     }
 
     override func didReceiveMemoryWarning() {

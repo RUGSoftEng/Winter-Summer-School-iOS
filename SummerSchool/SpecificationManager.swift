@@ -24,8 +24,14 @@ final class SpecificationManager {
     /// The drag offset at which a UITableView should refresh its contents
     let tableViewContentRefreshOffset: CGFloat = -100
     
+    /// The offset at which a UITableView should rest when running a reload animation.
+    let tableViewContentReloadOffset: CGFloat = -61
+    
     /// The drag offset at which a UICollectionView should refresh its contents
     let collectionViewContentRefreshOffset: CGFloat = -60
+    
+    /// The offset at which a UICollectionView should rest when running a reload animation.
+    let collectionViewContentReloadOffset: CGFloat = -45
     
     /// The minimum allowed height for a title label.
     let titleLabelMinimumHeight: CGFloat = 56
