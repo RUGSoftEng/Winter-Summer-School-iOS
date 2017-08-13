@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="195" height="172"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ljc-mN-3E2">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ljc-mN-3E2">
                         <rect key="frame" x="35" y="8" width="124" height="124"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Ljc-mN-3E2" secondAttribute="height" multiplier="1:1" id="bGh-AN-7Lc"/>

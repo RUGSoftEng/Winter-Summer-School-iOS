@@ -268,7 +268,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Om7-CX-9r5">
                                 <rect key="frame" x="0.0" y="72" width="375" height="180"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a5a-Yv-if3">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a5a-Yv-if3">
                                         <rect key="frame" x="105" y="8" width="164" height="164"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="a5a-Yv-if3" secondAttribute="height" multiplier="1:1" id="kS1-OE-upx"/>

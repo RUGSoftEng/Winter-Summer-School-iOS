@@ -25,7 +25,7 @@ class RGSLoadingIndicatorView: UIView {
     var animationMaxScale: CGFloat = 0.8
     
     /// The fill color of the animation
-    var fillColor: UIColor = AppearanceManager.sharedInstance.rugRed
+    var fillColor: UIColor = AppearanceManager.sharedInstance.lightTextGrey
     
     /// The fractional progress for the loading indicator (0 <= progress <= 1).
     var progress: CGFloat = 0.0 {
@@ -93,7 +93,7 @@ class RGSLoadingIndicatorView: UIView {
     // MARK: - Class Method Overrides
     
     override func draw(_ rect: CGRect) {
-        SummerSchoolStyleKit.drawLoadingIndicator(indicatorProgress: progress)
+        SummerSchoolStyleKit.drawLoadingIndicator(indicatorProgress: progress, fillColor: fillColor)
     }
  
 }
