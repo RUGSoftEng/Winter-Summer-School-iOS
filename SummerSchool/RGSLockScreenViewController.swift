@@ -72,9 +72,9 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     // MARK: - Public Methods
     
     /// Callback function for when the authentication result is obtained
-    func authenticationCallback(_ authenticated: Bool) -> Void {
+    func authenticationCallback(_ authState: AuthState) -> Void {
         
-        if (authenticated) {
+        if (authState == .authenticated) {
             DispatchQueue.main.async() {
                 let defaults = UserDefaults.standard
                 defaults.set(false, forKey: UserDefaultKey.LockScreen.rawValue)
@@ -83,7 +83,8 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
             }
         } else {
             DispatchQueue.main.async() {
-                let alertController = ActionManager.sharedInstance.getActionSheet(title: "Invalid Entry", message: "Your code was invalid!", dismissMessage: "Okay")
+                let message: String = (authState == .badLoginCode) ? "Your code was invalid!" : "Couldn't reach authentication server!"
+                let alertController = ActionManager.sharedInstance.getActionSheet(title: "Login Failed", message: message, dismissMessage: "Okay")
                 self.present(alertController, animated: false, completion: nil)
                 self.authorizationCodeTextField.isEnabled = true
             }

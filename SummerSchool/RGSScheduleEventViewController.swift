@@ -279,6 +279,9 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
         // Set mapView delegate.
         mapView.delegate = self
         
+        // Test print
+        print(event)
+        
         // Configure the contents of the views.
         configureViews()
     }

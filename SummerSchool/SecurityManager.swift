@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum AuthState: Int {
+    case authenticated
+    case badLoginCode
+    case badNetworkConnection
+}
 
 final class SecurityManager {
     
@@ -48,18 +53,21 @@ final class SecurityManager {
     
     // MARK: - Public Methods
     
-    func authenticateLoginCode(_ loginCode: String, callback: @escaping (Bool) -> Void) -> Void {
+    func authenticateLoginCode(_ loginCode: String, callback: @escaping (AuthState) -> Void) -> Void {
         if (loginCodes == nil) {
             NetworkManager.sharedInstance.makeGetRequest(url: loginCodeURL, onCompletion: {(data: Data?) -> Void in
                 var isAuthenticated: Bool = false
+                
                 if let fetched: [LoginCode] = DataManager.sharedInstance.parseDataToLoginCodes(data: data) {
                     isAuthenticated = self.containsLoginCode(fetched, loginCode)
                     self.loginCodes = fetched
+                    callback((isAuthenticated == true) ? AuthState.authenticated : AuthState.badLoginCode)
+                } else {
+                    callback(AuthState.badNetworkConnection)
                 }
-                callback(isAuthenticated)
             })
         } else {
-            callback(containsLoginCode(self.loginCodes, loginCode))
+            callback(containsLoginCode(self.loginCodes, loginCode) ? .authenticated : .badLoginCode)
         }
     }
     

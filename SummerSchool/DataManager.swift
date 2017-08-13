@@ -14,6 +14,7 @@ import UIKit
 
 /// Structure representing an event.
 struct Event {
+    var id: String?
     var title: String?
     var address: String?
     var description: String?
@@ -30,6 +31,7 @@ extension Event {
         
         // Initialize mandatory fields. Return nil if missing.
         guard
+            let id: String = json["id"] as? String,
             let title: String = json["summary"] as? String,
             let address: String = json["location"] as? String,
             let description: String = json["description"] as? String,
@@ -39,6 +41,7 @@ extension Event {
             return nil
         }
         
+        self.id = id
         self.title = title
         self.address = address
         self.description = description
