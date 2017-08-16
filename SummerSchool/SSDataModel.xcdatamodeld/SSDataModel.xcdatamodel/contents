@@ -17,6 +17,8 @@
         <relationship name="weekDay" maxCount="1" deletionRule="Nullify" destinationEntity="WeekDayEntity" inverseName="events" inverseEntity="WeekDayEntity" syncable="YES"/>
     </entity>
     <entity name="GeneralInfoEntity" representedClassName="GeneralInfoEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="generalInfoDescription" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
@@ -36,8 +38,8 @@
     <elements>
         <element name="AnnouncementEntity" positionX="-234" positionY="-99" width="128" height="118"/>
         <element name="EventEntity" positionX="-45" positionY="0" width="128" height="148"/>
-        <element name="GeneralInfoEntity" positionX="-396" positionY="-99" width="128" height="90"/>
-        <element name="WeekDayEntity" positionX="-45" positionY="-99" width="128" height="75"/>
+        <element name="GeneralInfoEntity" positionX="-396" positionY="-99" width="128" height="120"/>
         <element name="LecturerEntity" positionX="-207" positionY="0" width="128" height="135"/>
+        <element name="WeekDayEntity" positionX="-45" positionY="-99" width="128" height="75"/>
     </elements>
 </model>

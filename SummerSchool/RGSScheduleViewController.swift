@@ -55,10 +55,12 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     /// Data for the UITableView
     var events: [(Date, [Event])]? {
-        didSet {
+        didSet (oldEvents) {
             if (tableView != nil && events != nil) {
                 sections = eventsToSections(events!)
                 tableView.reloadData()
+            } else {
+                events = oldEvents
             }
         }
     }

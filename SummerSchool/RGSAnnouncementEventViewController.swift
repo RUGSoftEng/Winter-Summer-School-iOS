@@ -29,6 +29,9 @@ class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManager
     /// The UITextView for the description of the announcement.
     @IBOutlet weak var descriptionTextView: UITextView!
     
+    /// The background UIView for the titleLabel.
+    @IBOutlet weak var titleLabelBackgroundView: UIView!
+    
     // MARK: Outlets: Constraints
     
     /// The height of the titleLabel.
@@ -53,6 +56,9 @@ class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManager
         authorLabel.font = SpecificationManager.sharedInstance.subTitleLabelFont
         dateLabel.font = SpecificationManager.sharedInstance.subTitleLabelFont
         descriptionTextView.font = SpecificationManager.sharedInstance.textViewFont
+        
+        // Set titleLabel background color.
+        titleLabelBackgroundView.backgroundColor = AppearanceManager.sharedInstance.lightBackgroundGrey
         
         // Configure Contents
         if (announcement != nil) {

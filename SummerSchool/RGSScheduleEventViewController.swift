@@ -76,6 +76,9 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
     /// The swappable content view.
     @IBOutlet weak var contentView: UIView!
     
+    /// The background UIView for the titleLabel.
+    @IBOutlet weak var titleLabelBackgroundView: UIView!
+    
     // MARK: - Outlets
     
     /// The height of the titleLabel.
@@ -142,6 +145,9 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
         
         // Set tabView titles.
         tabView.setTitles(["Description", "Location"])
+        
+        // Set titleLabel background color.
+        titleLabelBackgroundView.backgroundColor = AppearanceManager.sharedInstance.lightBackgroundGrey
         
         // Configure Contents
         if (event != nil) {
@@ -278,9 +284,6 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
         
         // Set mapView delegate.
         mapView.delegate = self
-        
-        // Test print
-        print(event)
         
         // Configure the contents of the views.
         configureViews()

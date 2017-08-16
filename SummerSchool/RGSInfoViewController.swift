@@ -23,13 +23,15 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     let generalInfoTableViewCellIdentifier: String = "generalInfoTableViewCellIdentifier"
     
     /// UITableViewCell Custom Height
-    let generalInfoTableViewCellHeight: CGFloat = 64
+    let generalInfoTableViewCellHeight: CGFloat = 48
     
     /// Data for the UITableView
     var generalInfo: [GeneralInfo]! {
         didSet (oldGeneralInfo) {
             if (generalInfo != nil) {
                 tableView.reloadData()
+            } else {
+                generalInfo = oldGeneralInfo
             }
         }
     }
@@ -76,7 +78,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
         let cell: RGSGeneralInfoTableViewCell = tableView.dequeueReusableCell(withIdentifier: generalInfoTableViewCellIdentifier) as! RGSGeneralInfoTableViewCell
         let generalInfoItem: GeneralInfo = generalInfo[indexPath.row]
         cell.title = generalInfoItem.title
-        cell.itemDescription = generalInfoItem.description
+        cell.category = generalInfoItem.category
         return cell
     }
     

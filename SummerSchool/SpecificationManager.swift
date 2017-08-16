@@ -34,7 +34,7 @@ final class SpecificationManager {
     let collectionViewContentReloadOffset: CGFloat = -45
     
     /// The minimum allowed height for a title label.
-    let titleLabelMinimumHeight: CGFloat = 56
+    let titleLabelMinimumHeight: CGFloat = 72
     
     /// The maxmimum allowed height for a title label.
     let titleLabelMaximumHeight: CGFloat = 128

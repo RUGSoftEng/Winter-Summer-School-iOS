@@ -26,7 +26,7 @@ final class NetworkManager {
     static let sharedInstance = NetworkManager()
     
     /// Server address 
-    let serverAddress: String = "http://turing13.housing.rug.nl:8800"
+    let serverAddress: String = "https://winter-summer-school-app.herokuapp.com"
     
     // MARK: - Private Methods
     

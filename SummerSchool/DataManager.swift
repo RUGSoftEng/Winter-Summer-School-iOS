@@ -210,10 +210,16 @@ extension Announcement {
 
 // MARK: - Structures: GeneralInfo
 
+enum InfoCategory: Int {
+    case Food = 0, Location, Internet, Accomodation, Information
+}
+
 struct GeneralInfo {
     var id: String?
     var title: String?
     var description: String?
+    var category: InfoCategory?
+    var date: Date?
 }
 
 extension GeneralInfo {
@@ -223,7 +229,9 @@ extension GeneralInfo {
         guard
             let id: String = json["_id"] as? String,
             let title: String = json["title"] as? String,
-            let description: String = json["description"] as? String
+            let description: String = json["description"] as? String,
+            let categoryString: String = json["category"] as? String,
+            let dateString: String = json["date"] as? String
         else {
             return nil
         }
@@ -231,6 +239,8 @@ extension GeneralInfo {
         self.id = id
         self.title = title
         self.description = description
+        self.category = InfoCategory(rawValue: Int(categoryString)!)
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .eventPacketDateFormat)
     }
     
     // Initializer for NSManagedObjects.
@@ -238,7 +248,9 @@ extension GeneralInfo {
         guard
             let id: String = managedObject.value(forKey: GeneralInfoEntityKey.id.rawValue) as? String,
             let title: String = managedObject.value(forKey: GeneralInfoEntityKey.title.rawValue) as? String,
-            let description: String = managedObject.value(forKey: GeneralInfoEntityKey.description.rawValue) as? String
+            let description: String = managedObject.value(forKey: GeneralInfoEntityKey.description.rawValue) as? String,
+            let categoryInt: Int = managedObject.value(forKey: GeneralInfoEntityKey.category.rawValue) as? Int,
+            let dateString: String = managedObject.value(forKey: GeneralInfoEntityKey.dateString.rawValue) as? String
         else {
             return nil
         }
@@ -246,7 +258,11 @@ extension GeneralInfo {
         self.id = id
         self.title = title
         self.description = description
+        self.category = InfoCategory(rawValue: categoryInt)
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .eventPacketDateFormat)
     }
+    
+    // Todo: Update the enum for the keys, update the load and save data, update the entity in database.
 }
 
 // MARK: - Structures: Lecturers
@@ -389,6 +405,8 @@ enum GeneralInfoEntityKey: String {
     case id                 = "id"
     case title              = "title"
     case description        = "generalInfoDescription"
+    case category           = "category"
+    case dateString         = "dateString"
 }
 
 /// Entity keys for the LecturerEntity object
@@ -779,6 +797,8 @@ final class DataManager {
                 generalInfoEntity.setValue(generalInfoItem.id, forKey: GeneralInfoEntityKey.id.rawValue)
                 generalInfoEntity.setValue(generalInfoItem.title, forKey: GeneralInfoEntityKey.title.rawValue)
                 generalInfoEntity.setValue(generalInfoItem.description, forKey: GeneralInfoEntityKey.description.rawValue)
+                generalInfoEntity.setValue(generalInfoItem.category!.rawValue, forKey: GeneralInfoEntityKey.category.rawValue)
+                generalInfoEntity.setValue(DateManager.sharedInstance.dateToISOString(generalInfoItem.date, format: .eventPacketDateFormat), forKey: GeneralInfoEntityKey.dateString.rawValue)
             }
         } catch {
             print("saveGeneralInfoData: There was a problem when updating generalInfo!")

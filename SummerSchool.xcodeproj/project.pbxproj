@@ -24,6 +24,7 @@
 		6B42480C1F3092D800D03082 /* RGSLecturerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B42480B1F3092D800D03082 /* RGSLecturerProfileViewController.swift */; };
 		6B461E6A1F1FB80500C7992B /* RGSEmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B461E681F1FB80500C7992B /* RGSEmptyTableViewCell.swift */; };
 		6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B461E691F1FB80500C7992B /* RGSEmptyTableViewCell.xib */; };
+		6B7728981F40ECE200270955 /* RGSMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7728971F40ECE200270955 /* RGSMessageViewController.swift */; };
 		6B9D9A2B1F387D2A00776309 /* RGSTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */; };
 		6B9D9A2D1F387D3D00776309 /* RGSTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */; };
 		6BA3F3971F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */; };
@@ -72,6 +73,7 @@
 		6B42480B1F3092D800D03082 /* RGSLecturerProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLecturerProfileViewController.swift; sourceTree = "<group>"; };
 		6B461E681F1FB80500C7992B /* RGSEmptyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSEmptyTableViewCell.swift; sourceTree = "<group>"; };
 		6B461E691F1FB80500C7992B /* RGSEmptyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSEmptyTableViewCell.xib; sourceTree = "<group>"; };
+		6B7728971F40ECE200270955 /* RGSMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSMessageViewController.swift; sourceTree = "<group>"; };
 		6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSTabView.swift; sourceTree = "<group>"; };
 		6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSTabView.xib; sourceTree = "<group>"; };
 		6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				6BB7A9581EE4A80C005FA5B0 /* RGSLockScreenViewController.swift */,
 				6BB7A9491EE4A208005FA5B0 /* RGSMainViewController.swift */,
 				6BB0CF681EE5AC730018A7CD /* RGSBaseViewController.swift */,
+				6B7728971F40ECE200270955 /* RGSMessageViewController.swift */,
 				6B116DA41F1D606300E01BBB /* Information */,
 				6B116DA31F1D605700E01BBB /* Announcements */,
 				6B116DA21F1D603C00E01BBB /* Schedule */,
@@ -374,6 +377,7 @@
 				6B123B491EEDA9380006EC08 /* NetworkManager.swift in Sources */,
 				6B1E35ED1ECF9DE400E2CD77 /* AppDelegate.swift in Sources */,
 				6BA3F3971F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift in Sources */,
+				6B7728981F40ECE200270955 /* RGSMessageViewController.swift in Sources */,
 				6B2DD0DF1F33A79E00B6D3A2 /* Extensions.swift in Sources */,
 				6BA886391F1EAC3F007D0341 /* AppearanceManager.swift in Sources */,
 				6BB7A9641EE4BBAA005FA5B0 /* RGSControlBarDelegate.swift in Sources */,

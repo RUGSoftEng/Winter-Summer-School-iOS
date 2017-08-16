@@ -21,11 +21,13 @@ class RGSGeneralInfoTableViewCell: UITableViewCell {
         }
     }
     
-    /// GeneralInfo Description
-    var itemDescription: String! {
-        didSet (oldItemDescription) {
-            if (itemDescription != nil && itemDescription != oldItemDescription) {
-                descriptionLabel.text = itemDescription
+    /// GeneralInfo Icon
+    var category: InfoCategory! {
+        didSet (oldCategory) {
+            if (category != nil && category != oldCategory) {
+                if let iconImage: UIImage = UIImage(named: imageNameForCategory(category: category)) {
+                    iconImageView.image = iconImage
+                }
             }
         }
     }
@@ -35,8 +37,26 @@ class RGSGeneralInfoTableViewCell: UITableViewCell {
     /// Title label
     @IBOutlet weak var titleLabel: UILabel!
     
-    /// Description label
-    @IBOutlet weak var descriptionLabel: UILabel!
+    /// Icon ImageView
+    @IBOutlet weak var iconImageView: UIImageView!
+    
+    // MARK: - Private Class Methods
+    //Food = 0, Location, Internet, Accomodation, Information
+    
+    private func imageNameForCategory(category: InfoCategory) -> String {
+        switch category {
+        case .Food:
+            return "FoodIcon"
+        case .Location:
+            return "LocationIcon"
+        case .Internet:
+            return "InternetIcon"
+        case .Accomodation:
+            return "AccomodationIcon"
+        default:
+            return "InformationIcon"
+        }
+    }
     
     // MARK: - Class Method Overrides
 

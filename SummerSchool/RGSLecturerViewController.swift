@@ -24,7 +24,11 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
     /// The data model
     var lecturers: [Lecturer]! {
         didSet (oldLecturers) {
-            self.collectionView.reloadData()
+            if (lecturers != nil) {
+                self.collectionView.reloadData()
+            } else {
+                lecturers = oldLecturers
+            }
         }
     }
     

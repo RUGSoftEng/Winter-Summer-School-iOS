@@ -23,6 +23,9 @@ class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegat
     /// The textView for the description of the General Info item.
     @IBOutlet weak var descriptionTextView: UITextView!
     
+    /// the background view for the title label.
+    @IBOutlet weak var titleLabelBackgroundView: UIView!
+    
     // MARK: - Outlets: Constraints
     
     @IBOutlet weak var titleLabelHeight: NSLayoutConstraint!
@@ -44,6 +47,9 @@ class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegat
         // Set fonts.
         titleLabel.font = SpecificationManager.sharedInstance.titleLabelFont
         descriptionTextView.font = SpecificationManager.sharedInstance.textViewFont
+        
+        // Set titleLabel background color.
+        titleLabelBackgroundView.backgroundColor = AppearanceManager.sharedInstance.lightBackgroundGrey
         
         // Configure contents
         if (generalInfoItem != nil) {
