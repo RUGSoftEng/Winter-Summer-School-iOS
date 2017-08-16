@@ -6,63 +6,51 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="announcementTableViewCellIdentifier" rowHeight="64" id="KGk-i7-Jjw" customClass="RGSAnnouncementTableViewCell" customModule="SummerSchool" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="announcementTableViewCellIdentifier" rowHeight="48" id="KGk-i7-Jjw" customClass="RGSAnnouncementTableViewCell" customModule="SummerSchool" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="287" height="63"/>
+                <rect key="frame" x="0.0" y="0.0" width="287" height="48"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MMM d, yyyy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aqb-37-yqC">
-                        <rect key="frame" x="8" y="40" width="131.5" height="16"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnnouncementIcon" translatesAutoresizingMaskIntoConstraints="NO" id="vQq-eD-xev">
+                        <rect key="frame" x="8" y="8" width="32" height="32"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="16" id="AqM-wq-Hvq"/>
+                            <constraint firstAttribute="width" secondItem="vQq-eD-xev" secondAttribute="height" multiplier="1:1" id="Xfs-Te-aJO"/>
+                            <constraint firstAttribute="height" constant="32" id="ult-Vh-xBQ"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="10"/>
-                        <color key="textColor" red="0.62745098040000002" green="0.62745098040000002" blue="0.62745098040000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UoG first week of Gender and Diversity School" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7by-Ku-60O">
-                        <rect key="frame" x="8" y="8" width="271" height="24"/>
+                        <rect key="frame" x="48" y="8" width="231" height="32"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By: John Doe " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOm-Ue-L6Y">
-                        <rect key="frame" x="147.5" y="40" width="131.5" height="16"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="16" id="w0P-65-Lvl"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="10"/>
-                        <color key="textColor" red="0.62745098040000002" green="0.62745098040000002" blue="0.62745098040000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="7by-Ku-60O" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="6Rz-Bg-IXj"/>
-                    <constraint firstItem="aqb-37-yqC" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="9Tj-ir-Eqy"/>
-                    <constraint firstItem="7by-Ku-60O" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Ohh-M3-th3"/>
-                    <constraint firstItem="pOm-Ue-L6Y" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="Q4j-5U-5lC"/>
-                    <constraint firstItem="pOm-Ue-L6Y" firstAttribute="leading" secondItem="aqb-37-yqC" secondAttribute="trailing" constant="8" id="ct4-bW-8qU"/>
-                    <constraint firstItem="aqb-37-yqC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="gTg-09-cj0"/>
-                    <constraint firstItem="pOm-Ue-L6Y" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="hPF-R3-a9x"/>
-                    <constraint firstItem="pOm-Ue-L6Y" firstAttribute="width" secondItem="aqb-37-yqC" secondAttribute="width" id="iAl-H6-3Aj"/>
-                    <constraint firstItem="pOm-Ue-L6Y" firstAttribute="top" secondItem="7by-Ku-60O" secondAttribute="bottom" constant="8" id="jGC-4Q-Fon"/>
-                    <constraint firstItem="7by-Ku-60O" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="wAp-Nh-eZZ"/>
+                    <constraint firstItem="7by-Ku-60O" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="AEE-kq-Hcm"/>
+                    <constraint firstItem="7by-Ku-60O" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="JPa-1z-Hht"/>
+                    <constraint firstItem="vQq-eD-xev" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="W3h-fU-nTV"/>
+                    <constraint firstItem="vQq-eD-xev" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bTd-77-J0D"/>
+                    <constraint firstItem="7by-Ku-60O" firstAttribute="leading" secondItem="vQq-eD-xev" secondAttribute="trailing" constant="8" id="vBa-kx-leP"/>
+                    <constraint firstItem="7by-Ku-60O" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="vMA-zG-w8g"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="dateLabel" destination="aqb-37-yqC" id="XqT-OC-3tb"/>
-                <outlet property="posterLabel" destination="pOm-Ue-L6Y" id="P9V-6y-Qc6"/>
+                <outlet property="iconImageView" destination="vQq-eD-xev" id="xdK-V6-t3s"/>
                 <outlet property="titleLabel" destination="7by-Ku-60O" id="uNV-Mh-Ir9"/>
             </connections>
-            <point key="canvasLocation" x="26" y="62"/>
+            <point key="canvasLocation" x="26" y="61.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="AnnouncementIcon" width="64" height="64"/>
+    </resources>
 </document>

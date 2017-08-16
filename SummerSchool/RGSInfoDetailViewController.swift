@@ -23,8 +23,11 @@ class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegat
     /// The textView for the description of the General Info item.
     @IBOutlet weak var descriptionTextView: UITextView!
     
-    /// the background view for the title label.
+    /// The background view for the title label.
     @IBOutlet weak var titleLabelBackgroundView: UIView!
+    
+    /// The date label.
+    @IBOutlet weak var dateLabel: UILabel!
     
     // MARK: - Outlets: Constraints
     
@@ -46,6 +49,7 @@ class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegat
         
         // Set fonts.
         titleLabel.font = SpecificationManager.sharedInstance.titleLabelFont
+        dateLabel.font = SpecificationManager.sharedInstance.subTitleLabelFont
         descriptionTextView.font = SpecificationManager.sharedInstance.textViewFont
         
         // Set titleLabel background color.
@@ -56,9 +60,15 @@ class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegat
             
             // Set title, adjust height to best fit.
             if let title = generalInfoItem.title {
+                print(title)
                 titleLabel.text = title
                 let heightThatFits: CGFloat = UILabel.heightForString(text: title, with: titleLabel.font, bounded: titleLabel.bounds.width)
                 titleLabelHeight.constant = max(min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits), SpecificationManager.sharedInstance.titleLabelMinimumHeight)
+            }
+            
+            // Set the date.
+            if let dateString = DateManager.sharedInstance.dateToISOString(generalInfoItem.date, format: .announcementDateFormat) {
+                dateLabel.text = dateString
             }
         
             // Set the description, round the textView.

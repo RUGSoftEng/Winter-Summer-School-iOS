@@ -16,7 +16,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
     let announcementTableViewCellIdentifier: String = "announcementTableViewCellIdentifier"
     
     /// UITableViewCell Custom Height
-    let announcementTableViewCellHeight: CGFloat = 64
+    let announcementTableViewCellHeight: CGFloat = 48
     
     /// Data for the UITableView
     var announcements: [Announcement]! {
@@ -67,8 +67,6 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         let cell: RGSAnnouncementTableViewCell = tableView.dequeueReusableCell(withIdentifier: announcementTableViewCellIdentifier) as! RGSAnnouncementTableViewCell
         let announcement: Announcement = announcements[indexPath.row]
         cell.title = announcement.title
-        cell.poster = announcement.poster
-        cell.date = announcement.date
         return cell
     }
     

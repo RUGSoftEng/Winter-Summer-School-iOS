@@ -13,6 +13,7 @@ enum DateFormat: String {
     case eventPacketDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     case eventDateFormat = "yyyy-MM-dd'T'HH:mm:ssxxxxx"
     case scheduleEventDateFormat = "MMM d, HH:mm"
+    case scheduleHeaderFooterFormat = "EEEE, MMM d"
     case hoursAndMinutesFormat = "HH:mm"
     case announcementDateFormat = "dd/MM/yyyy"
 }
@@ -39,21 +40,6 @@ final class DateManager {
     
     // MARK: - Public Methods
     
-    /// Returns the date without the weekday for a given
-    /// Date instance.
-    ///
-    /// - Parameters:
-    ///     - date: The Date instance.
-    func longStyleDateFromDate(_ date: Date?) -> String? {
-        if (date == nil) {
-            return nil;
-        }
-        stringFormatter.dateFormat = "EEEE, MMMM d"
-        let dateString: String = stringFormatter.string(from: date!)
-        stringFormatter.dateStyle = .full
-        return dateString
-    }
-    
     /// Returns the day of the week as a string for a given Date
     /// instance.
     ///
@@ -74,8 +60,9 @@ final class DateManager {
     ///
     /// - Parameters:
     ///     - string: The ISO-8601 date string.
-    func ISOStringToDate(_ string: String?, format: DateFormat) -> Date? {
+    func ISOStringToDate(_ string: String?, format: DateFormat, timeZone: TimeZone = NSTimeZone.local) -> Date? {
         dateFormatter.dateFormat = format.rawValue
+        dateFormatter.timeZone = timeZone
         return (string == nil) ? nil : dateFormatter.date(from: string!)
     }
     
@@ -84,8 +71,9 @@ final class DateManager {
     ///
     /// - Parameters:
     ///     - date: The Date instance.
-    func dateToISOString(_ date: Date?, format: DateFormat) -> String? {
+    func dateToISOString(_ date: Date?, format: DateFormat, timeZone: TimeZone = NSTimeZone.local) -> String? {
         dateFormatter.dateFormat = format.rawValue
+        dateFormatter.timeZone = timeZone
         return (date == nil) ? nil : dateFormatter.string(from: date!)
     }
     

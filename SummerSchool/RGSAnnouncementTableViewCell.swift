@@ -21,40 +21,24 @@ class RGSAnnouncementTableViewCell: UITableViewCell {
         }
     }
     
-    /// Announcement poster
-    var poster: String? {
-        didSet (oldPoster) {
-            if (poster != nil && poster != oldPoster) {
-                posterLabel.text = "By " + poster!
-            }
-        }
-    }
-    
-    /// Announcement date
-    var date: Date? {
-        didSet (oldDate) {
-            if (date != nil && date != oldDate) {
-                let dateString: String = DateManager.sharedInstance.dateToISOString(date, format: .announcementDateFormat)!
-                dateLabel.text = dateString
-            }
-        }
-    }
-    
     // MARK: - Outlets
     
     /// Title label
     @IBOutlet weak var titleLabel: UILabel!
     
-    /// Poster label
-    @IBOutlet weak var posterLabel: UILabel!
-    
-    /// Date label
-    @IBOutlet weak var dateLabel: UILabel!
+    /// The Icon ImageView
+    @IBOutlet weak var iconImageView: UIImageView!
     
     // MARK: - Class Method Overrides
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        // Configure UIImage
+        if let iconImage: UIImage = UIImage(named: "AnnouncementCellIcon") {
+            iconImageView.image = iconImage
+        }
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
