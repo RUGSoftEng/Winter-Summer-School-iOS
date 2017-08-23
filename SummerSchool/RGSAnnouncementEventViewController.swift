@@ -73,7 +73,7 @@ class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManager
             // Set Author and Date.
             if let author = announcement.poster, let date = announcement.date {
                 authorLabel.text = "By " + author
-                dateLabel.text = DateManager.sharedInstance.dateToISOString(date, format: .announcementDateFormat)
+                dateLabel.text = DateManager.sharedInstance.dateToISOString(date, format: .generalPresentationDateFormat)
             }
             
             // Set Description, Round the textView.

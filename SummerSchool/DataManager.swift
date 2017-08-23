@@ -45,8 +45,8 @@ extension Event {
         self.title = title
         self.address = address
         self.description = description
-        self.startDate = DateManager.sharedInstance.ISOStringToDate(start["dateTime"], format: DateFormat.eventDateFormat)
-        self.endDate = DateManager.sharedInstance.ISOStringToDate(end["dateTime"], format: DateFormat.eventDateFormat)
+        self.startDate = DateManager.sharedInstance.ISOStringToDate(start["dateTime"], format: DateFormat.JSONScheduleEventDateFormat)
+        self.endDate = DateManager.sharedInstance.ISOStringToDate(end["dateTime"], format: DateFormat.JSONScheduleEventDateFormat)
         self.ssid = "Unavailable"
         
         // Initialize custom field. Return placeholder if unavailable.
@@ -78,8 +78,8 @@ extension Event {
         self.title = title
         self.address = address
         self.description = description
-        self.startDate = DateManager.sharedInstance.ISOStringToDate(startDateString, format: DateFormat.eventDateFormat)
-        self.endDate = DateManager.sharedInstance.ISOStringToDate(endDateString, format: DateFormat.eventDateFormat)
+        self.startDate = DateManager.sharedInstance.ISOStringToDate(startDateString, format: DateFormat.JSONScheduleEventDateFormat)
+        self.endDate = DateManager.sharedInstance.ISOStringToDate(endDateString, format: DateFormat.JSONScheduleEventDateFormat)
         self.ssid = ssid
     }
 }
@@ -113,7 +113,7 @@ extension EventPacket {
                     return nil
                 }
             }
-            let date: Date? = DateManager.sharedInstance.ISOStringToDate(dateString, format: DateFormat.eventPacketDateFormat)
+            let date: Date? = DateManager.sharedInstance.ISOStringToDate(dateString, format: DateFormat.JSONGeneralDateFormat)
             events.append((date!, parsedEvents))
         }
         
@@ -134,7 +134,7 @@ extension EventPacket {
             // Initialize the dateString, and events of that week day. Return nil if any corruption is present.
             guard
                 let dateString: String = weekDayEntity.value(forKey: WeekDayEntityKey.dateString.rawValue) as? String,
-                let date: Date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .eventPacketDateFormat)
+                let date: Date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
             else {
                 return nil
             }
@@ -185,7 +185,7 @@ extension Announcement {
         self.title = title
         self.description = description
         self.poster = poster
-        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .eventPacketDateFormat)
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
     }
     
     // Initializer for NSManagedObjects.
@@ -204,7 +204,7 @@ extension Announcement {
         self.description = description
         self.poster = poster
         self.id = id
-        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .eventPacketDateFormat)
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
     }
 }
 
@@ -240,7 +240,7 @@ extension GeneralInfo {
         self.title = title
         self.description = description
         self.category = InfoCategory(rawValue: Int(categoryString)!)
-        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .eventPacketDateFormat)
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
     }
     
     // Initializer for NSManagedObjects.
@@ -259,7 +259,7 @@ extension GeneralInfo {
         self.title = title
         self.description = description
         self.category = InfoCategory(rawValue: categoryInt)
-        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .eventPacketDateFormat)
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
     }
     
     // Todo: Update the enum for the keys, update the load and save data, update the entity in database.
@@ -687,7 +687,7 @@ final class DataManager {
                 announcementEntity.setValue(announcement.title, forKey: AnnouncementEntityKey.title.rawValue)
                 announcementEntity.setValue(announcement.description, forKey: AnnouncementEntityKey.description.rawValue)
                 announcementEntity.setValue(announcement.poster, forKey: AnnouncementEntityKey.poster.rawValue)
-                let dateString: String = DateManager.sharedInstance.dateToISOString(announcement.date, format: .eventPacketDateFormat)!
+                let dateString: String = DateManager.sharedInstance.dateToISOString(announcement.date, format: .JSONGeneralDateFormat)!
                 announcementEntity.setValue(dateString, forKey: AnnouncementEntityKey.dateString.rawValue)
                 announcementEntity.setValue(announcement.id, forKey: AnnouncementEntityKey.id.rawValue)
             }
@@ -740,7 +740,7 @@ final class DataManager {
                 let (date, events) = events[index]
                 
                 // Update WeekDayEntity Date
-                let dateString: String = DateManager.sharedInstance.dateToISOString(date, format: DateFormat.eventPacketDateFormat)!
+                let dateString: String = DateManager.sharedInstance.dateToISOString(date, format: DateFormat.JSONGeneralDateFormat)!
                 weekDayEntity.setValue(dateString, forKey: WeekDayEntityKey.dateString.rawValue)
                 
                 // Get WeekDayEntity Events Set (should be empty)
@@ -752,8 +752,8 @@ final class DataManager {
                     eventEntity.setValue(event.address, forKey: EventEntityKey.address.rawValue)
                     eventEntity.setValue(event.description, forKey: EventEntityKey.description.rawValue)
                     eventEntity.setValue(event.ssid, forKey: EventEntityKey.ssid.rawValue)
-                    eventEntity.setValue(DateManager.sharedInstance.dateToISOString(event.startDate!, format: .eventDateFormat), forKey: EventEntityKey.startDateString.rawValue)
-                    eventEntity.setValue(DateManager.sharedInstance.dateToISOString(event.endDate!, format: .eventDateFormat), forKey: EventEntityKey.endDateString.rawValue)
+                    eventEntity.setValue(DateManager.sharedInstance.dateToISOString(event.startDate!, format: .JSONScheduleEventDateFormat), forKey: EventEntityKey.startDateString.rawValue)
+                    eventEntity.setValue(DateManager.sharedInstance.dateToISOString(event.endDate!, format: .JSONScheduleEventDateFormat), forKey: EventEntityKey.endDateString.rawValue)
                     eventEntity.setValue(weekDayEntity, forKey: EventEntityKey.weekDay.rawValue)
                     
                     weekDayEntityEvents.add(eventEntity)
@@ -798,7 +798,7 @@ final class DataManager {
                 generalInfoEntity.setValue(generalInfoItem.title, forKey: GeneralInfoEntityKey.title.rawValue)
                 generalInfoEntity.setValue(generalInfoItem.description, forKey: GeneralInfoEntityKey.description.rawValue)
                 generalInfoEntity.setValue(generalInfoItem.category!.rawValue, forKey: GeneralInfoEntityKey.category.rawValue)
-                generalInfoEntity.setValue(DateManager.sharedInstance.dateToISOString(generalInfoItem.date, format: .eventPacketDateFormat), forKey: GeneralInfoEntityKey.dateString.rawValue)
+                generalInfoEntity.setValue(DateManager.sharedInstance.dateToISOString(generalInfoItem.date, format: .JSONGeneralDateFormat), forKey: GeneralInfoEntityKey.dateString.rawValue)
             }
         } catch {
             print("saveGeneralInfoData: There was a problem when updating generalInfo!")

@@ -67,7 +67,7 @@ class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegat
             }
             
             // Set the date.
-            if let dateString = DateManager.sharedInstance.dateToISOString(generalInfoItem.date, format: .announcementDateFormat) {
+            if let dateString = DateManager.sharedInstance.dateToISOString(generalInfoItem.date, format: .generalPresentationDateFormat) {
                 dateLabel.text = dateString
             }
         

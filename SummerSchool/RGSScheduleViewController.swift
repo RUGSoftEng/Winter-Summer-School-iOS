@@ -72,7 +72,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     func eventsToSections(_ events: [(Date, [Event])]) -> [Section] {
         var sections: [Section] = []
         for (date, dateEvents) in events {
-            let dateString: String = DateManager.sharedInstance.dateToISOString(date, format: .scheduleHeaderFooterFormat, timeZone: TimeZone.init(secondsFromGMT: 0)!)!
+            let dateString: String = DateManager.sharedInstance.dateToISOString(date, format: .weekdayDateFormat, timeZone: TimeZone.init(secondsFromGMT: 0)!)!
             sections.append(Section(dateString: dateString, events: dateEvents, isCollapsed: true))
         }
         return sections

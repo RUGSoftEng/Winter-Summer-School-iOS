@@ -10,12 +10,12 @@ import Foundation
 
 // MARK: - Enumerations
 enum DateFormat: String {
-    case eventPacketDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-    case eventDateFormat = "yyyy-MM-dd'T'HH:mm:ssxxxxx"
+    case JSONGeneralDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    case JSONScheduleEventDateFormat = "yyyy-MM-dd'T'HH:mm:ssxxxxx"
     case scheduleEventDateFormat = "MMM d, HH:mm"
-    case scheduleHeaderFooterFormat = "EEEE, MMM d"
+    case weekdayDateFormat = "EEEE, MMM d"
     case hoursAndMinutesFormat = "HH:mm"
-    case announcementDateFormat = "dd/MM/yyyy"
+    case generalPresentationDateFormat = "dd/MM/yyyy"
 }
 
 final class DateManager {

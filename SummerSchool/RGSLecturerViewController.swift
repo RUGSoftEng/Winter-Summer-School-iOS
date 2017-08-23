@@ -190,7 +190,9 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
         if self.lecturers == nil {
             return
         }
-        print("Updating images...")
+        
+        // Start Network Activity Indicator
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         DispatchQueue.global().async {
             var newLecturers: [Lecturer] = []
@@ -220,6 +222,10 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
             
             // Update self.lecturers.
             DispatchQueue.main.async {
+                
+                // Stop Network Activity Indicator
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
                 self.lecturers = newLecturers
             }
         }
