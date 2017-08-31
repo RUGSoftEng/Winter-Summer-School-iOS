@@ -98,7 +98,9 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         if (offset.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
             print("Should reload content now!")
             suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
-            refreshModelData()
+            
+            // Manual refresh.
+            refreshModelData(automatic: false)
         }
     }
     
@@ -116,7 +118,13 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         tableView.setContentOffset(.zero, animated: true)
     }
     
-    func refreshModelData() {
+    func refreshModelData(automatic: Bool = true) {
+        
+        // If popup was dismissed, undo upon manual referesh.
+        if (automatic == false) {
+            NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
+        }
+        
         let url: String = NetworkManager.sharedInstance.URLForAnnouncements()
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
             let fetched: [Announcement]? = DataManager.sharedInstance.parseDataToAnnouncements(data: data)
@@ -124,6 +132,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
             DispatchQueue.main.async {
                 self.announcements = fetched
                 self.resumeTableViewInteraction()
+                self.displayWarningPopupIfNeeded(animated: true)
             }
         })
     }

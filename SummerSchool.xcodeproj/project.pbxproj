@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B0C5C271F44F551004A617E /* RGSMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0C5C261F44F551004A617E /* RGSMessageViewController.swift */; };
 		6B116DAA1F1D616500E01BBB /* RGSScheduleEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B116DA91F1D616500E01BBB /* RGSScheduleEventViewController.swift */; };
 		6B123B491EEDA9380006EC08 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B123B481EEDA9380006EC08 /* NetworkManager.swift */; };
 		6B123B4B1EEDBD6F0006EC08 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B123B4A1EEDBD6F0006EC08 /* DataManager.swift */; };
@@ -54,7 +53,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6B0C5C261F44F551004A617E /* RGSMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSMessageViewController.swift; sourceTree = "<group>"; };
 		6B116DA91F1D616500E01BBB /* RGSScheduleEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSScheduleEventViewController.swift; sourceTree = "<group>"; };
 		6B123B481EEDA9380006EC08 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		6B123B4A1EEDBD6F0006EC08 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -222,7 +220,6 @@
 				6BB7A9581EE4A80C005FA5B0 /* RGSLockScreenViewController.swift */,
 				6BB7A9491EE4A208005FA5B0 /* RGSMainViewController.swift */,
 				6BB0CF681EE5AC730018A7CD /* RGSBaseViewController.swift */,
-				6B0C5C261F44F551004A617E /* RGSMessageViewController.swift */,
 				6B116DA41F1D606300E01BBB /* Information */,
 				6B116DA31F1D605700E01BBB /* Announcements */,
 				6B116DA21F1D603C00E01BBB /* Schedule */,
@@ -356,7 +353,6 @@
 				6BA97DF21F34A72B002D0A32 /* RGSScheduleTableViewHeaderFooterView.swift in Sources */,
 				6BB7A9591EE4A80C005FA5B0 /* RGSLockScreenViewController.swift in Sources */,
 				6BB0CF691EE5AC730018A7CD /* RGSBaseViewController.swift in Sources */,
-				6B0C5C271F44F551004A617E /* RGSMessageViewController.swift in Sources */,
 				6B362F991F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift in Sources */,
 				6BA8860B1F1E4E61007D0341 /* SpecificationManager.swift in Sources */,
 				6B362F9C1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift in Sources */,

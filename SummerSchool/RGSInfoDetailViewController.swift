@@ -89,6 +89,12 @@ class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegat
     }
     
     // MARK: - Class Method Overrides
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        // Never display Warning Popup Button.
+        self.dismissWarningPopup(animated: false)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

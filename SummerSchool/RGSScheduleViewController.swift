@@ -191,7 +191,9 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         if (offset.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
             print("Should reload content now!")
             suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
-            refreshModelWithDataForWeek(week)
+            
+            // Manual refresh
+            refreshModelWithDataForWeek(automatic: false, week)
         }
     }
     
@@ -224,7 +226,13 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         tableView.setContentOffset(.zero, animated: true)
     }
     
-    func refreshModelWithDataForWeek(_ week: Int) {
+    func refreshModelWithDataForWeek(automatic: Bool = true, _ week: Int) {
+        
+        // If popup was dismissed, undo upon manual referesh.
+        if (automatic == false) {
+            NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
+        }
+        
         let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: week)
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
             let fetched: EventPacket? = DataManager.sharedInstance.parseDataToEventPacket(data: data)
@@ -232,6 +240,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
             DispatchQueue.main.async() {
                 self.events = fetched?.events
                 self.resumeTableViewInteraction()
+                self.displayWarningPopupIfNeeded(animated: true)
             }
         })
     }

@@ -631,47 +631,6 @@
             </objects>
             <point key="canvasLocation" x="4800.8000000000002" y="2129.6851574212897"/>
         </scene>
-        <!--Message View Controller-->
-        <scene sceneID="g06-UL-sS8">
-            <objects>
-                <viewController id="2oM-fk-3fs" customClass="RGSMessageViewController" customModule="SummerSchool" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Ydp-8c-gUd"/>
-                        <viewControllerLayoutGuide type="bottom" id="eZr-7n-bEd"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8Ua-zW-FZB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scary Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4mh-6d-cBj">
-                                <rect key="frame" x="16" y="8" width="343" height="32"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" red="0.92156862750000001" green="0.25490196079999999" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="4mh-6d-cBj" firstAttribute="top" secondItem="Ydp-8c-gUd" secondAttribute="bottom" constant="8" id="KS8-m2-0NW"/>
-                            <constraint firstItem="4mh-6d-cBj" firstAttribute="leading" secondItem="8Ua-zW-FZB" secondAttribute="leadingMargin" id="Skv-qL-EwE"/>
-                            <constraint firstItem="4mh-6d-cBj" firstAttribute="trailing" secondItem="8Ua-zW-FZB" secondAttribute="trailingMargin" id="h4V-zv-VBU"/>
-                            <constraint firstItem="eZr-7n-bEd" firstAttribute="top" secondItem="4mh-6d-cBj" secondAttribute="bottom" constant="8" id="ruU-zv-f8b"/>
-                        </constraints>
-                    </view>
-                    <value key="contentSizeForViewInPopover" type="size" width="375" height="48"/>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="48"/>
-                    <connections>
-                        <outlet property="messageLabel" destination="4mh-6d-cBj" id="Sam-i9-Ox3"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3Yz-bP-07h" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3362" y="565"/>
-        </scene>
         <!--RGSMainViewController-->
         <scene sceneID="0Gn-3v-VTR">
             <objects>
@@ -687,7 +646,7 @@
                         <segue destination="C9G-kN-NRI" kind="relationship" relationship="viewControllers" id="pWY-Li-uqz"/>
                         <segue destination="gJc-uQ-eIB" kind="relationship" relationship="viewControllers" id="VJW-YZ-Sg2"/>
                         <segue destination="vXv-jV-zAE" kind="relationship" relationship="viewControllers" id="C1U-qT-EVf"/>
-                        <segue destination="DwC-Yb-c8X" kind="presentation" identifier="ShowLockScreen" modalTransitionStyle="crossDissolve" id="rsm-cz-ixa"/>
+                        <segue destination="DwC-Yb-c8X" kind="presentation" identifier="showLockScreenViewController" modalTransitionStyle="crossDissolve" id="rsm-cz-ixa"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ot-91-5b4" userLabel="First Responder" sceneMemberID="firstResponder"/>

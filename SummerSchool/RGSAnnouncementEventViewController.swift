@@ -97,6 +97,13 @@ class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManager
     }
     
     // MARK: - Class Method Overrides
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Never display Warning Popup Button.
+        self.dismissWarningPopup(animated: false)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

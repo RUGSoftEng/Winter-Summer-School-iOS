@@ -100,3 +100,113 @@ extension UILabel {
     }
 }
 
+/// Extension to RGSBaseViewController with control routines for Warning Popup Button.
+extension RGSBaseViewController {
+    
+    /// Returns true if the warning popup should be made visible, otherwise false.
+    func displayWarningPopupIfNeeded (animated: Bool) {
+        
+        // Display if:
+        // 1. There is NOT a network connection.
+        // 2. The user has NOT acknowledged it.
+        if !(NetworkManager.sharedInstance.hasNetworkConnection || NetworkManager.sharedInstance.userAcknowledgedNetworkError) {
+            displayWarningPopup(animated: animated)
+        } else {
+            dismissWarningPopup(animated: animated)
+        }
+    }
+    
+    /// Displays the Warning Popup Button with optional animation.
+    func displayWarningPopup (animated: Bool) {
+        
+        // Unhide function.
+        func display () {
+            self.warningPopupHeightConstraint.constant = self.maximumWarningPopupHeight
+            self.warningPopupButton.alpha = 1.0
+        }
+        
+        // Do nothing if already displayed.
+        if (warningPopupButton.isHidden == false) {
+            return
+        }
+        
+        // Unhide the button.
+        warningPopupButton.isHidden = false
+        
+        // Animate if required.
+        if (animated) {
+            UIView.animate(withDuration: 0.25, animations: {
+                display()
+            })
+        } else {
+            display()
+        }
+    }
+    
+    /// Dismisses the Warning Popup Button with optional animation.
+    func dismissWarningPopup (animated: Bool) {
+        
+        // Hide function.
+        func dismiss () {
+            self.warningPopupHeightConstraint.constant = self.minimumWarningPopupHeight
+            self.warningPopupButton.alpha = 0.0
+        }
+        
+        // Do nothing if already hidden.
+        if (warningPopupButton.isHidden) {
+            return
+        }
+        
+        // Hide the button.
+        warningPopupButton.isHidden = true
+        
+        // Animate if required.
+        if (animated) {
+            UIView.animate(withDuration: 0.25, animations: {
+                dismiss()
+            })
+        } else {
+            dismiss()
+        }
+    }
+    
+    /// Initializes the Warning Popup Button.
+    func initWarningPopupButton (hidden: Bool = true, message: String = "An error occured!") {
+        
+        // MessageButton: Initialize, Configure.
+        warningPopupButton = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: self.view.bounds.width - 16, height: 48)))
+        warningPopupButton.translatesAutoresizingMaskIntoConstraints = false
+        warningPopupButton.backgroundColor = AppearanceManager.sharedInstance.red
+        warningPopupButton.layer.cornerRadius = 10.0
+        warningPopupButton.setTitle(message, for: .normal)
+        warningPopupButton.titleLabel?.font = SpecificationManager.sharedInstance.subTitleLabelFont
+        warningPopupButton.addTarget(self, action: #selector(didTapWarningPopupButton(_:)), for: UIControlEvents.touchUpInside)
+        warningPopupButton.isUserInteractionEnabled = true
+        warningPopupButton.isHidden = hidden
+        
+        // MessageButton: Add to ViewController's View.
+        view.addSubview(warningPopupButton)
+        view.bringSubview(toFront: warningPopupButton)
+        
+        // Constraints: Initialize collection.
+        var warningPopupButtonConstraints: [NSLayoutConstraint] = []
+        
+        // Constraints: Add Leading & Trailing constraints.
+        warningPopupButtonConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[warningPopup]-16-|", options: [], metrics: nil, views: ["warningPopup": warningPopupButton])
+        
+        // Constraints: Assign message button height. Add constraint to collection.
+        let initialHeight: CGFloat = (hidden ? minimumWarningPopupHeight : maximumWarningPopupHeight)
+        warningPopupHeightConstraint = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: warningPopupButton, attribute: .bottom, multiplier: 1.0, constant: initialHeight)
+        warningPopupButtonConstraints.append(warningPopupHeightConstraint)
+        
+        // Constraints: Add the horizontal alignment.
+        warningPopupButtonConstraints.append(NSLayoutConstraint(item: warningPopupButton, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0))
+        
+        // Constraints: Add the height constraint.
+        warningPopupButtonConstraints.append(NSLayoutConstraint(item: warningPopupButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 48))
+        
+        // Constraints: Apply.
+        NSLayoutConstraint.activate(warningPopupButtonConstraints)
+        
+    }
+}

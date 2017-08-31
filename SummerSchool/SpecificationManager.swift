@@ -69,6 +69,10 @@ final class SpecificationManager {
     /// The UserDefaults to be set upon application launch
     let applicationLaunchDefaults: [String: Any] = [UserDefaultKey.VersionNumber.rawValue: "0.1", UserDefaultKey.LockScreen.rawValue: true] as [String: Any]
     
+    // MARK: - Variables & Constants: Strings
+    
+    let networkLossMessageString: String = "Can't call home. Check network connection!"
+    
     /// Singleton instance
     static let sharedInstance = SpecificationManager()
 }

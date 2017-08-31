@@ -32,6 +32,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
                 tableView.reloadData()
             } else {
                 generalInfo = oldGeneralInfo
+                
             }
         }
     }
@@ -109,7 +110,9 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
         if (offset.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
             print("Should reload content now!")
             suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
-            refreshModelData()
+            
+            // Manual refresh
+            refreshModelData(automatic: false)
         }
     }
     
@@ -127,7 +130,13 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
         tableView.setContentOffset(.zero, animated: true)
     }
     
-    func refreshModelData() {
+    func refreshModelData(automatic: Bool = true) {
+        
+        // If popup was dismissed, undo upon manual refresh.
+        if (automatic == false) {
+            NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
+        }
+
         let url: String = NetworkManager.sharedInstance.URLForGeneralInformation()
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
             let fetched: [GeneralInfo]? = DataManager.sharedInstance.parseDataToGeneralInfo(data: data)
@@ -135,6 +144,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
             DispatchQueue.main.async {
                 self.generalInfo = fetched
                 self.resumeTableViewInteraction()
+                self.displayWarningPopupIfNeeded(animated: true)
             }
         })
     }

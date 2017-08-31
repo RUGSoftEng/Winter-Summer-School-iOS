@@ -183,6 +183,7 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
     }
     
     // MARK: - Key Value Observing Methods
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "descriptionTextView.bounds" {
             if let textView = descriptionTextView {
@@ -204,13 +205,20 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
     // MARK: - Class Method Overrides
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Never display Warning Popup Button.
+        self.dismissWarningPopup(animated: false)
         
         // Reset the ContentOffset to zero.
         self.descriptionTextView.setContentOffset(CGPoint.zero, animated: false)
+        
+        // Set this class to observe changes to descriptionTextView's frame (needed for footer toggle/collapse triggers)
+        addObserver(self, forKeyPath: "descriptionTextView.bounds", options: .new, context: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        super.viewDidAppear(animated)
         // Enable the scrollView at this point. If enabled earlier, undesired
         // calls will be made to the scrollViewDidScroll function, making it
         // believe it is below toggle height and the header will collapse.
@@ -219,6 +227,7 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
         // Remove KVO observing of the descriptionTextView's frame.
         removeObserver(self, forKeyPath: "descriptionTextView.bounds")
@@ -232,9 +241,6 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
         
         // Set the descriptionTextView LayoutManager delegate
         descriptionTextView.layoutManager.delegate = self
-        
-        // Set this class to observe changes to descriptionTextView's frame (needed for footer toggle/collapse triggers)
-        addObserver(self, forKeyPath: "descriptionTextView.bounds", options: .new, context: nil)
         
         // Initialize footer constant to collapsed value.
         footerOffsetConstraint.constant = minimumFooterOffset

@@ -117,7 +117,9 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
         if (offset.y <= SpecificationManager.sharedInstance.collectionViewContentRefreshOffset) {
             print("Should reload content now!")
             suspendCollectionViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset))
-            refreshModelData()
+            
+            // Manual refresh.
+            refreshModelData(automatic: false)
         }
     }
     
@@ -169,7 +171,13 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
         collectionView.setContentOffset(.zero, animated: true)
     }
     
-    func refreshModelData() {
+    func refreshModelData(automatic: Bool = true) {
+        
+        // If popup was dismissed, undo upon manual referesh.
+        if (automatic == false) {
+            NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
+        }
+        
         let url: String = NetworkManager.sharedInstance.URLForLecturers()
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
             let fetched: [Lecturer]? = DataManager.sharedInstance.parseDataToLecturers(data: data)
@@ -177,6 +185,7 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
             DispatchQueue.main.async {
                 self.lecturers = fetched
                 self.resumeContentViewInteraction()
+                self.displayWarningPopupIfNeeded(animated: true)
                 
                 // Try to update images
                 self.getLecturerImages()

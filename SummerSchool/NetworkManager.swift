@@ -17,13 +17,26 @@ enum ServerPath: String {
     case lecturerPath = "/lecturer/item"
 }
 
-
 final class NetworkManager {
     
     // MARK: - Variables & Constants
     
     /// Singleton instance
     static let sharedInstance = NetworkManager()
+    
+    /// Connection status (dependent on success of outgoing requests).
+    var hasNetworkConnection: Bool = true {
+        didSet {
+            
+            // If network connection exists, reset acknowledgment of warning.
+            if (hasNetworkConnection) {
+                userAcknowledgedNetworkError = false
+            }
+        }
+    }
+    
+    /// Boolean state indicating whether or not the user has dismissed a warning of a network error.
+    var userAcknowledgedNetworkError: Bool = false
     
     /// Server address 
     let serverAddress: String = "https://winter-summer-school-app.herokuapp.com"
@@ -111,6 +124,9 @@ final class NetworkManager {
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
+            
+            // Update network status. Assumes all requests require a data response.
+            self.hasNetworkConnection = (data != nil)
             
             // Execute callback
             onCompletion(data)

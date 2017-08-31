@@ -19,6 +19,10 @@ class RGSMainViewController: UITabBarController {
         }
     }
     
+    /// The segue identifier for the lockScreen.
+    private let lockScreenViewControllerSegueIdentifier: String = "showLockScreenViewController"
+    
+    
     // MARK: - Actions
     
     @IBAction func prepareForUnwind(_ segue: UIStoryboardSegue) {
@@ -30,7 +34,7 @@ class RGSMainViewController: UITabBarController {
     /// Pushes the LockScreen ViewController on top of the current TabBarController. (Note: It's required to initialize from Storyboard!)
     /// The lockScreenViewController is not expected to live long, so it should be recycled as soon as it is popped.
     func showLockScreenViewController() {
-        self.performSegue(withIdentifier: "ShowLockScreen", sender: self)
+        self.performSegue(withIdentifier: lockScreenViewControllerSegueIdentifier, sender: self)
     }
     
     
@@ -53,6 +57,7 @@ class RGSMainViewController: UITabBarController {
         UIGraphicsEndImageContext()
         return screenShot
     }
+    
     
     // MARK: - Class Method Overrides
     
@@ -78,7 +83,6 @@ class RGSMainViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,11 +97,12 @@ class RGSMainViewController: UITabBarController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        // Fetch LockScreen ViewController
+        // Fetch LockScreen ViewController.
         let lockScreenViewController: RGSLockScreenViewController = segue.destination as! RGSLockScreenViewController
         
         // Set the ScreenShot for the background.
         lockScreenViewController.screenShot = getScreenShot()
+
     }
  
 

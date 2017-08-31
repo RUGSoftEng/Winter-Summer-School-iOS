@@ -12,10 +12,30 @@ class RGSBaseViewController: UIViewController {
     
     // MARK: - Variables & Constants
     
+    /// The warning popup.
+    var warningPopupButton: UIButton!
+    
+    /// The warning popup bottom height constraint from superview.
+    var warningPopupHeightConstraint: NSLayoutConstraint!
+    
+    /// The lowered height of the warning popup (dismissed).
+    let minimumWarningPopupHeight: CGFloat = 49
+    
+    /// The raised height of the warning popup (displayed).
+    let maximumWarningPopupHeight: CGFloat = 57
+    
     // MARK: - Outlets
     
     // MARK: - Actions
     
+    /// Handler for user taps to the warning popup button.
+    func didTapWarningPopupButton (_ sender: UIControl!) {
+        
+        // Set that the user has acknowledged the warning.
+        NetworkManager.sharedInstance.userAcknowledgedNetworkError = true
+        
+        dismissWarningPopup(animated: true)
+    }
     
     // MARK: - Methods
     
@@ -28,6 +48,14 @@ class RGSBaseViewController: UIViewController {
     func shouldShowReturnButton() -> Bool {
         return false
     }
+    
+    // MARK: - WarningPopupButton Methods
+    
+    // The following methods have been moved to Extensions.swift:
+    //  1. WarningPopupButton Initializer.
+    //  2. WarningPopupButton displayIfNeeded routine.
+    //  3. WarningPopupButton displayWarningPopup routine.
+    //  4. WarningPopupButton dismissWarningPopup routine.
     
     // MARK: - UINavigationItem Configurator
     
@@ -102,6 +130,9 @@ class RGSBaseViewController: UIViewController {
         // Register to be notified when the user returns to this view.
         let app = UIApplication.shared
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground(notification:)), name: .UIApplicationWillEnterForeground, object: app)
+        
+        // Show the warning popup if needed.
+        displayWarningPopupIfNeeded(animated: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -110,10 +141,14 @@ class RGSBaseViewController: UIViewController {
         // Unregister if the user is leaving this view and it won't be the first seen when they do return.
         let app = UIApplication.shared
         NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: app)
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Initialize the message button
+        initWarningPopupButton(hidden: NetworkManager.sharedInstance.hasNetworkConnection, message: SpecificationManager.sharedInstance.networkLossMessageString)
         
         // Register to be notified for impending application suspension.
         let app = UIApplication.shared
