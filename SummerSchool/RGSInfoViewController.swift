@@ -176,6 +176,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     
     
     // MARK: - Class Method Overrides
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

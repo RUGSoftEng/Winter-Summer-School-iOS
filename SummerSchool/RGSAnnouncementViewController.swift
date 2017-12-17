@@ -120,7 +120,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
     
     func refreshModelData(automatic: Bool = true) {
         
-        // If popup was dismissed, undo upon manual referesh.
+        // If popup was dismissed, undo upon manual refresh.
         if (automatic == false) {
             NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
         }
@@ -172,7 +172,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         let announcementTableViewCellNib: UINib = UINib(nibName: "RGSAnnouncementTableViewCell", bundle: nil)
         tableView.register(announcementTableViewCellNib, forCellReuseIdentifier: announcementTableViewCellIdentifier)
         
-        // Attempt to load Announcement Model from DataBase
+        // Attempt to load Announcement Model from Core Data.
         if let announcements = DataManager.sharedInstance.loadAnnouncementData() {
             self.announcements = announcements
         }

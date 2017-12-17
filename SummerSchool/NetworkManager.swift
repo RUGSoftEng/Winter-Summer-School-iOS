@@ -15,6 +15,7 @@ enum ServerPath: String {
     case eventPath = "/calendar/event"
     case loginCodePath = "/loginCode"
     case lecturerPath = "/lecturer/item"
+    case forumPath = "/forum/item"
 }
 
 final class NetworkManager {
@@ -39,7 +40,7 @@ final class NetworkManager {
     var userAcknowledgedNetworkError: Bool = false
     
     /// Server address 
-    let serverAddress: String = "https://winter-summer-school-app.herokuapp.com"
+    let serverAddress: String = "http://turing13.housing.rug.nl:8800"
     
     // MARK: - Private Methods
     
@@ -84,6 +85,12 @@ final class NetworkManager {
     /// from the server
     func URLForLecturers() -> String {
         return serverAddress + ServerPath.lecturerPath.rawValue
+    }
+    
+    /// Returns the address needed to extract forum postings
+    /// from the server
+    func URLForForumThreads() -> String {
+        return serverAddress + ServerPath.forumPath.rawValue
     }
     
     /// Returns a concatenated address needed to extract the

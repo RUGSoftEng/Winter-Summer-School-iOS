@@ -29,7 +29,7 @@ extension Event {
     // Initializer for JSON objects.
     init?(json: [String: Any]) {
         
-        // Initialize mandatory fields. Return nil if missing.
+        // Mandatory fields: Return nil if missing.
         guard
             let id: String = json["id"] as? String,
             let title: String = json["summary"] as? String,
@@ -63,7 +63,7 @@ extension Event {
     // Initializer for NSManagedObject objects
     init?(managedObject: NSManagedObject) {
         
-        // Initialize mandatory fields. Return nil if missing.
+        // Mandatory fields: Return nil if missing.
         guard
             let title: String = managedObject.value(forKey: EventEntityKey.title.rawValue) as? String,
             let address: String = managedObject.value(forKey: EventEntityKey.address.rawValue) as? String,
@@ -81,6 +81,8 @@ extension Event {
         self.startDate = DateManager.sharedInstance.ISOStringToDate(startDateString, format: DateFormat.JSONScheduleEventDateFormat)
         self.endDate = DateManager.sharedInstance.ISOStringToDate(endDateString, format: DateFormat.JSONScheduleEventDateFormat)
         self.ssid = ssid
+        
+        // Optional fields:
     }
 }
 
@@ -171,6 +173,8 @@ extension Announcement {
     
     // Initializer for JSON objects.
     init?(json: [String: Any]) {
+        
+        // Mandatory fields:
         guard
             let id: String = json["_id"] as? String,
             let title: String = json["title"] as? String,
@@ -186,10 +190,14 @@ extension Announcement {
         self.description = description
         self.poster = poster
         self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        
+        // Optional fields:
     }
     
     // Initializer for NSManagedObjects.
     init?(managedObject: NSManagedObject) {
+        
+        // Mandatory fields:
         guard
             let title: String = managedObject.value(forKey: AnnouncementEntityKey.title.rawValue) as? String,
             let description: String = managedObject.value(forKey: AnnouncementEntityKey.description.rawValue) as? String,
@@ -205,6 +213,8 @@ extension Announcement {
         self.poster = poster
         self.id = id
         self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        
+        // Optional fields:
     }
 }
 
@@ -245,6 +255,8 @@ extension GeneralInfo {
     
     // Initializer for NSManagedObjects.
     init?(managedObject: NSManagedObject) {
+        
+        // Mandatory fields:
         guard
             let id: String = managedObject.value(forKey: GeneralInfoEntityKey.id.rawValue) as? String,
             let title: String = managedObject.value(forKey: GeneralInfoEntityKey.title.rawValue) as? String,
@@ -260,6 +272,8 @@ extension GeneralInfo {
         self.description = description
         self.category = InfoCategory(rawValue: categoryInt)
         self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        
+        // Optional fields:
     }
     
     // Todo: Update the enum for the keys, update the load and save data, update the entity in database.
@@ -281,7 +295,7 @@ extension Lecturer {
     // Initializer for JSON objects.
     init?(json: [String: Any]) {
         
-        // Mandatory fields
+        // Mandatory fields:
         guard
             let id: String = json["_id"] as? String,
             let name: String = json["name"] as? String,
@@ -297,7 +311,7 @@ extension Lecturer {
         self.imagePath = nil
         self.image = nil
         
-        // Optional fields
+        // Optional fields:
         if let website: String = json["website"] as? String {
             self.website = website
         }
@@ -310,7 +324,7 @@ extension Lecturer {
     // Initializer for NSManagedObjects.
     init?(managedObject: NSManagedObject) {
         
-        // Mandatory fields
+        // Mandatory fields:
         guard
             let id: String = managedObject.value(forKey: LecturerEntityKey.id.rawValue) as? String,
             let name: String = managedObject.value(forKey: LecturerEntityKey.name.rawValue) as? String,
@@ -326,7 +340,7 @@ extension Lecturer {
         self.imagePath = nil
         self.image = nil
         
-        // Optional fields
+        // Optional fields:
         if let website: String = managedObject.value(forKey: LecturerEntityKey.website.rawValue) as? String {
             self.website = website
         }
@@ -340,6 +354,175 @@ extension Lecturer {
         }
     }
 }
+
+// MARK: - Structures: ForumThread
+
+struct ForumThread {
+    var id: String?
+    var title: String?
+    var author: String?
+    var authorID: String?
+    var date: Date?
+    var body: String?
+    var imagePath: String?
+    var comments: [ForumComment]?
+}
+
+extension ForumThread {
+    
+    // Initializer for JSON objects.
+    init?(json: [String: Any]) {
+        
+        // Mandatory fields:
+        guard
+            let id: String = json["_id"] as? String,
+            let title: String = json["title"] as? String,
+            let author: String = json["author"] as? String,
+            let authorID: String = json["posterID"] as? String,
+            let dateString: String = json["date"] as? String
+        else {
+            return nil
+        }
+        self.id = id
+        self.title = title
+        self.author = author
+        self.authorID = authorID
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        
+        // Optional fields:
+        if let body: String = json["description"] as? String {
+            self.body = body
+        }
+        
+        if let imagePath: String = json["imgurl"] as? String {
+            self.imagePath = imagePath
+        }
+        
+        // Initialize Comments:
+        if let commentArray = json["comments"] as? [Any] {
+            self.comments = commentArray.map({(forumComment: Any) -> ForumComment in
+                return ForumComment(json: forumComment as! [String: Any])!
+            });
+            
+            // Sort them by descending date.
+            self.comments = self.comments?.sorted(by: {(a: ForumComment, b: ForumComment) -> Bool in
+                return (a.date! > b.date!)
+            })
+        }
+    }
+    
+    // Initializer for NSManagedObjects.
+    init?(managedObject: NSManagedObject) {
+        
+        // Mandatory fields:
+        guard
+            let id = managedObject.value(forKey: ForumThreadEntityKey.id.rawValue) as? String,
+            let title = managedObject.value(forKey: ForumThreadEntityKey.title.rawValue) as? String,
+            let author = managedObject.value(forKey: ForumThreadEntityKey.author.rawValue) as? String,
+            let authorID = managedObject.value(forKey: ForumThreadEntityKey.authorID.rawValue) as? String,
+            let dateString = managedObject.value(forKey: ForumThreadEntityKey.dateString.rawValue) as? String
+        else {
+            return nil
+        }
+        
+        self.id = id
+        self.title = title
+        self.author = author
+        self.authorID = authorID
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        
+        // Optional fields:
+        if let imagePath = managedObject.value(forKey: ForumThreadEntityKey.imagePath.rawValue) as? String {
+            self.imagePath = imagePath
+        }
+        
+        if let body = managedObject.value(forKey: ForumThreadEntityKey.body.rawValue) as? String {
+            self.body = body
+        }
+        
+        // Initialize Comments.
+        let forumCommentEntities: NSMutableSet = managedObject.mutableSetValue(forKey: ForumThreadEntityKey.comments.rawValue)
+        let forumComments: [ForumComment] = forumCommentEntities.map({(forumCommentEntity) -> ForumComment in
+            return ForumComment(managedObject: forumCommentEntity as! NSManagedObject)!
+        }).sorted(by: {(a: ForumComment, b: ForumComment) -> Bool in
+            return a.date! > b.date!
+        })
+        self.comments = forumComments;
+    }
+}
+
+// MARK: - Structures: ForumComment
+
+// Todo:
+// 1: Implement the ForumComment hierarchy in CoreData.
+// 2: Finish proper loading of comments for forumThread.
+// 3: Refactor this huge fucking file.
+// 4: Add a comment view for the forum.
+// 5: Fix bug where refresh doesn't do anything on forum.
+
+struct ForumComment {
+    var id: String?
+    var author: String?
+    var authorID: String?
+    var body: String?
+    var date: Date?
+    var imagePath: String?
+}
+
+extension ForumComment {
+    
+    // Initializer for JSON objects.
+    init?(json: [String: Any]) {
+        
+        // Mandatory fields:
+        guard
+            let id: String = json["commentID"] as? String,
+            let author: String = json["author"] as? String,
+            let authorID: String = json["posterID"] as? String,
+            let body: String = json["text"] as? String,
+            let dateString: String = json["date"] as? String
+            else {
+                return nil
+        }
+        self.id = id
+        self.author = author
+        self.authorID = authorID
+        self.body = body
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        
+        // Optional fields:
+        if let imagePath: String = json["imgurl"] as? String {
+            self.imagePath = imagePath
+        }
+    }
+    
+    // Initializer for NSManagedObjects.
+    init?(managedObject: NSManagedObject) {
+        
+        // Mandatory fields:
+        guard
+            let id = managedObject.value(forKey: ForumCommentEntityKey.id.rawValue) as? String,
+            let author = managedObject.value(forKey: ForumCommentEntityKey.author.rawValue) as? String,
+            let authorID = managedObject.value(forKey: ForumCommentEntityKey.authorID.rawValue) as? String,
+            let body = managedObject.value(forKey: ForumCommentEntityKey.body.rawValue) as? String,
+            let dateString = managedObject.value(forKey: ForumCommentEntityKey.dateString.rawValue) as? String
+            else {
+                return nil
+        }
+        
+        self.id = id
+        self.author = author
+        self.authorID = authorID
+        self.body = body
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        
+        // Optional fields:
+        if let imagePath = managedObject.value(forKey: ForumCommentEntityKey.imagePath.rawValue) as? String {
+            self.imagePath = imagePath
+        }
+    }
+}
+
 
 
 // MARK: - Structures: LoginCodes
@@ -418,6 +601,30 @@ enum LecturerEntityKey: String {
     case website            = "website"
     case imagePath          = "imagePath"
     case image              = "image"
+}
+
+/// Entity keys for the ForumThreadEntity object
+enum ForumThreadEntityKey: String {
+    case entityName         = "ForumThreadEntity"
+    case id                 = "id"
+    case title              = "title"
+    case body               = "body"
+    case author             = "author"
+    case authorID           = "authorID"
+    case dateString         = "dateString"
+    case imagePath          = "imagePath"
+    case comments           = "comments"
+}
+
+/// Entity keys for the ForumCommentEntity object
+enum ForumCommentEntityKey: String {
+    case entityName         = "ForumCommentEntity"
+    case id                 = "id"
+    case body               = "body"
+    case author             = "author"
+    case authorID           = "authorID"
+    case dateString         = "dateString"
+    case imagePath          = "imagePath"
 }
 
 // MARK: - Class DataManager
@@ -530,6 +737,28 @@ final class DataManager {
         
         return lecturerJSONArray.map({(object: Any) -> Lecturer in
             return Lecturer(json: object as! [String: Any])!
+        })
+    }
+    
+    /// Attempts to deserialize and return a ForumThread array for JSON
+    /// obtained from a server request.
+    ///
+    /// - Parameters:
+    ///     - data: The JSON encoded data.
+    func parseDataToForumThreads(data: Data?) -> [ForumThread]? {
+        if (data == nil) {
+            return nil
+        }
+        
+        guard
+            let json = try? JSONSerialization.jsonObject(with: data!, options: []),
+            let forumThreadJSONArray: [Any] = json as? [Any]
+        else {
+            return nil
+        }
+        
+        return forumThreadJSONArray.map({(object: Any) -> ForumThread in
+            return ForumThread(json: object as! [String: Any])!
         })
     }
     
@@ -650,6 +879,33 @@ final class DataManager {
                     return Lecturer(managedObject: object)!
                 })
                 return lecturers
+            }
+        } catch {
+            return nil
+        }
+    }
+    
+    /// Attempts to load in ForumThread data using CoreData.
+    /// Returns an array of ForumThread objects if they exist.
+    /// Nil is returned on error, or if the query returns an
+    /// empty set.
+    func loadForumThreadData() -> [ForumThread]? {
+        
+        if (isCoreDataAvailable == false) {
+            return nil
+        }
+        
+        do {
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: ForumThreadEntityKey.entityName.rawValue)
+            let forumThreadEntities: [NSManagedObject] = try self.context.fetch(request) as! [NSManagedObject]
+            
+            if (forumThreadEntities.count == 0) {
+                return nil
+            } else {
+                let forumThreads: [ForumThread] = forumThreadEntities.map({(object: NSManagedObject) -> ForumThread in
+                    return ForumThread(managedObject: object)!
+                })
+                return forumThreads
             }
         } catch {
             return nil
@@ -852,6 +1108,87 @@ final class DataManager {
             }
         } catch {
             print("saveLecturerData: There was a problem when updating lecturers!")
+        }
+        
+        saveContext()
+    }
+    
+    /// Attempts to overwrite the existing ForumThread data stored with Coredata.
+    /// If no objects exist, they are created.
+    ///
+    /// - Parameters:
+    ///     - forumThreads: An array of ForumThread instances. I.E: [ForumThread]
+    func saveForumThreadData(forumThreads: [ForumThread]) -> Void {
+        
+        if (isCoreDataAvailable == false) {
+            return
+        }
+        
+        do {
+            
+            // Extract all forumThreadEntities
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: ForumThreadEntityKey.entityName.rawValue)
+            let forumThreadEntities: [NSManagedObject] = try self.context.fetch(request) as! [NSManagedObject]
+            
+            // Remove all forumCommentEntities.
+            for forumThreadEntity in forumThreadEntities {
+                let forumThreadCommentEntities: NSMutableSet = forumThreadEntity.mutableSetValue(forKey: ForumThreadEntityKey.comments.rawValue)
+                
+                for forumThreadCommentEntity in forumThreadCommentEntities {
+                    let objectContext: NSManagedObjectContext = (forumThreadCommentEntity as AnyObject).managedObjectContext
+                    objectContext.delete(forumThreadCommentEntity as! NSManagedObject)
+                }
+            }
+            
+            // Delete all forumThreadEntities
+            for forumThreadEntity in forumThreadEntities {
+                let objectContext: NSManagedObjectContext = forumThreadEntity.managedObjectContext!
+                objectContext.delete(forumThreadEntity)
+                
+            }
+            
+            // Create new forumThreadEntities
+            for forumThread in forumThreads {
+                let forumThreadEntity: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: ForumThreadEntityKey.entityName.rawValue, into: self.context)
+                
+                // Mandatory fields:
+                
+                forumThreadEntity.setValue(forumThread.author, forKey: ForumThreadEntityKey.author.rawValue)
+                forumThreadEntity.setValue(forumThread.authorID, forKey: ForumThreadEntityKey.authorID.rawValue)
+                forumThreadEntity.setValue(DateManager.sharedInstance.dateToISOString(forumThread.date, format: .JSONGeneralDateFormat), forKey: ForumThreadEntityKey.dateString.rawValue)
+                forumThreadEntity.setValue(forumThread.id, forKey: ForumThreadEntityKey.id.rawValue)
+                forumThreadEntity.setValue(forumThread.title, forKey: ForumThreadEntityKey.title.rawValue)
+                
+                // Optional fields:
+                
+                if let imagePath = forumThread.imagePath {
+                    forumThreadEntity.setValue(imagePath, forKey: ForumThreadEntityKey.imagePath.rawValue)
+                }
+                
+                if let body = forumThread.body {
+                    forumThreadEntity.setValue(body, forKey: ForumThreadEntityKey.body.rawValue)
+                }
+                
+                // Set new comment entities.
+
+                let forumThreadCommentEntities: NSMutableSet = forumThreadEntity.mutableSetValue(forKey: ForumThreadEntityKey.comments.rawValue)
+                for forumComment in forumThread.comments! {
+                    let forumCommentEntity: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: ForumCommentEntityKey.entityName.rawValue, into: self.context)
+                    
+                    forumCommentEntity.setValue(forumComment.author, forKey: ForumCommentEntityKey.author.rawValue)
+                    forumCommentEntity.setValue(forumComment.authorID, forKey: ForumCommentEntityKey.authorID.rawValue)
+                    forumCommentEntity.setValue(forumComment.body, forKey: ForumCommentEntityKey.body.rawValue)
+                    forumCommentEntity.setValue(DateManager.sharedInstance.dateToISOString(forumComment.date, format: .JSONGeneralDateFormat), forKey: ForumCommentEntityKey.dateString.rawValue)
+                    forumCommentEntity.setValue(forumComment.id, forKey: ForumCommentEntityKey.id.rawValue)
+                    forumCommentEntity.setValue(forumComment.imagePath, forKey: ForumCommentEntityKey.imagePath.rawValue)
+                    
+                    forumThreadCommentEntities.add(forumCommentEntity)
+                }
+            }
+            
+        } catch {
+            print("saveForumThreadData: There was a problem when updating forumThreads!")
+            return
         }
         
         saveContext()
