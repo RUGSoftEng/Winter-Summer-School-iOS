@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G18013" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AnnouncementEntity" representedClassName="AnnouncementEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="announcementDescription" attributeType="String" syncable="YES"/>
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="poster" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="address" attributeType="String" syncable="YES"/>
+        <attribute name="endDateString" attributeType="String" syncable="YES"/>
+        <attribute name="eventDescription" attributeType="String" syncable="YES"/>
+        <attribute name="ssid" attributeType="String" syncable="YES"/>
+        <attribute name="startDateString" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <relationship name="weekDay" maxCount="1" deletionRule="Nullify" destinationEntity="WeekDayEntity" inverseName="events" inverseEntity="WeekDayEntity" syncable="YES"/>
+    </entity>
+    <entity name="ForumCommentEntity" representedClassName="ForumCommentEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="author" attributeType="String" syncable="YES"/>
+        <attribute name="authorID" attributeType="String" syncable="YES"/>
+        <attribute name="body" attributeType="String" syncable="YES"/>
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="forumThread" maxCount="1" deletionRule="Nullify" destinationEntity="ForumThreadEntity" inverseName="comments" inverseEntity="ForumThreadEntity" syncable="YES"/>
+    </entity>
+    <entity name="ForumThreadEntity" representedClassName="ForumThreadEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="author" attributeType="String" syncable="YES"/>
+        <attribute name="authorID" attributeType="String" syncable="YES"/>
+        <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ForumCommentEntity" inverseName="forumThread" inverseEntity="ForumCommentEntity" syncable="YES"/>
+    </entity>
+    <entity name="GeneralInfoEntity" representedClassName="GeneralInfoEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="generalInfoDescription" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="LecturerEntity" representedClassName="LecturerEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lecturerDescription" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="WeekDayEntity" representedClassName="WeekDayEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="dateString" attributeType="String" syncable="YES"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EventEntity" inverseName="weekDay" inverseEntity="EventEntity" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AnnouncementEntity" positionX="-315" positionY="-126" width="189" height="118"/>
+        <element name="EventEntity" positionX="-47" positionY="36" width="128" height="148"/>
+        <element name="ForumCommentEntity" positionX="-560" positionY="243" width="128" height="150"/>
+        <element name="ForumThreadEntity" positionX="-621" positionY="36" width="225" height="163"/>
+        <element name="GeneralInfoEntity" positionX="-594" positionY="-120" width="207" height="120"/>
+        <element name="LecturerEntity" positionX="-288" positionY="45" width="180" height="135"/>
+        <element name="WeekDayEntity" positionX="-45" positionY="-99" width="189" height="73"/>
+    </elements>
+</model>

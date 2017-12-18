@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1611" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RGSTabView" customModule="SummerSchool" customModuleProvider="target">
+            <connections>
+                <outletCollection property="tabButtons" destination="Gf9-MB-Bzn" collectionClass="NSMutableArray" id="Jha-1w-w6T"/>
+                <outletCollection property="tabButtons" destination="Shm-2N-KZK" collectionClass="NSMutableArray" id="v7W-49-b6d"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gf9-MB-Bzn">
+                    <rect key="frame" x="0.0" y="0.0" width="187" height="46"/>
+                    <color key="backgroundColor" red="0.94901960780000005" green="0.37254901959999998" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
+                    <state key="normal" title="First">
+                        <color key="titleColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="didPressTabButton:" destination="-1" eventType="touchUpInside" id="rdh-Ee-TJK"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Shm-2N-KZK">
+                    <rect key="frame" x="188" y="0.0" width="187" height="46"/>
+                    <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
+                    <state key="normal" title="Second">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="didPressTabButton:" destination="-1" eventType="touchUpInside" id="vCL-Bn-Mv6"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Shm-2N-KZK" secondAttribute="trailing" id="0hh-b6-uqr"/>
+                <constraint firstItem="Shm-2N-KZK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="33a-iK-ctE"/>
+                <constraint firstItem="Shm-2N-KZK" firstAttribute="width" secondItem="Gf9-MB-Bzn" secondAttribute="width" id="3XX-dF-I69"/>
+                <constraint firstItem="Gf9-MB-Bzn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Ah8-4o-qDq"/>
+                <constraint firstAttribute="bottom" secondItem="Gf9-MB-Bzn" secondAttribute="bottom" id="POh-o2-n6D"/>
+                <constraint firstAttribute="bottom" secondItem="Shm-2N-KZK" secondAttribute="bottom" id="bcX-PK-fbo"/>
+                <constraint firstItem="Shm-2N-KZK" firstAttribute="leading" secondItem="Gf9-MB-Bzn" secondAttribute="trailing" constant="1" id="m2k-9r-oMd"/>
+                <constraint firstItem="Gf9-MB-Bzn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sO2-G1-hpV"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-29.5" y="52"/>
+        </view>
+    </objects>
+</document>

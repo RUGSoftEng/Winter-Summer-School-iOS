@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1611" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="RGSScheduleTableViewHeaderFooterView" customModule="SummerSchool" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NextArrow" translatesAutoresizingMaskIntoConstraints="NO" id="NUi-rr-kLR">
+                    <rect key="frame" x="333" y="9" width="26" height="26"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="26" identifier="imageWidth" id="Cnd-zF-2Y3"/>
+                        <constraint firstAttribute="height" constant="26" identifier="imageHeight" id="XOZ-hD-2hR"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wednesday, September 11th" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9NR-6e-VCi">
+                    <rect key="frame" x="16" y="9" width="309" height="26"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="26" identifier="labelHeight" id="Tjs-Fv-xS4"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="9NR-6e-VCi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" identifier="labelLeadingOffset" id="0k0-rH-RAr"/>
+                <constraint firstItem="9NR-6e-VCi" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" identifier="labelVerticalCentering" id="66z-1q-qF5"/>
+                <constraint firstItem="NUi-rr-kLR" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" identifier="imageVerticalCentering" id="FE3-6l-EXe"/>
+                <constraint firstItem="NUi-rr-kLR" firstAttribute="leading" secondItem="9NR-6e-VCi" secondAttribute="trailing" constant="8" identifier="labelImageSpacer" id="jMG-Gy-vJr"/>
+                <constraint firstAttribute="trailing" secondItem="NUi-rr-kLR" secondAttribute="trailing" constant="16" identifier="imageTrailingOffset" id="mZp-M9-sxe"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="imageView" destination="NUi-rr-kLR" id="Mpz-aW-7cR"/>
+                <outlet property="titleLabel" destination="9NR-6e-VCi" id="Ar2-Y3-8U4"/>
+            </connections>
+            <point key="canvasLocation" x="-9.5" y="8"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="NextArrow" width="35" height="35"/>
+    </resources>
+</document>
