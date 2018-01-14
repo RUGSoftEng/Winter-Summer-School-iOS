@@ -21,6 +21,7 @@ class RGSForumCommentDataModel: RGSDataModelDelegate {
     /// The model entity keys.
     static var entityKey: [String: String] = [
         "entityName"    : "ForumCommentEntity",
+        "forumThread"   : "forumThread",
         "id"            : "id",
         "author"        : "author",
         "authorID"      : "authorID",
@@ -91,7 +92,7 @@ class RGSForumCommentDataModel: RGSDataModelDelegate {
         self.authorID   = authorID
         self.body       = body
         self.date       = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
-        
+        if (self.date == nil) { print("Got a nil date for \(dateString)") }
         // Optional fields.
         if let imagePath = managedObject.value(forKey: entityKey["imagePath"]!) as? String {
             self.imagePath = imagePath
@@ -107,25 +108,37 @@ extension RGSForumCommentDataModel {
     }
     
     /// Parses a array of JSON objects into an array of data model instances.
-    /// - data: Data to be parsed as JSON.
+    /// - json: JSON object.
     /// - sort: Sorting method.
-    static func parseDataModel (from data: Data, sort: (RGSForumCommentDataModel, RGSForumCommentDataModel) -> Bool) -> [RGSForumCommentDataModel]? {
-        
-        // Extract the JSON array.
-        guard
-            let json = try? JSONSerialization.jsonObject(with: data, options: []),
-            let jsonArray = json as? [Any]
-            else { return nil }
+    static func parseDataModel (from jsonArray: [Any], sort: (RGSForumCommentDataModel, RGSForumCommentDataModel) -> Bool) -> [RGSForumCommentDataModel]? {
         
         // Map JSON representations to data model instances.
         let models = jsonArray.map({(object: Any) -> RGSForumCommentDataModel in
-            return RGSForumCommentDataModel(from: object as! [String: Any])!;
+            return RGSForumCommentDataModel(from: object as! [String: Any])!
         })
         
         // Return sorted models.
         return models.sorted(by: sort)
     }
     
+    /// Retrieves all model entities from Core Data, and returns them in an array
+    /// sorted using the provided sort method.
+    /// - set:      The NSMutableSet of objects.
+    /// - sort:     The mandatory sorting method.
+    static func loadDataModel (with set: NSMutableSet, sort: (RGSForumCommentDataModel, RGSForumCommentDataModel) -> Bool) -> [RGSForumCommentDataModel]? {
+        
+        if set.count == 0 {
+            return nil
+        }
+        
+        // Convert entities to models
+        let models = set.map({(object) -> RGSForumCommentDataModel in
+            return RGSForumCommentDataModel(from: object as! NSManagedObject)!
+        })
+        
+        // Sort comments
+        return models.sorted(by: sort)
+    }
     /// Retrieves all model entities from Core Data, and returns them in an array
     /// sorted using the provided sort method.
     /// - context:  The managed object context.
@@ -152,36 +165,12 @@ extension RGSForumCommentDataModel {
         return models.sorted(by: sort)
     }
     
-    /// Saves all given model representations in Core Data. All existing entries are
-    /// removed prior.
-    /// - model:    The array of data models to be archived.
-    /// - context:  The managed object context.
-    static func saveDataModel (_ model: [RGSGeneralInfoDataModel], context: NSManagedObjectContext) {
-        let entityKey = RGSGeneralInfoDataModel.entityKey
-        let entities: [NSManagedObject]
-        
-        // Extract all existing entities.
-        do {
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityKey["entityName"]!)
-            entities = try context.fetch(request) as! [NSManagedObject]
-        } catch {
-            print("Error: saveDataModel: Couldn't extract forumComment data!")
-            return
+    /// Removes all given models from Core Data.
+    /// - set:  The NSMutableSet of objects.
+    static func removeDataModel (_ model: NSMutableSet) {
+        for element in model {
+            let objectContext: NSManagedObjectContext = (element as AnyObject).managedObjectContext
+            objectContext.delete(element as! NSManagedObject)
         }
-        
-        // Delete all existing entities.
-        for entity in entities {
-            let objectContext = entity.managedObjectContext!
-            objectContext.delete(entity)
-        }
-        
-        // Insert new entities.
-        for object in model {
-            let entity = NSEntityDescription.insertNewObject(forEntityName: entityKey["entityName"]!, into: context) as NSManagedObject
-            object.saveTo(managedObject: entity)
-        }
-        
-        // Save context.
-        DataManager.sharedInstance.saveContext()
     }
 }

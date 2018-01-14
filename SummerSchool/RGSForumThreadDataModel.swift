@@ -66,6 +66,8 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
             for c in comments! {
                 let commentManagedObject: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: RGSForumCommentDataModel.entityKey["entityName"]!, into: DataManager.sharedInstance.context)
                 c.saveTo(managedObject: commentManagedObject)
+                
+                commentManagedObject.setValue(managedObject, forKey: RGSForumCommentDataModel.entityKey["forumThread"]!)
                 entities.add(commentManagedObject)
             }
         }
@@ -101,14 +103,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         
         // External fields.
         if let comments = json["comments"] as? [Any] {
-
-            // Initialize comments.
-            self.comments = comments.map({(object: Any) -> RGSForumCommentDataModel in
-                return RGSForumCommentDataModel(from: object as! [String: Any])!
-            })
-            
-            // Sort comments.
-            self.comments?.sort(by: RGSForumCommentDataModel.sort)
+            self.comments = RGSForumCommentDataModel.parseDataModel(from: comments, sort: RGSForumCommentDataModel.sort)
         }
     }
     
@@ -142,16 +137,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         
         // External fields.
         let comments: NSMutableSet = managedObject.mutableSetValue(forKey: entityKey["comments"]!)
-        if (comments.count > 0) {
-            
-            // Initialize comments.
-            self.comments = comments.map({(object) -> RGSForumCommentDataModel in
-                return RGSForumCommentDataModel(from: object as! NSManagedObject)!
-            })
-            
-            // Sort comments.
-            self.comments?.sort(by: RGSForumCommentDataModel.sort)
-        }
+        self.comments = RGSForumCommentDataModel.loadDataModel(with: comments, sort: RGSForumCommentDataModel.sort)
     }
     
 }
@@ -228,6 +214,11 @@ extension RGSForumThreadDataModel {
         
         // Delete all existing entities.
         for entity in entities {
+            
+            // Must first delete dependent entities.
+            let commentEntities = entity.mutableSetValue(forKey: entityKey["comments"]!)
+            RGSForumCommentDataModel.removeDataModel(commentEntities)
+
             let objectContext = entity.managedObjectContext!
             objectContext.delete(entity)
         }
