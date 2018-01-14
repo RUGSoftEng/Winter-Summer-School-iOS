@@ -13,7 +13,7 @@ class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegat
     
     // MARK: - Variables & Constants
     
-    var generalInfoItem: GeneralInfo!
+    var generalInfoItem: RGSGeneralInfoDataModel!
     
     // MARK: - Outlets
     

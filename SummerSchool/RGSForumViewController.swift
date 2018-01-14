@@ -19,7 +19,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     let forumThreadTableViewCellHeight: CGFloat = 80
     
     /// Data for the UITableView
-    var forumThreads: [ForumThread]! {
+    var forumThreads: [RGSForumThreadDataModel]! {
         didSet (oldForumThreads) {
             if (forumThreads != nil) {
                 print("Got data!")
@@ -136,7 +136,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         
         let url: String = NetworkManager.sharedInstance.URLForForumThreads()
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
-            let fetched: [ForumThread]? = DataManager.sharedInstance.parseDataToForumThreads(data: data)
+            let fetched: [RGSForumThreadDataModel]? = DataManager.sharedInstance.parseForumThreadData(data: data)
             sleep(1)
             DispatchQueue.main.async {
                 self.forumThreads = fetched
@@ -154,7 +154,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         
         if (forumThreads != nil) {
             print("Saving forum threads...")
-            DataManager.sharedInstance.saveForumThreadData(forumThreads: forumThreads)
+            RGSForumThreadDataModel.saveDataModel(forumThreads, context: DataManager.sharedInstance.context)
         }
     }
     
@@ -172,10 +172,10 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         tableView.register(forumTableViewCellNib, forCellReuseIdentifier: forumThreadTableViewCellIdentifier)
         
         // Attempt to load ForumThread Model from Core Data.
-        if let forumThreads = DataManager.sharedInstance.loadForumThreadData() {
+        if let forumThreads = RGSForumThreadDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSForumThreadDataModel.sort) {
             self.forumThreads = forumThreads
         }
-        
+
         // Attempt to refresh ForumThread Model by querying the server.
         self.refreshModelData();
     }

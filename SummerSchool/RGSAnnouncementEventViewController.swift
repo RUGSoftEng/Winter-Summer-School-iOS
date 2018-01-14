@@ -13,7 +13,7 @@ class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManager
     // MARK: Variables & Constants
     
     /// The announcement.
-    var announcement: Announcement!
+    var announcement: RGSAnnouncementDataModel!
     
     // MARK: Outlets
     
@@ -71,7 +71,7 @@ class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManager
             }
             
             // Set Author and Date.
-            if let author = announcement.poster, let date = announcement.date {
+            if let author = announcement.author, let date = announcement.date {
                 authorLabel.text = "By " + author
                 dateLabel.text = DateManager.sharedInstance.dateToISOString(date, format: .generalPresentationDateFormat)
             }

@@ -26,7 +26,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     let generalInfoTableViewCellHeight: CGFloat = 48
     
     /// Data for the UITableView
-    var generalInfo: [GeneralInfo]! {
+    var generalInfo: [RGSGeneralInfoDataModel]! {
         didSet (oldGeneralInfo) {
             if (generalInfo != nil) {
                 tableView.reloadData()
@@ -77,7 +77,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: RGSGeneralInfoTableViewCell = tableView.dequeueReusableCell(withIdentifier: generalInfoTableViewCellIdentifier) as! RGSGeneralInfoTableViewCell
-        let generalInfoItem: GeneralInfo = generalInfo[indexPath.row]
+        let generalInfoItem: RGSGeneralInfoDataModel = generalInfo[indexPath.row]
         cell.title = generalInfoItem.title
         cell.category = generalInfoItem.category
         return cell
@@ -139,7 +139,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
 
         let url: String = NetworkManager.sharedInstance.URLForGeneralInformation()
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
-            let fetched: [GeneralInfo]? = DataManager.sharedInstance.parseDataToGeneralInfo(data: data)
+            let fetched: [RGSGeneralInfoDataModel]? = DataManager.sharedInstance.parseGeneralInformationData(data: data)
             sleep(1)
             DispatchQueue.main.async {
                 self.generalInfo = fetched
@@ -157,7 +157,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
         
         if (generalInfo != nil) {
             print("Saving generalInfo data...")
-            DataManager.sharedInstance.saveGeneralInfoData(generalInfo: generalInfo)
+            RGSGeneralInfoDataModel.saveDataModel(generalInfo, context: DataManager.sharedInstance.context)
         }
     }
     
@@ -187,7 +187,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
         tableView.register(generalInfoTableViewCell, forCellReuseIdentifier: generalInfoTableViewCellIdentifier)
         
         // Attempt to load GeneralInfo Model from DataBase
-        if let generalInfo = DataManager.sharedInstance.loadGeneralInfoData() {
+        if let generalInfo = RGSGeneralInfoDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSGeneralInfoDataModel.sort) {
             self.generalInfo = generalInfo
         }
         

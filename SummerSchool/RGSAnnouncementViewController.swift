@@ -19,7 +19,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
     let announcementTableViewCellHeight: CGFloat = 48
     
     /// Data for the UITableView
-    var announcements: [Announcement]! {
+    var announcements: [RGSAnnouncementDataModel]! {
         didSet (oldAnnouncements) {
             if (announcements != nil) {
                 tableView.reloadData()
@@ -65,7 +65,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: RGSAnnouncementTableViewCell = tableView.dequeueReusableCell(withIdentifier: announcementTableViewCellIdentifier) as! RGSAnnouncementTableViewCell
-        let announcement: Announcement = announcements[indexPath.row]
+        let announcement: RGSAnnouncementDataModel = announcements[indexPath.row]
         cell.title = announcement.title
         return cell
     }
@@ -127,7 +127,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         
         let url: String = NetworkManager.sharedInstance.URLForAnnouncements()
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
-            let fetched: [Announcement]? = DataManager.sharedInstance.parseDataToAnnouncements(data: data)
+            let fetched: [RGSAnnouncementDataModel]? = DataManager.sharedInstance.parseAnnouncementData(data: data)
             sleep(1)
             DispatchQueue.main.async {
                 self.announcements = fetched
@@ -145,7 +145,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         
         if (announcements != nil) {
             print("Saving announcement data...")
-            DataManager.sharedInstance.saveAnnouncementData(announcements: announcements)
+            RGSAnnouncementDataModel.saveDataModel(announcements, context: DataManager.sharedInstance.context)
         }
     }
     
@@ -173,7 +173,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         tableView.register(announcementTableViewCellNib, forCellReuseIdentifier: announcementTableViewCellIdentifier)
         
         // Attempt to load Announcement Model from Core Data.
-        if let announcements = DataManager.sharedInstance.loadAnnouncementData() {
+        if let announcements = RGSAnnouncementDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSAnnouncementDataModel.sort) {
             self.announcements = announcements
         }
         
