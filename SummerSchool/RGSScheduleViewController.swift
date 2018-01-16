@@ -234,7 +234,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         }
         
         let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: week)
-        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
+        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, _ : URLResponse?) -> Void in
             let fetched: EventPacket? = DataManager.sharedInstance.parseDataToEventPacket(data: data)
             sleep(1)
             DispatchQueue.main.async() {

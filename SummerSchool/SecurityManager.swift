@@ -27,48 +27,31 @@ final class SecurityManager {
         return defaults.bool(forKey: UserDefaultKey.LockScreen.rawValue)
     }
     
-    /// Login Code URL
-    private var loginCodeURL: String! {
-        return NetworkManager.sharedInstance.URLForLoginCodes()
-    }
-    
-    /// Login Codes
-    private var loginCodes: [LoginCode]! = nil
-    
     // MARK: - Private Methods
-    
-    /// Returns True if the given loginCode string is in the given loginCodes collection.
-    private func containsLoginCode(_ loginCodes: [LoginCode]?, _ loginCode: String) -> Bool {
-        if (loginCodes == nil) {
-            return false
-        }
-        
-        let matches: [Bool] = loginCodes!.map({(code: LoginCode) -> Bool in
-            return code.code == loginCode
-        })
-        
-        return matches.reduce(false, {a, b in a || b})
-    }
-    
-    
+
     // MARK: - Public Methods
     
-    func authenticateLoginCode(_ loginCode: String, callback: @escaping (AuthState) -> Void) -> Void {
-        if (loginCodes == nil) {
-            NetworkManager.sharedInstance.makeGetRequest(url: loginCodeURL, onCompletion: {(data: Data?) -> Void in
-                var isAuthenticated: Bool = false
-                
-                if let fetched: [LoginCode] = DataManager.sharedInstance.parseDataToLoginCodes(data: data) {
-                    isAuthenticated = self.containsLoginCode(fetched, loginCode)
-                    self.loginCodes = fetched
-                    callback((isAuthenticated == true) ? AuthState.authenticated : AuthState.badLoginCode)
-                } else {
-                    callback(AuthState.badNetworkConnection)
-                }
-            })
-        } else {
-            callback(containsLoginCode(self.loginCodes, loginCode) ? .authenticated : .badLoginCode)
-        }
+    func authenticateLoginCode(_ loginCode: String, callback: @escaping (AuthState, String) -> Void) -> Void {
+        
+        // Construct loginCode verification URL.
+        let requestURL: String = NetworkManager.sharedInstance.URLForLoginCode(loginCode)
+
+        // Dispatch request. A school ID is expected in the return data as an indication of success.
+        NetworkManager.sharedInstance.makeGetRequest(url: requestURL, onCompletion: {(data: Data?, response: URLResponse?) -> Void in
+            var isAuthenticated: Bool = false
+            
+            // Current Temporary Scheme.
+            if let httpResponse = response as? HTTPURLResponse {
+                isAuthenticated = httpResponse.statusCode == 200
+            }
+            
+            // Scheme to use when updated.
+            //if let schoolId = DataManager.sharedInstance.parseLoginCodeResponseData(data: data) {
+            //   callback(.authenticated, "Unknown")
+            //}
+            
+            callback(isAuthenticated ? .authenticated : .badLoginCode, "Unknown")
+        })
     }
     
     // MARK: - Class Initializer

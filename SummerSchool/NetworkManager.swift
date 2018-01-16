@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 
 enum ServerPath: String {
-    case generalInfoPath = "/generalinfo/item"
-    case announcementPath = "/announcement/item"
+    case generalInfoPath = "/API/generalinfo"
+    case announcementPath = "/API/announcement"
     case eventPath = "/calendar/event"
-    case loginCodePath = "/loginCode"
-    case lecturerPath = "/lecturer/item"
-    case forumPath = "/forum/item"
+    case loginCodePath = "/API/loginCode"
+    case lecturerPath = "/API/lecturer"
+    case forumPath = "/API/forum/thread"
 }
 
 final class NetworkManager {
@@ -75,10 +75,10 @@ final class NetworkManager {
         return serverAddress + ServerPath.announcementPath.rawValue
     }
     
-    /// Returns the address needed to extract login codes
+    /// Returns the address needed to verify a login code
     /// from the server.
-    func URLForLoginCodes() -> String {
-        return serverAddress + ServerPath.loginCodePath.rawValue
+    func URLForLoginCode(_ loginCode: String) -> String {
+        return serverPathWithOptions(path: .loginCodePath, options: "code=\(loginCode)")
     }
     
     /// Returns the address needed to extract lecturers 
@@ -115,7 +115,7 @@ final class NetworkManager {
     /// - Parameters:
     ///     - url: A String describing the resource to aim the request at.
     ///     - onCompletion: A closure to execute upon completion.
-    func makeGetRequest(url: String, onCompletion: @escaping (_: Data?) -> Void) -> Void {
+    func makeGetRequest(url: String, onCompletion: @escaping (_: Data?, _: URLResponse?) -> Void) -> Void {
         
         // Construct Request
         var request: URLRequest = URLRequest(url: URL(string: url)!)
@@ -136,7 +136,7 @@ final class NetworkManager {
             self.hasNetworkConnection = (data != nil)
             
             // Execute callback
-            onCompletion(data)
+            onCompletion(data, response)
         }
         
         task.resume()

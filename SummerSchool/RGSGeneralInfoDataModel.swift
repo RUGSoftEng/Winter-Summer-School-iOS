@@ -14,6 +14,14 @@ enum InfoCategory: Int {
     case Food = 0, Location, Internet, Accomodation, Information
 }
 
+/// Maps a string-based category to an InfoCategory enumeral.
+func toInfoCategory (category: String) -> InfoCategory {
+    switch (category) {
+        case "Info": return InfoCategory.Information
+        default: return InfoCategory.Internet
+    }
+}
+
 class RGSGeneralInfoDataModel: RGSDataModelDelegate {
     
     /// MARK: - Properties
@@ -55,13 +63,13 @@ class RGSGeneralInfoDataModel: RGSDataModelDelegate {
             let title           = json["title"] as? String,
             let description     = json["description"] as? String,
             let categoryString  = json["category"] as? String,
-            let dateString      = json["date"] as? String
+            let dateString      = json["created"] as? String
         else { return nil }
         
         self.id                 = id
         self.title              = title
         self.description        = description
-        self.category           = InfoCategory.init(rawValue: Int(categoryString)!)
+        self.category           = toInfoCategory(category: categoryString)
         self.date               = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
     }
     

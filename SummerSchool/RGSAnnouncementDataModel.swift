@@ -13,7 +13,7 @@ class RGSAnnouncementDataModel: RGSDataModelDelegate {
     
     /// MARK: - Properties.
     
-    var id, title, description, author: String?
+    var id, school, title, description, author: String?
     var date: Date?
     
     /// MARK: - Protocol Methods.
@@ -48,13 +48,15 @@ class RGSAnnouncementDataModel: RGSDataModelDelegate {
         // Mandatory fields.
         guard
             let id          = json["_id"] as? String,
+            let school      = json["school"] as? String,
             let title       = json["title"] as? String,
             let description = json["description"] as? String,
             let author      = json["poster"] as? String,
-            let dateString  = json["date"] as? String
+            let dateString  = json["created"] as? String
         else { return nil }
         
         self.id             = id
+        self.school         = school
         self.title          = title
         self.description    = description
         self.author         = author

@@ -325,6 +325,22 @@ final class DataManager {
 
     // MARK: - Public Methods: Data Parsing
     
+    /// Attempts to retrieve a school identifier from a loginCode request response.
+    func parseLoginCodeResponseData (data: Data?) -> String? {
+        
+        if (data == nil) {
+            return nil
+        }
+        
+        guard
+            let json = try? JSONSerialization.jsonObject(with: data!, options: []),
+            let jsonArray = json as? [String: Any],
+            let school = jsonArray["school"] as? String
+        else { return nil }
+        
+        return school
+    }
+    
     /// Attempts to fetch and return General Information data.
     func parseGeneralInformationData (data: Data?) -> [RGSGeneralInfoDataModel]? {
         var generalInfo: [RGSGeneralInfoDataModel]? = nil

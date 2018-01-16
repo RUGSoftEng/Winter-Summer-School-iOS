@@ -16,6 +16,9 @@ final class AppearanceManager {
     /// Color: Standard grey for Navigation UI.
     let grey: UIColor = UIColor(displayP3Red: 160.0/255.0, green: 160.0/255.0, blue: 160.0/255.0, alpha: 1.0)
     
+    /// Color: Standard dark grey for labels.
+    let darkGrey: UIColor = UIColor(displayP3Red: 104.0/255.0, green: 104.0/255.0, blue: 104.0/255.0, alpha: 1.0)
+    
     /// Color: Light grey for backgrounds.
     let lightBackgroundGrey: UIColor = UIColor(displayP3Red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
     
@@ -38,6 +41,14 @@ final class AppearanceManager {
     
     /// Singleton instance
     static let sharedInstance = AppearanceManager()
+    
+    // MARK: - Variables & Constants: Date formats.
+    
+    static func compactDateString (for date: Date) -> String {
+        let timeString: String = DateManager.sharedInstance.dateToISOString(date, format: .hoursAndMinutesFormat)!
+        let dateString: String = DateManager.sharedInstance.dateToISOString(date, format: .generalPresentationDateFormat)!
+        return String(format: "%@ • %@", timeString, dateString)
+    }
     
     // MARK: - Public Methods
     

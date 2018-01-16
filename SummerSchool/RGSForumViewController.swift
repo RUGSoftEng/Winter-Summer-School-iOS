@@ -63,10 +63,9 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let _: UITableViewCell = tableView.cellForRow(at: indexPath)!
+        let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         tableView.deselectRow(at: indexPath, animated: false)
-        let alertController: UIAlertController = ActionManager.sharedInstance.getActionSheet(title: "Sorry!", message: "This view isn't ready yet.", dismissMessage: "Got it")
-        present(alertController, animated: false, completion: nil)
+        self.performSegue(withIdentifier: "RGSForumThreadViewController", sender: cell)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -135,7 +134,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         }
         
         let url: String = NetworkManager.sharedInstance.URLForForumThreads()
-        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
+        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, _ : URLResponse?) -> Void in
             let fetched: [RGSForumThreadDataModel]? = DataManager.sharedInstance.parseForumThreadData(data: data)
             sleep(1)
             DispatchQueue.main.async {
@@ -159,6 +158,17 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     }
     
     // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // Extract destination ViewController, cell tapped in question.
+        let forumThreadViewController: RGSForumThreadViewController = segue.destination as! RGSForumThreadViewController
+        let indexPath: IndexPath = tableView.indexPath(for: sender as! RGSForumThreadTableViewCell)!
+        
+        // Set announcement to be displayed to that corresponding to the tapped cell.
+        let forumThread = forumThreads[indexPath.row]
+        forumThreadViewController.forumThread = forumThread
+    }
     
     
     // MARK: - Class Method Overrides

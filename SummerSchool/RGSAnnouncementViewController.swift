@@ -126,7 +126,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         }
         
         let url: String = NetworkManager.sharedInstance.URLForAnnouncements()
-        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
+        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, _ : URLResponse?) -> Void in
             let fetched: [RGSAnnouncementDataModel]? = DataManager.sharedInstance.parseAnnouncementData(data: data)
             sleep(1)
             DispatchQueue.main.async {
@@ -188,5 +188,4 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         announcements = []
     }
     
-
 }

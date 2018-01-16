@@ -179,7 +179,7 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
         }
         
         let url: String = NetworkManager.sharedInstance.URLForLecturers()
-        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
+        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, _ : URLResponse?) -> Void in
             let fetched: [Lecturer]? = DataManager.sharedInstance.parseDataToLecturers(data: data)
             sleep(1)
             DispatchQueue.main.async {

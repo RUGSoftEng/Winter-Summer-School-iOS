@@ -48,7 +48,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
         
         if (loginCode != nil && isValidCodeFormat(loginCode!)) {
             authorizationCodeTextField.isEnabled = false
-            SecurityManager.sharedInstance.authenticateLoginCode(loginCode!, callback: authenticationCallback(_:))
+            SecurityManager.sharedInstance.authenticateLoginCode(loginCode!, callback: authenticationCallback)
         } else {
             let alertController = ActionManager.sharedInstance.getActionSheet(title: "Invalid Entry", message: "Provide an 8 character alphanumeric code.", dismissMessage: "Got it")
             present(alertController, animated: false, completion: nil)
@@ -72,7 +72,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     // MARK: - Public Methods
     
     /// Callback function for when the authentication result is obtained
-    func authenticationCallback(_ authState: AuthState) -> Void {
+    func authenticationCallback(_ authState: AuthState, _ schoolId: String) -> Void {
         
         if (authState == .authenticated) {
             DispatchQueue.main.async() {

@@ -25,8 +25,7 @@ class RGSForumThreadTableViewCell: UITableViewCell {
     var date: Date! {
         didSet (oldDate) {
             if (date != nil) {
-                let time = DateManager.sharedInstance.dateToISOString(date, format: .hoursAndMinutesFormat)
-                dateLabel.text = time! + ", " + DateManager.sharedInstance.dateToISOString(date, format: .generalPresentationDateFormat)!
+                dateLabel.text = AppearanceManager.compactDateString(for: date)
             }
         }
     }
@@ -53,7 +52,7 @@ class RGSForumThreadTableViewCell: UITableViewCell {
     var commentCount: Int! {
         didSet (oldCommentCount) {
             if (commentCount != nil) {
-                commentCountLabel.text = "\(commentCount!) comments"
+                commentCountLabel.text = "\(commentCount!) comment" + (commentCount == 1 ? "" : "s")
             }
         }
     }
