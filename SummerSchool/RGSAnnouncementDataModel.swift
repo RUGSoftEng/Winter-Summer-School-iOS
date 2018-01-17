@@ -61,6 +61,11 @@ class RGSAnnouncementDataModel: RGSDataModelDelegate {
         self.description    = description
         self.author         = author
         self.date           = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        
+        // Optional fields.
+        if let author = json["poster"] as? String {
+            self.author = author
+        }
     }
     
     /// Initializes the data model from NSManagedObject.
@@ -97,6 +102,7 @@ extension RGSAnnouncementDataModel {
     /// - data: Data to be parsed as JSON.
     /// - sort: Sorting method.
     static func parseDataModel (from data: Data, sort: (RGSAnnouncementDataModel, RGSAnnouncementDataModel) -> Bool) -> [RGSAnnouncementDataModel]? {
+        var models: [RGSAnnouncementDataModel] = []
         
         // Extract the JSON array.
         guard
@@ -104,10 +110,15 @@ extension RGSAnnouncementDataModel {
             let jsonArray = json as? [Any]
         else { return nil }
         
-        // Map JSON representations to data model instances.
-        let models = jsonArray.map({(object: Any) -> RGSAnnouncementDataModel in
-            return RGSAnnouncementDataModel(from: object as! [String: Any])!
-        })
+        // Map JSON representations to data model instances. Signal error and return on bad parse.
+        for item in jsonArray {
+            let model: RGSAnnouncementDataModel? = RGSAnnouncementDataModel(from: item as! [String: Any])
+            if (model == nil) {
+                debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
+                return nil
+            }
+            models.append(model!)
+        }
         
         // Return sorted models.
         return models.sorted(by: sort)

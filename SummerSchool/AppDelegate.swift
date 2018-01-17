@@ -24,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.statusBarStyle = .lightContent
         
         // Update UserDefault settings displayed in Settings
-        UserDefaults.standard.register(defaults: SpecificationManager.sharedInstance.applicationLaunchDefaults)
+        let defaults: [String: Any] = [UserDefaultKey.SchoolName.rawValue: "Not Set", UserDefaultKey.LockScreen.rawValue: true]
+        UserDefaults.standard.register(defaults: defaults)
         
         // Synchronize settings
         UserDefaults.standard.synchronize()

@@ -78,7 +78,7 @@ final class NetworkManager {
     /// Returns the address needed to verify a login code
     /// from the server.
     func URLForLoginCode(_ loginCode: String) -> String {
-        return serverPathWithOptions(path: .loginCodePath, options: "code=\(loginCode)")
+        return serverAddress + serverPathWithOptions(path: .loginCodePath, options: "code=\(loginCode)")
     }
     
     /// Returns the address needed to extract lecturers 

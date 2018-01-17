@@ -111,11 +111,17 @@ extension RGSForumCommentDataModel {
     /// - json: JSON object.
     /// - sort: Sorting method.
     static func parseDataModel (from jsonArray: [Any], sort: (RGSForumCommentDataModel, RGSForumCommentDataModel) -> Bool) -> [RGSForumCommentDataModel]? {
+        var models: [RGSForumCommentDataModel] = []
         
-        // Map JSON representations to data model instances.
-        let models = jsonArray.map({(object: Any) -> RGSForumCommentDataModel in
-            return RGSForumCommentDataModel(from: object as! [String: Any])!
-        })
+        // Map JSON representations to data model instances. Signal error and return on bad parse.
+        for item in jsonArray {
+            let model: RGSForumCommentDataModel? = RGSForumCommentDataModel(from: item as! [String: Any])
+            if (model == nil) {
+                debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
+                return nil
+            }
+            models.append(model!)
+        }
         
         // Return sorted models.
         return models.sorted(by: sort)

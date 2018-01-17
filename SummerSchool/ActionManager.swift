@@ -62,7 +62,7 @@ final class ActionManager {
         return mapURL
     }
     
-    /// Returns an AttributedString interpreted from string as a HTML text doument.
+    /// Returns an AttributedString interpreted from string as a HTML text document.
     func stringAsAttributedHTMLString(_ string: String) -> NSAttributedString {
         let HTMLData = NSString(string: string).data(using: String.Encoding.unicode.rawValue)
         let attributedString = try! NSAttributedString(data: HTMLData!, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)

@@ -12,6 +12,8 @@ import MapKit
 
 /// Enumeration of all valid keys for use with UserDefaults
 enum UserDefaultKey: String {
+    case SchoolName         =   "applicationSchoolName"
+    case SchoolId           =   "applicationSchoolIdentifier"
     case VersionNumber      =   "applicationVersionNumber"
     case PushNotifications  =   "shouldDisplayUserNotifications"
     case LockScreen         =   "shouldDisplayLockScreen"
@@ -20,6 +22,24 @@ enum UserDefaultKey: String {
 final class SpecificationManager {
     
     // MARK: - Variables & Constants: Constraint Constants
+    
+    /// User Defaults.
+    private var defaults: UserDefaults {
+        return UserDefaults.standard
+    }
+    
+    /// ***************************************************************************
+    
+    /// The school name: Only accessible from within specificationManager.
+    private(set) var schoolName: String!
+    
+    /// The school identifier: Only accessible from within specificationManager.
+    private(set) var schoolId: String!
+    
+    /// The lockScreen flag: Only accessible from within specificationManager.
+    private(set) var shouldShowLockScreen: Bool = true
+    
+    /// ***************************************************************************
     
     /// The drag offset at which a UITableView should refresh its contents
     let tableViewContentRefreshOffset: CGFloat = -100
@@ -66,13 +86,74 @@ final class SpecificationManager {
     /// The length of a login code
     let loginCodeLength: Int = 8
     
-    /// The UserDefaults to be set upon application launch
-    let applicationLaunchDefaults: [String: Any] = [UserDefaultKey.VersionNumber.rawValue: "0.1", UserDefaultKey.LockScreen.rawValue: true] as [String: Any]
-    
     // MARK: - Variables & Constants: Strings
     
     let networkLossMessageString: String = "Can't call home. Check network connection!"
     
     /// Singleton instance
     static let sharedInstance = SpecificationManager()
+    
+    // MARK: - Public Class Methods
+    
+    /// Updates the shouldShowLockScreen flag. Change is propagated to UserDefaults.
+    /// - shouldShowLockScreen: The boolean flag.
+    func setShouldShowLockScreen (_ shouldShowLockScreen: Bool) {
+        self.shouldShowLockScreen = shouldShowLockScreen
+        defaults.set(self.shouldShowLockScreen, forKey: UserDefaultKey.LockScreen.rawValue)
+        defaults.synchronize()
+    }
+    
+    /// Updates the school name. Change is propagated to UserDefaults.
+    /// - schoolName: The name of the school.
+    func setSchoolName (_ schoolName: String) {
+        self.schoolName = schoolName
+        defaults.set(self.schoolName, forKey: UserDefaultKey.SchoolName.rawValue)
+        defaults.synchronize()
+    }
+    
+    /// Updates the school identifier. Change is propagated to UserDefaults.
+    /// - schoolId: The school identifier.
+    func setSchoolId (_ schoolId: String) {
+        self.schoolId = schoolId
+        defaults.setValue(self.schoolId, forKey: UserDefaultKey.SchoolId.rawValue)
+        defaults.synchronize()
+    }
+    
+    /// Updates the full set of user-settings at once. Preferrable over individual use.
+    /// - shouldShowLockScreen: Boolean flag.
+    /// - schoolName: The name of the school.
+    /// - schoolId: The school identifier.
+    func setUserSettings (_ shouldShowLockScreen: Bool, _ schoolName: String, _ schoolId: String) {
+        
+        // Assign all variables.
+        self.shouldShowLockScreen = shouldShowLockScreen
+        self.schoolName = schoolName
+        self.schoolId = schoolId
+        
+        // Assign all UserDefaults.
+        defaults.set(self.shouldShowLockScreen, forKey: UserDefaultKey.LockScreen.rawValue)
+        defaults.set(self.schoolName, forKey: UserDefaultKey.SchoolName.rawValue)
+        defaults.setValue(self.schoolId, forKey: UserDefaultKey.SchoolId.rawValue)
+        
+        debugPrint("User Settings Updated: LockScreen: \(shouldShowLockScreen), SchoolName: \(schoolName), SchoolId: \(schoolId)")
+        
+        // Synchronize defaults.
+        defaults.synchronize()
+    }
+    
+    // MARK: - Class Method Overrides
+    
+    required init() {
+        
+        /// Initialize schoolName from UserDefaults: (Should always succeed. Is in defaults).
+        self.schoolName = defaults.string(forKey: UserDefaultKey.SchoolName.rawValue)
+        
+        /// Initialize schoolId from UserDefaults: (Might succeed only. Not in defaults).
+        if let schoolId = defaults.string(forKey: UserDefaultKey.SchoolId.rawValue) {
+            self.schoolId = schoolId
+        }
+        
+        /// Update shouldShowLockScreen from UserDefaults: (Should always succed. Is in defaults).
+        self.shouldShowLockScreen = defaults.bool(forKey: UserDefaultKey.LockScreen.rawValue)
+    }
 }

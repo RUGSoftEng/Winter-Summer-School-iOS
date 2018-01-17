@@ -31,26 +31,28 @@ final class SecurityManager {
 
     // MARK: - Public Methods
     
-    func authenticateLoginCode(_ loginCode: String, callback: @escaping (AuthState, String) -> Void) -> Void {
+    func authenticateLoginCode(_ loginCode: String, callback: @escaping (AuthState, String?, String?) -> Void) -> Void {
         
         // Construct loginCode verification URL.
         let requestURL: String = NetworkManager.sharedInstance.URLForLoginCode(loginCode)
-
+    
         // Dispatch request. A school ID is expected in the return data as an indication of success.
         NetworkManager.sharedInstance.makeGetRequest(url: requestURL, onCompletion: {(data: Data?, response: URLResponse?) -> Void in
-            var isAuthenticated: Bool = false
+            let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
+            let schoolInfo: (String, String)? = DataManager.sharedInstance.parseLoginCodeResponseData(data: data)
             
-            // Current Temporary Scheme.
-            if let httpResponse = response as? HTTPURLResponse {
-                isAuthenticated = httpResponse.statusCode == 200
+            // Status Code isn't 200 -> Incorrect login code.
+            if (httpResponse.statusCode != 200) {
+                return callback(.badLoginCode, nil, nil)
             }
             
-            // Scheme to use when updated.
-            //if let schoolId = DataManager.sharedInstance.parseLoginCodeResponseData(data: data) {
-            //   callback(.authenticated, "Unknown")
-            //}
-            
-            callback(isAuthenticated ? .authenticated : .badLoginCode, "Unknown")
+            // Status Code = 200, but schoolInfo is nil -> Bad network connection.
+            if (schoolInfo == nil) {
+                return callback(.badNetworkConnection, nil, nil)
+            }
+
+            // Response, code == 200, data != nil -> Authenticated.
+            return callback(.authenticated, schoolInfo!.0, schoolInfo!.1)
         })
     }
     

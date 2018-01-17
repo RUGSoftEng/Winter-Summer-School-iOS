@@ -326,7 +326,7 @@ final class DataManager {
     // MARK: - Public Methods: Data Parsing
     
     /// Attempts to retrieve a school identifier from a loginCode request response.
-    func parseLoginCodeResponseData (data: Data?) -> String? {
+    func parseLoginCodeResponseData (data: Data?) -> (String, String)? {
         
         if (data == nil) {
             return nil
@@ -335,10 +335,11 @@ final class DataManager {
         guard
             let json = try? JSONSerialization.jsonObject(with: data!, options: []),
             let jsonArray = json as? [String: Any],
-            let school = jsonArray["school"] as? String
+            let schoolName = jsonArray["schoolName"] as? String,
+            let schoolId = jsonArray["schoolId"] as? String
         else { return nil }
         
-        return school
+        return (schoolName, schoolId)
     }
     
     /// Attempts to fetch and return General Information data.

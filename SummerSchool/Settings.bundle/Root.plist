@@ -36,6 +36,16 @@
 			<key>Key</key>
 			<string>applicationVersionNumber</string>
 			<key>DefaultValue</key>
+			<string>1.0</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>School</string>
+			<key>Key</key>
+			<string>applicationSchoolName</string>
+			<key>DefaultValue</key>
 			<string>Not Set</string>
 		</dict>
 	</array>

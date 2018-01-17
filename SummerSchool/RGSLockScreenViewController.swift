@@ -32,7 +32,6 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     /// The help button.
     @IBOutlet weak var helpButton: UIButton!
 
-    
     // MARK: - Actions
     
     /// Handler for miscellanous taps outside of the keyboard when the authorization text field is being edited.
@@ -72,12 +71,14 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     // MARK: - Public Methods
     
     /// Callback function for when the authentication result is obtained
-    func authenticationCallback(_ authState: AuthState, _ schoolId: String) -> Void {
+    func authenticationCallback(_ authState: AuthState, _ schoolName: String?, _ schoolId: String?) -> Void {
         
         if (authState == .authenticated) {
             DispatchQueue.main.async() {
-                let defaults = UserDefaults.standard
-                defaults.set(false, forKey: UserDefaultKey.LockScreen.rawValue)
+                
+                /// Update user settings.
+                SpecificationManager.sharedInstance.setUserSettings(false, schoolName!, schoolId!)
+
                 self.authorizationCodeTextField.isEnabled = true
                 self.showMainViewController()
             }

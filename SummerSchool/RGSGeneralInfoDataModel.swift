@@ -106,17 +106,23 @@ extension RGSGeneralInfoDataModel {
     /// - data: Data to be parsed as JSON.
     /// - sort: Sorting method.
     static func parseDataModel (from data: Data, sort: (RGSGeneralInfoDataModel, RGSGeneralInfoDataModel) -> Bool) -> [RGSGeneralInfoDataModel]? {
-    
+        var models: [RGSGeneralInfoDataModel] = []
+        
         // Extract the JSON array.
         guard
             let json = try? JSONSerialization.jsonObject(with: data, options: []),
             let jsonArray = json as? [Any]
         else { return nil }
         
-        // Map JSON representations to data model instances.
-        let models = jsonArray.map({(object: Any) -> RGSGeneralInfoDataModel in
-            return RGSGeneralInfoDataModel(from: object as! [String: Any])!;
-        })
+        // Map JSON representations to data model instances. Signal error and return on bad parse.
+        for item in jsonArray {
+            let model: RGSGeneralInfoDataModel? = RGSGeneralInfoDataModel(from: item as! [String: Any])
+            if (model == nil) {
+                debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
+                return nil
+            }
+            models.append(model!)
+        }
         
         // Return sorted models.
         return models.sorted(by: sort)

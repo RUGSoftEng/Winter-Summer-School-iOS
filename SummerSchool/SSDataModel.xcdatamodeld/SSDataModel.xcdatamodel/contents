@@ -55,7 +55,7 @@
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EventEntity" inverseName="weekDay" inverseEntity="EventEntity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AnnouncementEntity" positionX="-315" positionY="-126" width="189" height="118"/>
+        <element name="AnnouncementEntity" positionX="-315" positionY="-126" width="189" height="120"/>
         <element name="EventEntity" positionX="-47" positionY="36" width="128" height="148"/>
         <element name="ForumCommentEntity" positionX="-560" positionY="243" width="128" height="150"/>
         <element name="ForumThreadEntity" positionX="-621" positionY="36" width="225" height="163"/>
