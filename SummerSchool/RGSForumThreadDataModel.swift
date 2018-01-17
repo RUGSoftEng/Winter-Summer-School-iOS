@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class RGSForumThreadDataModel: RGSDataModelDelegate {
     
@@ -15,6 +16,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
     var id, title, body, author, authorID, imagePath: String?
     var date: Date?
     var comments: [RGSForumCommentDataModel]?
+    var image: UIImage?
     
     /// MARK: - Protocol Methods.
     
@@ -72,6 +74,18 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
             }
         }
         
+    }
+    
+    /// Conveniently initializes the class with given fields.
+    required init(id: String, title: String, author: String, authorID: String, body: String, imagePath: String?, date: Date, comments: [RGSForumCommentDataModel]) {
+        self.id = id
+        self.title = title
+        self.author = author
+        self.authorID = authorID
+        self.body = body
+        self.imagePath = imagePath
+        self.date = date
+        self.comments = comments
     }
     
     /// Initializes the data model from JSON.

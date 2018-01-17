@@ -8,6 +8,25 @@
 
 import UIKit
 
+func getDemoForumThread () -> RGSForumThreadDataModel {
+    let forumThread: RGSForumThreadDataModel = RGSForumThreadDataModel(id: "1", title: "Issuing a formal complaint.", author: "Walter Brattain", authorID: "WB", body: "I'd like to make a formal complaint about Mr.Shockley. For the past year John Bardeen and I have slaved away in our laboratory on what eventually became the point-touch transistor. Countless hours were spent experimenting with Germanium of various purities and electrical currents. Meanwhile, Mr.Shockley spent his time almost entirely preoccupied with his own projects and gave little to no assistance (or even an indication of interest) whatsoever. This is why I find it absolutely unacceptable that he interrupts our established tradition of not stepping on others work by introducing this so called joint transistor during our public release phase. I imagine Mr.Bardeen would agree with me immensely.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date(), comments: [])
+    
+    let firstComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "1", author: "William Shockley", authorID: "WS", body: "Yes, but I still invented the joint transistor. And it's an improvement over the point-touch transistor anyways.", imagePath: "https://www.nobelprize.org/nobel_prizes/physics/laureates/1956/shockley_postcard.jpg", date: Date())
+    
+    let secondComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "2", author: "Walter Brattain", authorID: "WB", body: "It's just ridiculous and not in the spirit of our work environment here at Bell Labs. You just had to try and trump our breakthrough with the point-contact transistor.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date())
+    
+    let thirdComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "3", author: "John Bardeen", authorID: "JB", body: "You also took over a lot of the lecturer roles at our press conferences with regard to the subject...", imagePath: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Bardeen.jpg", date: Date())
+    
+    let forthComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "4", author: "William Shockley", authorID: "WS", body: "Sorry, but I think you both kind of discovered it by brute force. It's not really an original idea you executed. The joint transistor, however, is arguably an original idea.", imagePath: "https://www.nobelprize.org/nobel_prizes/physics/laureates/1956/shockley_postcard.jpg", date: Date())
+    
+    let fifthComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "5", author: "Mervin Kelly", authorID: "MK", body: "That's enough Shockley. Your attitude is grounds for termination.", imagePath: "https://history.aip.org/phn/Photos/kelly_mervin_a5.jpg", date: Date())
+    
+    forumThread.comments = [firstComment, secondComment, thirdComment, forthComment, fifthComment]
+    
+    return forumThread
+}
+
+
 class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     // MARK: - Variables & Constants
@@ -76,6 +95,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         cell.author = forumThread.author
         cell.date = forumThread.date
         cell.commentCount = forumThread.comments?.count
+        cell.authorImage = forumThread.image
         
         return cell
     }
@@ -141,8 +161,51 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
                 self.forumThreads = fetched
                 self.resumeTableViewInteraction()
                 self.displayWarningPopupIfNeeded(animated: true)
+                
+                // Try to update images
+                self.refreshSecondaryModelData(model: self.forumThreads)
             }
         })
+    }
+    
+    /// Dispatches a task to fetch secondary resources.
+    
+    func refreshSecondaryModelData (model: [RGSForumThreadDataModel]) -> Void {
+        
+        // Start Network Activity Indicator.
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        // Dispatch asychronous dataTask.
+        DispatchQueue.global().async {
+            var resource: [UIImage?] = []
+            
+            // Retrieve Resources: Ensure models are only read.
+            for item in model {
+                if let resourceURL = item.imagePath {
+                    let (data, _, _) = URLSession.shared.synchronousDataTask(with: URL(string: resourceURL)!)
+                    
+                    if let imageData = data, let image = UIImage(data: imageData) {
+                        resource.append(image)
+                    } else {
+                        resource.append(nil)
+                    }
+                }
+            }
+            
+            // Dispatch task to Grand Central: Required for UI updates.
+            DispatchQueue.main.async {
+                
+                // Stop Network Activity Indicator.
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                // Map changes to models.
+                for (i, item) in model.enumerated() {
+                    item.image = resource[i]
+                }
+                self.tableView.reloadData()
+            }
+            
+        }
     }
     
     // MARK: - Notifications
@@ -182,12 +245,12 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         tableView.register(forumTableViewCellNib, forCellReuseIdentifier: forumThreadTableViewCellIdentifier)
         
         // Attempt to load ForumThread Model from Core Data.
-        if let forumThreads = RGSForumThreadDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSForumThreadDataModel.sort) {
-            self.forumThreads = forumThreads
-        }
-
+        //if let forumThreads = RGSForumThreadDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSForumThreadDataModel.sort) {
+        //    self.forumThreads = forumThreads
+        //}
+        self.forumThreads = [getDemoForumThread()]
         // Attempt to refresh ForumThread Model by querying the server.
-        self.refreshModelData();
+        //self.refreshModelData();
     }
 
     override func didReceiveMemoryWarning() {

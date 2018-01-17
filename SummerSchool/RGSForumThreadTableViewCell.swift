@@ -57,6 +57,7 @@ class RGSForumThreadTableViewCell: UITableViewCell {
         }
     }
     
+    
     // MARK: - Outlets
     
     @IBOutlet weak var authorImageView: UIImageView!

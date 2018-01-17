@@ -76,4 +76,19 @@ final class ActionManager {
         return controller
     }
     
+    // MARK: - FireBase Authentication.
+    
+    /// ***************************************************************************
+    
+    /// FireBase AuthUI Instance.
+    //private(set) var authUI = FUIAuth.defaultAuthUI()
+    
+    
+    
+    /// ***************************************************************************
+    
+    required init () {
+        
+    }
+    
 }

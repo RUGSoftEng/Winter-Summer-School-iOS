@@ -8,14 +8,15 @@
 
 import Foundation
 import CoreData
-
+import UIKit
 
 class RGSForumCommentDataModel: RGSDataModelDelegate {
     
     /// MARK: - Properties
     var id, author, authorID, body, imagePath: String?
     var date: Date?
-
+    var image: UIImage?
+    
     /// MARK: - Protocol Methods.
     
     /// The model entity keys.
@@ -47,6 +48,16 @@ class RGSForumCommentDataModel: RGSDataModelDelegate {
         if (imagePath != nil) {
             managedObject.setValue(imagePath, forKey: entityKey["imagePath"]!)
         }
+    }
+    
+    /// Conveniently initializes the class with given fields.
+    required init(id: String, author: String, authorID: String, body: String, imagePath: String?, date: Date) {
+        self.id = id
+        self.author = author
+        self.authorID = authorID
+        self.body = body
+        self.imagePath = imagePath
+        self.date = date
     }
     
     /// Initializes the data model from JSON.
