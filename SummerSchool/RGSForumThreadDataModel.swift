@@ -30,7 +30,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         "authorID"      : "authorID",
         "dateString"    : "dateString",
         "imagePath"     : "imagePath",
-        "comments"      : "comments"
+        "image"         : "image"
     ]
     
     /// Saves all fields to the given NSManagedObject.
@@ -47,33 +47,16 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         managedObject.setValue(dateString, forKey: entityKey["dateString"]!)
         
         // Optional fields.
-        if (body != nil) {
+        if let body = self.body {
             managedObject.setValue(body, forKey: entityKey["body"]!)
         }
-        if (imagePath != nil) {
+        if let imagePath = self.imagePath {
             managedObject.setValue(imagePath, forKey: entityKey["imagePath"]!)
         }
-        
-        // External fields.
-        if (comments != nil) {
-            let entities = managedObject.mutableSetValue(forKey: entityKey["comments"]!)
-            
-            // (1). Remove entities from context.
-            for e in entities {
-                let objectContext: NSManagedObjectContext = (e as AnyObject).managedObjectContext
-                objectContext.delete(e as! NSManagedObject)
-            }
-
-            // (2). Insert new entities into context. Link to comments object.
-            for c in comments! {
-                let commentManagedObject: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: RGSForumCommentDataModel.entityKey["entityName"]!, into: DataManager.sharedInstance.context)
-                c.saveTo(managedObject: commentManagedObject)
-                
-                commentManagedObject.setValue(managedObject, forKey: RGSForumCommentDataModel.entityKey["forumThread"]!)
-                entities.add(commentManagedObject)
-            }
+        if let image = self.image {
+            let imageData: Data = UIImagePNGRepresentation(image)! as Data
+            managedObject.setValue(imageData, forKey: entityKey["image"]!)
         }
-        
     }
     
     /// Conveniently initializes the class with given fields.
@@ -115,10 +98,6 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
             self.imagePath = imagePath
         }
         
-        // External fields.
-        if let comments = json["comments"] as? [Any] {
-            self.comments = RGSForumCommentDataModel.parseDataModel(from: comments, sort: RGSForumCommentDataModel.sort)
-        }
     }
     
     /// Initializes the data model from NSManagedObject.
@@ -148,10 +127,9 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         if let imagePath = managedObject.value(forKey: entityKey["imagePath"]!) as? String {
             self.imagePath = imagePath
         }
-        
-        // External fields.
-        let comments: NSMutableSet = managedObject.mutableSetValue(forKey: entityKey["comments"]!)
-        self.comments = RGSForumCommentDataModel.loadDataModel(with: comments, sort: RGSForumCommentDataModel.sort)
+        if let imageData: Data = managedObject.value(forKey: entityKey["image"]!) as? Data {
+            self.image = UIImage(data: imageData)
+        }
     }
     
 }
@@ -234,11 +212,6 @@ extension RGSForumThreadDataModel {
         
         // Delete all existing entities.
         for entity in entities {
-            
-            // Must first delete dependent entities.
-            let commentEntities = entity.mutableSetValue(forKey: entityKey["comments"]!)
-            RGSForumCommentDataModel.removeDataModel(commentEntities)
-
             let objectContext = entity.managedObjectContext!
             objectContext.delete(entity)
         }

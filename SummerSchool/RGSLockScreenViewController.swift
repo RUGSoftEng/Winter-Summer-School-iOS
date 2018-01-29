@@ -44,7 +44,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
         sender.resignFirstResponder()
         
         let loginCode: String? = authorizationCodeTextField.text
-        
+        debugPrint("Hit enter on login code text field. Code = \(loginCode)")
         if (loginCode != nil && isValidCodeFormat(loginCode!)) {
             authorizationCodeTextField.isEnabled = false
             SecurityManager.sharedInstance.authenticateLoginCode(loginCode!, callback: authenticationCallback)
@@ -70,24 +70,41 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     
     // MARK: - Public Methods
     
+    /// Presents an error message to the user.
+    /// - authState: The authentication state to be reported.
+    func displayAuthenticationAlert (_ authState: AuthState) {
+        let message: String = (authState == .badLoginCode) ? "Your code was invalid!" : "Couldn't reach authentication server!"
+        let alertController = ActionManager.sharedInstance.getActionSheet(title: "Login Failed", message: message, dismissMessage: "Okay")
+        self.present(alertController, animated: false, completion: nil)
+        self.authorizationCodeTextField.isEnabled = true
+    }
+    
     /// Callback function for when the authentication result is obtained
-    func authenticationCallback(_ authState: AuthState, _ schoolName: String?, _ schoolId: String?) -> Void {
-        
+    func authenticationCallback(_ authState: AuthState, _ schoolId: String?) -> Void {
+        debugPrint("Got a response with ID: \(schoolId)")
         if (authState == .authenticated) {
-            DispatchQueue.main.async() {
-                
-                /// Update user settings.
-                SpecificationManager.sharedInstance.setUserSettings(false, schoolName!, schoolId!)
-
-                self.authorizationCodeTextField.isEnabled = true
-                self.showMainViewController()
-            }
+            
+            /// Fetch School Information.
+            SecurityManager.sharedInstance.requestSchoolInfo(schoolId!, callback: {(name: String?, start: String?, end: String?) -> Void in
+                DispatchQueue.main.async() {
+                    
+                    // If any fields are nil, fail with a network error.
+                    if (name == nil || start == nil || end == nil) {
+                        self.displayAuthenticationAlert(.badNetworkConnection)
+                        return
+                    }
+                    
+                    // Otherwise, update user settings.
+                    SpecificationManager.sharedInstance.setUserSettings(false, name!, schoolId!, start!, end!)
+                    
+                    self.authorizationCodeTextField.isEnabled = true
+                    self.showMainViewController()
+                }
+            })
+            
         } else {
             DispatchQueue.main.async() {
-                let message: String = (authState == .badLoginCode) ? "Your code was invalid!" : "Couldn't reach authentication server!"
-                let alertController = ActionManager.sharedInstance.getActionSheet(title: "Login Failed", message: message, dismissMessage: "Okay")
-                self.present(alertController, animated: false, completion: nil)
-                self.authorizationCodeTextField.isEnabled = true
+                self.displayAuthenticationAlert(authState)
             }
         }
     }

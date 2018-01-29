@@ -46,15 +46,14 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (section < 2) ? 1 : forumThread.comments!.count
+        return (section < 2) ? 1 : (forumThread.comments == nil ? 0 : forumThread.comments!.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if (indexPath.section == 0) {
             return initializeForumContentTableViewCell(with: forumThread)
         } else if (indexPath.section == 1) {
-            return initializeForumInputTableViewCell(isAuthenticated: true)
+            return initializeForumInputTableViewCell(isAuthenticated: SecurityManager.sharedInstance.identityIsAuthenticated())
         } else {
             return initializeForumCommentTableViewCell(with: forumThread.comments![indexPath.row])
         }
@@ -103,8 +102,12 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     /// Method for when user invokes authentication button.
     func userDidRequestAuthentication(sender: RGSForumInputTableViewCell) -> Void {
         print("User did request authentication!")
-        sender.setAppearance(authenticated: true)
-        sender.setNeedsLayout()
+        
+        // Initiate login.
+        let authViewController = SecurityManager.sharedInstance.authenticationUI!.authViewController()
+        present(authViewController, animated: true, completion: {() -> Void in
+            print("Setting the cell to state authentication as: \(SecurityManager.sharedInstance.identityIsAuthenticated())")
+        })
     }
     
     /// Method for when the user submits a comment.
@@ -139,6 +142,8 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         cell?.author = comment.author
         cell?.date = comment.date
         cell?.body = comment.body
+        cell?.authorImage = comment.image
+        
         return cell!
     }
     
@@ -171,9 +176,9 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     func refreshModelData(automatic: Bool = true) {
         
         // If popup was dismissed, undo upon manual refresh.
-        if (automatic == false) {
-            NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
-        }
+        //if (automatic == false) {
+        //    NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
+        //}
         
         // let url: String = NetworkManager.sharedInstance.URLForAnnouncements()
         // NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
@@ -183,8 +188,56 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         //        self.announcements = fetched
         //        self.resumeTableViewInteraction()
         //        self.displayWarningPopupIfNeeded(animated: true)
-        //    }
+        
+        //        // Try to update images
+        //        self.refreshSecondaryModelData(model: self.forumThreads)
+        //   }
         //})
+        if let comments = self.forumThread.comments {
+            print("Refreshing Comments!")
+            self.refreshSecondaryModelData(model: comments)
+        }
+    }
+    
+    
+    /// Dispatches a task to fetch secondary resources.
+    /// - model: An array of data models to update.
+    func refreshSecondaryModelData (model: [RGSForumCommentDataModel]) -> Void {
+        
+        // Start Network Activity Indicator.
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        // Dispatch asychronous dataTask.
+        DispatchQueue.global().async {
+            var resource: [UIImage?] = []
+            
+            // Retrieve Resources: Ensure models are only read.
+            for item in model {
+                if let resourceURL = item.imagePath {
+                    let (data, _, _) = URLSession.shared.synchronousDataTask(with: URL(string: resourceURL)!)
+                    
+                    if let imageData = data, let image = UIImage(data: imageData) {
+                        resource.append(image)
+                    } else {
+                        resource.append(nil)
+                    }
+                }
+            }
+            
+            // Dispatch task to Grand Central: Required for UI updates.
+            DispatchQueue.main.async {
+                
+                // Stop Network Activity Indicator.
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                // Map changes to models.
+                for (i, item) in model.enumerated() {
+                    item.image = resource[i]
+                }
+                self.tableView.reloadData()
+            }
+            
+        }
     }
     
     // MARK: - Superclass Method Overrides
@@ -220,6 +273,9 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         // Configure table to do automatic cell sizing.
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
+        
+        // Attempt to refresh ForumComment Model by querying the server.
+        self.refreshModelData();
     }
     
 }

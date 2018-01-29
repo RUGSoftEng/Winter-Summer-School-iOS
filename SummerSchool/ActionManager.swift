@@ -76,16 +76,12 @@ final class ActionManager {
         return controller
     }
     
-    // MARK: - FireBase Authentication.
-    
-    /// ***************************************************************************
-    
-    /// FireBase AuthUI Instance.
-    //private(set) var authUI = FUIAuth.defaultAuthUI()
-    
-    
-    
-    /// ***************************************************************************
+    func getRemoveActionSheet(title: String, message: String, dismissMessage: String, handler: @escaping (_ : UIAlertAction) -> Void) -> UIAlertController {
+        let controller: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let dismissAction: UIAlertAction = UIAlertAction(title: dismissMessage, style: .destructive, handler: handler)
+        controller.addAction(dismissAction)
+        return controller
+    }
     
     required init () {
         

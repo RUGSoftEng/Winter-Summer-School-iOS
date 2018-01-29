@@ -84,7 +84,6 @@ class RGSForumInputTableViewCell: UITableViewCell {
         }
     }
     
-    
     // MARK: - Class Method Overrides
 
     override func awakeFromNib() {
@@ -93,6 +92,7 @@ class RGSForumInputTableViewCell: UITableViewCell {
         // Initialization code
         setAppearance(authenticated: self.isAuthenticated)
     }
+    
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

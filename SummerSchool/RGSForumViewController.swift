@@ -8,8 +8,8 @@
 
 import UIKit
 
-func getDemoForumThread () -> RGSForumThreadDataModel {
-    let forumThread: RGSForumThreadDataModel = RGSForumThreadDataModel(id: "1", title: "Issuing a formal complaint.", author: "Walter Brattain", authorID: "WB", body: "I'd like to make a formal complaint about Mr.Shockley. For the past year John Bardeen and I have slaved away in our laboratory on what eventually became the point-touch transistor. Countless hours were spent experimenting with Germanium of various purities and electrical currents. Meanwhile, Mr.Shockley spent his time almost entirely preoccupied with his own projects and gave little to no assistance (or even an indication of interest) whatsoever. This is why I find it absolutely unacceptable that he interrupts our established tradition of not stepping on others work by introducing this so called joint transistor during our public release phase. I imagine Mr.Bardeen would agree with me immensely.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date(), comments: [])
+func installComments (forumThread: RGSForumThreadDataModel) -> Void {
+    //let forumThread: RGSForumThreadDataModel = RGSForumThreadDataModel(id: "1", title: "Issuing a formal complaint.", author: "Walter Brattain", authorID: "WB", body: "I'd like to make a formal complaint about Mr.Shockley. For the past year John Bardeen and I have slaved away in our laboratory on what eventually became the point-touch transistor. Countless hours were spent experimenting with Germanium of various purities and electrical currents. Meanwhile, Mr.Shockley spent his time almost entirely preoccupied with his own projects and gave little to no assistance (or even an indication of interest) whatsoever. This is why I find it absolutely unacceptable that he interrupts our established tradition of not stepping on others work by introducing this so called joint transistor during our public release phase. I imagine Mr.Bardeen would agree with me immensely.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date(), comments: [])
     
     let firstComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "1", author: "William Shockley", authorID: "WS", body: "Yes, but I still invented the joint transistor. And it's an improvement over the point-touch transistor anyways.", imagePath: "https://www.nobelprize.org/nobel_prizes/physics/laureates/1956/shockley_postcard.jpg", date: Date())
     
@@ -23,7 +23,6 @@ func getDemoForumThread () -> RGSForumThreadDataModel {
     
     forumThread.comments = [firstComment, secondComment, thirdComment, forthComment, fifthComment]
     
-    return forumThread
 }
 
 
@@ -100,6 +99,24 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         return cell
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        let authorIdentity: String = forumThreads[indexPath.row].authorID!
+        debugPrint("User with identity \(SecurityManager.sharedInstance.userIdentity) is trying to edit a post with author identity \(authorIdentity)")
+        return (SecurityManager.sharedInstance.identityIsAuthenticated() && (SecurityManager.sharedInstance.userIdentity == authorIdentity))
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        // Action for deletion.
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            let alertController: UIAlertController = ActionManager.sharedInstance.getRemoveActionSheet(title: "Forum Thread Deletion", message: "Are you sure you want to delete this thread?", dismissMessage: "I am", handler: {(_: UIAlertAction) -> Void in
+                self.forumThreads.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+            })
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     // MARK: - UITableView ScrollView Delegate Protocol Methods
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -169,7 +186,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     }
     
     /// Dispatches a task to fetch secondary resources.
-    
+    /// - model: An array of data models to update.
     func refreshSecondaryModelData (model: [RGSForumThreadDataModel]) -> Void {
         
         // Start Network Activity Indicator.
@@ -245,12 +262,18 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         tableView.register(forumTableViewCellNib, forCellReuseIdentifier: forumThreadTableViewCellIdentifier)
         
         // Attempt to load ForumThread Model from Core Data.
-        //if let forumThreads = RGSForumThreadDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSForumThreadDataModel.sort) {
-        //    self.forumThreads = forumThreads
-        //}
-        self.forumThreads = [getDemoForumThread()]
+        if let forumThreads = RGSForumThreadDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSForumThreadDataModel.sort) {
+            self.forumThreads = forumThreads
+        }
+
         // Attempt to refresh ForumThread Model by querying the server.
-        //self.refreshModelData();
+        self.refreshModelData();
+        
+        let forumThread: RGSForumThreadDataModel = RGSForumThreadDataModel(id: "1", title: "Issuing a formal complaint.", author: "Walter Brattain", authorID: "WB", body: "I'd like to make a formal complaint about Mr.Shockley. For the past year John Bardeen and I have slaved away in our laboratory on what eventually became the point-touch transistor. Countless hours were spent experimenting with Germanium of various purities and electrical currents. Meanwhile, Mr.Shockley spent his time almost entirely preoccupied with his own projects and gave little to no assistance (or even an indication of interest) whatsoever. This is why I find it absolutely unacceptable that he interrupts our established tradition of not stepping on others work by introducing this so called joint transistor during our public release phase. I imagine Mr.Bardeen would agree with me immensely.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date(), comments: [])
+        self.forumThreads = [forumThread]
+        
+        // INSTALL DEMO COMMENTS
+        installComments(forumThread: forumThreads[0])
     }
 
     override func didReceiveMemoryWarning() {

@@ -16,11 +16,13 @@
 		6B1E35F41ECF9DE400E2CD77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B1E35F31ECF9DE400E2CD77 /* Assets.xcassets */; };
 		6B1E35F71ECF9DE400E2CD77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B1E35F51ECF9DE400E2CD77 /* LaunchScreen.storyboard */; };
 		6B2DD0DF1F33A79E00B6D3A2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2DD0DE1F33A79E00B6D3A2 /* Extensions.swift */; };
+		6B34A9FE201FCFDC00D7D5F1 /* jsonKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B34A9FD201FCFDC00D7D5F1 /* jsonKeys.plist */; };
 		6B362F991F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B362F971F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift */; };
 		6B362F9A1F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B362F981F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib */; };
 		6B362F9C1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B362F9B1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift */; };
 		6B362F9F1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B362F9D1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.swift */; };
 		6B362FA01F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B362F9E1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib */; };
+		6B3A5065200FFD59001E594E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B3A5064200FFD59001E594E /* GoogleService-Info.plist */; };
 		6B3CAB78200BE08900126C22 /* RGSForumThreadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3CAB77200BE08900126C22 /* RGSForumThreadViewController.swift */; };
 		6B3CAB7B200BEE3800126C22 /* RGSForumContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3CAB79200BEE3800126C22 /* RGSForumContentTableViewCell.swift */; };
 		6B3CAB7C200BEE3800126C22 /* RGSForumContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B3CAB7A200BEE3800126C22 /* RGSForumContentTableViewCell.xib */; };
@@ -65,9 +67,11 @@
 		6BE46BA6200AABCC0022BFA6 /* RGSForumThreadDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */; };
 		6BE46BA8200AB3E70022BFA6 /* RGSForumCommentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */; };
 		6BEDE1021F290EA700A11BBC /* SSDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDE1001F290EA700A11BBC /* SSDataModel.xcdatamodeld */; };
+		DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3300877D38C3A192741B588D /* Pods_SummerSchool.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3300877D38C3A192741B588D /* Pods_SummerSchool.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SummerSchool.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B116DA91F1D616500E01BBB /* RGSScheduleEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSScheduleEventViewController.swift; sourceTree = "<group>"; };
 		6B123B481EEDA9380006EC08 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		6B123B4A1EEDBD6F0006EC08 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -79,11 +83,13 @@
 		6B1E35F61ECF9DE400E2CD77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B1E35F81ECF9DE400E2CD77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B2DD0DE1F33A79E00B6D3A2 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		6B34A9FD201FCFDC00D7D5F1 /* jsonKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = jsonKeys.plist; sourceTree = "<group>"; };
 		6B362F971F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementTableViewCell.swift; sourceTree = "<group>"; };
 		6B362F981F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSAnnouncementTableViewCell.xib; sourceTree = "<group>"; };
 		6B362F9B1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementEventViewController.swift; sourceTree = "<group>"; };
 		6B362F9D1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSGeneralInfoTableViewCell.swift; sourceTree = "<group>"; };
 		6B362F9E1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSGeneralInfoTableViewCell.xib; sourceTree = "<group>"; };
+		6B3A5064200FFD59001E594E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6B3CAB77200BE08900126C22 /* RGSForumThreadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadViewController.swift; sourceTree = "<group>"; };
 		6B3CAB79200BEE3800126C22 /* RGSForumContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumContentTableViewCell.swift; sourceTree = "<group>"; };
 		6B3CAB7A200BEE3800126C22 /* RGSForumContentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumContentTableViewCell.xib; sourceTree = "<group>"; };
@@ -96,6 +102,7 @@
 		6B461E681F1FB80500C7992B /* RGSEmptyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSEmptyTableViewCell.swift; sourceTree = "<group>"; };
 		6B461E691F1FB80500C7992B /* RGSEmptyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSEmptyTableViewCell.xib; sourceTree = "<group>"; };
 		6B4C43861FE6CFED00CC827E /* RGSDataModelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSDataModelDelegate.swift; sourceTree = "<group>"; };
+		6B64192E20109F36003DAF91 /* SummerSchool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SummerSchool.entitlements; sourceTree = "<group>"; };
 		6B686ED21FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadTableViewCell.swift; sourceTree = "<group>"; };
 		6B686ED31FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumThreadTableViewCell.xib; sourceTree = "<group>"; };
 		6B7118921FE46D25000F4917 /* RGSAnnouncementDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementDataModel.swift; sourceTree = "<group>"; };
@@ -122,12 +129,17 @@
 		6BB7A9541EE4A7E9005FA5B0 /* RGSForumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumViewController.swift; sourceTree = "<group>"; };
 		6BB7A9581EE4A80C005FA5B0 /* RGSLockScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLockScreenViewController.swift; sourceTree = "<group>"; };
 		6BB7A9631EE4BBAA005FA5B0 /* RGSControlBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSControlBarDelegate.swift; sourceTree = "<group>"; };
+		6BD4C03820101860002D881E /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileProvider.framework; path = ../../../../../../../Downloads/FileProvider.framework; sourceTree = "<group>"; };
+		6BD4C03A2010193B002D881E /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
+		6BD4C03E20101981002D881E /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
 		6BDFBA2C1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSScheduleTableViewCell.xib; sourceTree = "<group>"; };
 		6BDFBA2E1EEC2C0A0018EC84 /* RGSScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		6BE46BA3200A70840022BFA6 /* RGSGeneralInfoDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSGeneralInfoDataModel.swift; sourceTree = "<group>"; };
 		6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadDataModel.swift; sourceTree = "<group>"; };
 		6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumCommentDataModel.swift; sourceTree = "<group>"; };
 		6BEDE1011F290EA700A11BBC /* SSDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SSDataModel.xcdatamodel; sourceTree = "<group>"; };
+		8E349069E9A7584AC1452E3A /* Pods-SummerSchool.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SummerSchool.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool.debug.xcconfig"; sourceTree = "<group>"; };
+		F296E8A692871D5AF0A0E45F /* Pods-SummerSchool.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SummerSchool.release.xcconfig"; path = "Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,12 +147,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09B7E020B8723AC42BBDFB77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6BD4C03820101860002D881E /* FileProvider.framework */,
+				3300877D38C3A192741B588D /* Pods_SummerSchool.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6B116DA21F1D603C00E01BBB /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,8 +225,12 @@
 		6B1E35E01ECF9DE400E2CD77 = {
 			isa = PBXGroup;
 			children = (
+				6BD4C03E20101981002D881E /* FileProvider.framework */,
+				6BD4C03A2010193B002D881E /* IOSurface.framework */,
 				6B1E35EB1ECF9DE400E2CD77 /* SummerSchool */,
 				6B1E35EA1ECF9DE400E2CD77 /* Products */,
+				E9AFF2B3884490ABCE5D55E7 /* Pods */,
+				09B7E020B8723AC42BBDFB77 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -219,6 +245,7 @@
 		6B1E35EB1ECF9DE400E2CD77 /* SummerSchool */ = {
 			isa = PBXGroup;
 			children = (
+				6B64192E20109F36003DAF91 /* SummerSchool.entitlements */,
 				6BB7A94B1EE4A72B005FA5B0 /* ViewControllers */,
 				6BB7A95B1EE4AC35005FA5B0 /* Views */,
 				6BB7A95A1EE4A89B005FA5B0 /* Nibs */,
@@ -231,8 +258,10 @@
 				6B1E35F31ECF9DE400E2CD77 /* Assets.xcassets */,
 				6B1E35F51ECF9DE400E2CD77 /* LaunchScreen.storyboard */,
 				6B1E35F81ECF9DE400E2CD77 /* Info.plist */,
+				6B3A5064200FFD59001E594E /* GoogleService-Info.plist */,
 				6BEDE1001F290EA700A11BBC /* SSDataModel.xcdatamodeld */,
 				6B1D7D0F1F2125EC003B453B /* Settings.bundle */,
+				6B34A9FD201FCFDC00D7D5F1 /* jsonKeys.plist */,
 			);
 			path = SummerSchool;
 			sourceTree = "<group>";
@@ -319,6 +348,15 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
+		E9AFF2B3884490ABCE5D55E7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8E349069E9A7584AC1452E3A /* Pods-SummerSchool.debug.xcconfig */,
+				F296E8A692871D5AF0A0E45F /* Pods-SummerSchool.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -326,9 +364,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6B1E35FB1ECF9DE400E2CD77 /* Build configuration list for PBXNativeTarget "SummerSchool" */;
 			buildPhases = (
+				719AB268E12B2BB10603938D /* [CP] Check Pods Manifest.lock */,
 				6B1E35E51ECF9DE400E2CD77 /* Sources */,
 				6B1E35E61ECF9DE400E2CD77 /* Frameworks */,
 				6B1E35E71ECF9DE400E2CD77 /* Resources */,
+				9E68850A1B87A51DCABA969C /* [CP] Embed Pods Frameworks */,
+				018FDD85A5026AA229E74CC1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -353,6 +394,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = JQZVDPVQY7;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -387,7 +433,9 @@
 				6B1E35F41ECF9DE400E2CD77 /* Assets.xcassets in Resources */,
 				6B1E35F21ECF9DE400E2CD77 /* Main.storyboard in Resources */,
 				6B362FA01F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib in Resources */,
+				6B34A9FE201FCFDC00D7D5F1 /* jsonKeys.plist in Resources */,
 				6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */,
+				6B3A5065200FFD59001E594E /* GoogleService-Info.plist in Resources */,
 				6BB3EE2B1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib in Resources */,
 				6BDFBA2D1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib in Resources */,
 				6B362F9A1F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib in Resources */,
@@ -398,6 +446,78 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		018FDD85A5026AA229E74CC1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool-resources.sh",
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		719AB268E12B2BB10603938D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SummerSchool-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9E68850A1B87A51DCABA969C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6B1E35E51ECF9DE400E2CD77 /* Sources */ = {
@@ -565,9 +685,16 @@
 		};
 		6B1E35FC1ECF9DE400E2CD77 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E349069E9A7584AC1452E3A /* Pods-SummerSchool.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SummerSchool/SummerSchool.entitlements;
 				DEVELOPMENT_TEAM = JQZVDPVQY7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SummerSchool",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = SummerSchool/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RUG.SS;
@@ -578,9 +705,16 @@
 		};
 		6B1E35FD1ECF9DE400E2CD77 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F296E8A692871D5AF0A0E45F /* Pods-SummerSchool.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SummerSchool/SummerSchool.entitlements;
 				DEVELOPMENT_TEAM = JQZVDPVQY7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SummerSchool",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = SummerSchool/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RUG.SS;

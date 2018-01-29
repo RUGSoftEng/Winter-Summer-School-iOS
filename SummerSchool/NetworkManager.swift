@@ -14,6 +14,7 @@ enum ServerPath: String {
     case announcementPath = "/API/announcement"
     case eventPath = "/calendar/event"
     case loginCodePath = "/API/loginCode"
+    case schoolInfoPath = "/API/school"
     case lecturerPath = "/API/lecturer"
     case forumPath = "/API/forum/thread"
 }
@@ -79,6 +80,12 @@ final class NetworkManager {
     /// from the server.
     func URLForLoginCode(_ loginCode: String) -> String {
         return serverAddress + serverPathWithOptions(path: .loginCodePath, options: "code=\(loginCode)")
+    }
+    
+    /// Returns the address needed to extract school information
+    /// from the server.
+    func URLForSchoolInfo (_ schoolId: String) -> String {
+        return serverAddress + serverPathWithOptions(path: .schoolInfoPath, options: "id=\(schoolId)")
     }
     
     /// Returns the address needed to extract lecturers 

@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseAuthUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,6 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Force WebCore to initialize (this method is ugly, but explicit initialization is in a private framework).
         do { try _ = NSAttributedString(HTMLString: "", font: nil) } catch { }
+        
+        // Configure Firebase.
+        FirebaseApp.configure()
         
         return true
     }
@@ -58,8 +63,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    // MARK: - Core Data Stack
+    // MARK: - Firebase
     
+    func application(_ app: UIApplication, open url: URL,
+                     options: [UIApplicationOpenURLOptionsKey : Any]!) -> Bool {
+        print("OPTIONS = \(options)");
+        print("SOURCE = \(UIApplicationOpenURLOptionsKey.sourceApplication)")
+        print("sourceApplication: \(UIApplicationOpenURLOptionsKey.sourceApplication) in \(options)")
+        let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String?
+        if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
+            return true
+        }
+        // other URL handling goes here.
+        return false
+    }
+    
+    // MARK: - Core Data Stack
     
     /// Lazy variable computed with a code block.
     lazy var persistentContainer: NSPersistentContainer = {

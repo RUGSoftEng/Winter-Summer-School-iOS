@@ -12,11 +12,18 @@ import MapKit
 
 /// Enumeration of all valid keys for use with UserDefaults
 enum UserDefaultKey: String {
-    case SchoolName         =   "applicationSchoolName"
-    case SchoolId           =   "applicationSchoolIdentifier"
-    case VersionNumber      =   "applicationVersionNumber"
-    case PushNotifications  =   "shouldDisplayUserNotifications"
-    case LockScreen         =   "shouldDisplayLockScreen"
+    
+    // Application Setting specific keys.
+    case SchoolName             =   "applicationSchoolName"
+    case SchoolId               =   "applicationSchoolIdentifier"
+    case VersionNumber          =   "applicationVersionNumber"
+    case PushNotifications      =   "shouldDisplayUserNotifications"
+    case LockScreen             =   "shouldDisplayLockScreen"
+    
+    // User Identity specific keys.
+    case UserDisplayName        =   "userDisplayName"
+    case UserImageURL           =   "userImageURL"
+    case UserIdentity           =   "userIdentity"
 }
 
 final class SpecificationManager {
@@ -28,7 +35,7 @@ final class SpecificationManager {
         return UserDefaults.standard
     }
     
-    /// ***************************************************************************
+    /// ************************* School UserDefaults *****************************
     
     /// The school name: Only accessible from within specificationManager.
     private(set) var schoolName: String!
@@ -123,7 +130,7 @@ final class SpecificationManager {
     /// - shouldShowLockScreen: Boolean flag.
     /// - schoolName: The name of the school.
     /// - schoolId: The school identifier.
-    func setUserSettings (_ shouldShowLockScreen: Bool, _ schoolName: String, _ schoolId: String) {
+    func setUserSettings (_ shouldShowLockScreen: Bool, _ schoolName: String, _ schoolId: String, _ startDate: String, _ endDate: String) {
         
         // Assign all variables.
         self.shouldShowLockScreen = shouldShowLockScreen

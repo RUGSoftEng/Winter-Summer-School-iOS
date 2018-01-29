@@ -43,6 +43,15 @@ class RGSForumCommentTableViewCell: UITableViewCell {
         }
     }
     
+    /// The comment author image.
+    var authorImage: UIImage! {
+        didSet (oldAuthorImage) {
+            if (authorImage != nil) {
+                authorImageView.image = authorImage
+            }
+        }
+    }
+    
     // MARK: - Outlets
     
     /// The author profile image.
