@@ -142,7 +142,7 @@ final class SpecificationManager {
         defaults.set(self.schoolName, forKey: UserDefaultKey.SchoolName.rawValue)
         defaults.setValue(self.schoolId, forKey: UserDefaultKey.SchoolId.rawValue)
         
-        debugPrint("User Settings Updated: LockScreen: \(shouldShowLockScreen), SchoolName: \(schoolName), SchoolId: \(schoolId)")
+        print("SpecificationManager: Status Change!\n\tLockScreen Status: \(shouldShowLockScreen)\n\tSchool Name: \(schoolName)\n\tSchool Id: \(schoolId)")
         
         // Synchronize defaults.
         defaults.synchronize()
@@ -162,5 +162,7 @@ final class SpecificationManager {
         
         /// Update shouldShowLockScreen from UserDefaults: (Should always succed. Is in defaults).
         self.shouldShowLockScreen = defaults.bool(forKey: UserDefaultKey.LockScreen.rawValue)
+        
+        print("SpecificationManager: Initialized!\n\tLockScreen Status: \(shouldShowLockScreen)\n\tSchool Name: \(schoolName)\n\tSchool Id: \(schoolId)")
     }
 }

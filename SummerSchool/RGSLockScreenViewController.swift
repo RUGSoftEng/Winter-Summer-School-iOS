@@ -44,7 +44,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
         sender.resignFirstResponder()
         
         let loginCode: String? = authorizationCodeTextField.text
-        debugPrint("Hit enter on login code text field. Code = \(loginCode)")
+
         if (loginCode != nil && isValidCodeFormat(loginCode!)) {
             authorizationCodeTextField.isEnabled = false
             SecurityManager.sharedInstance.authenticateLoginCode(loginCode!, callback: authenticationCallback)
@@ -81,7 +81,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     
     /// Callback function for when the authentication result is obtained
     func authenticationCallback(_ authState: AuthState, _ schoolId: String?) -> Void {
-        debugPrint("Got a response with ID: \(schoolId)")
+
         if (authState == .authenticated) {
             
             /// Fetch School Information.

@@ -89,7 +89,8 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
         NetworkManager.sharedInstance.makeGetRequest(url: requestURL, onCompletion: {(data: Data?, response: URLResponse?) -> Void in
             let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
             let schoolId: String? = DataManager.sharedInstance.parseLoginCodeResponseData(data: data)
-            debugPrint("Dispatched a request: \(requestURL) and got a response code \(httpResponse.statusCode) with schoolId: \(schoolId)")
+            print("SecurityManager: Authentication Status\n\tRequest URL: \(requestURL)\n\tResponse Code: \(httpResponse.statusCode)\n\tSchool ID: \(schoolId)")
+    
             // Status Code isn't 200 -> Incorrect login code.
             if (httpResponse.statusCode != 200) {
                 return callback(.badLoginCode, nil)
@@ -109,8 +110,7 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
     /// Delegate Method Handler.
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         if let userInstance = user {
-            debugPrint("Authenticated: \(userInstance.displayName)", "Profile Image URL: \(userInstance.photoURL)", "Email: \(userInstance.email)")
-            
+            print("SecurityManager: FireBase Status\n\tDisplayName: \(userInstance.displayName)\n\tProfile Image URL: \(userInstance.photoURL)\n\tEmail: \(userInstance.email)")
             // Assign all local variables.
             self.userDisplayName = userInstance.displayName
             self.userImageURL = String(describing: userInstance.photoURL)
@@ -154,7 +154,7 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
         if let userIdentity = defaults.string(forKey: UserDefaultKey.UserIdentity.rawValue) {
             self.userIdentity = userIdentity
         }
-        debugPrint("SecurityManager initialized with: userDislayName: \(self.userDisplayName), userImageURL: \(self.userImageURL), userIdentity: \(self.userIdentity)")
+        print("SecurityManager initialized with: userDislayName: \(self.userDisplayName), userImageURL: \(self.userImageURL), userIdentity: \(self.userIdentity)")
     }
 }
 
