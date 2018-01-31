@@ -53,14 +53,46 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
     /// ***************************************************************************
     
     // MARK: - Private Methods
+    
+    /// Broadcasts a notification about a change in the user authentication state.
+    /// - userInfo: A dictionary containing the user display name, image url, and identity.
+    func broadcastUserAuthenticationStateChange (_ userInfo: [String: String]?) {
+        print("SecurityManager: Broadcasting a change of state in user authentication status: \(userInfo)")
+        let notificationCenter = NotificationCenter.default
+        let notification = Notification.init(name: Notification.Name(rawValue: "NSUserAuthenticationStateChange"), object: self, userInfo: userInfo)
+        notificationCenter.post(notification)
+    }
 
     // MARK: - Public Methods
     
     /// Firebase Function: Returns true if the user has authenticated with profile.
-    func identityIsAuthenticated () -> Bool {
+    func getUserAuthenticationState () -> Bool {
         return (self.userIdentity != nil && self.userImageURL != nil && self.userDisplayName != nil)
     }
     
+    /// Sets the user authentication state to deauthenticated, and removes all stored information.
+    func deauthenticateUser () -> Void {
+        
+        // Assign all local variables.
+        self.userDisplayName = nil
+        self.userImageURL = nil
+        self.userIdentity = nil
+        
+        // Assign all UserDefaults.
+        defaults.set(nil, forKey: UserDefaultKey.UserDisplayName.rawValue)
+        defaults.set(nil, forKey: UserDefaultKey.UserImageURL .rawValue)
+        defaults.setValue(nil, forKey: UserDefaultKey.UserIdentity.rawValue)
+        
+        // Synchronize defaults.
+        defaults.synchronize();
+        
+        // Dispatch notification.
+        broadcastUserAuthenticationStateChange(nil)
+    }
+    
+    /// Dispatches a GET request to obtain data given a schoolId.
+    /// - schoolId: The Id of the school.
+    /// - callback: A callback to which a string tuple (SchoolName, StartDate, EndDate) will be passed on success.
     func requestSchoolInfo (_ schoolId: String, callback: @escaping (String?, String?, String?) -> Void) -> Void {
         
         // Construct schoolInfo verification URL.
@@ -80,6 +112,9 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
         })
     }
     
+    /// Dispatches a GET request to obtain data given a loginCode.
+    /// - loginCode: The loginCode provided by the user.
+    /// - callback: A callback to which the retrieved schoolId will be returned on success.
     func authenticateLoginCode(_ loginCode: String, callback: @escaping (AuthState, String?) -> Void) -> Void {
         
         // Construct loginCode verification URL.
@@ -109,12 +144,16 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
     
     /// Delegate Method Handler.
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
+        var userInfo: [String: String]? = nil
         if let userInstance = user {
             print("SecurityManager: FireBase Status\n\tDisplayName: \(userInstance.displayName)\n\tProfile Image URL: \(userInstance.photoURL)\n\tEmail: \(userInstance.email)")
             // Assign all local variables.
             self.userDisplayName = userInstance.displayName
             self.userImageURL = String(describing: userInstance.photoURL)
             self.userIdentity = userInstance.uid
+            
+            // Construct userInfo dictionary.
+            userInfo = ["userDisplayName" : userDisplayName!, "userImageURL": userImageURL!, "userIdentity": userIdentity!]
             
             // Assign all UserDefaults.
             defaults.set(self.userDisplayName, forKey: UserDefaultKey.UserDisplayName.rawValue)
@@ -124,6 +163,9 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
             // Synchronize defaults.
             defaults.synchronize();
         }
+        
+        // Dispatch notification.
+        broadcastUserAuthenticationStateChange(userInfo)
     }
     
     // MARK: - Class Initializer
@@ -154,7 +196,7 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
         if let userIdentity = defaults.string(forKey: UserDefaultKey.UserIdentity.rawValue) {
             self.userIdentity = userIdentity
         }
-        print("SecurityManager initialized with: userDislayName: \(self.userDisplayName), userImageURL: \(self.userImageURL), userIdentity: \(self.userIdentity)")
+        print("SecurityManager initialized with: userDisplayName: \(self.userDisplayName), userImageURL: \(self.userImageURL), userIdentity: \(self.userIdentity)")
     }
 }
 

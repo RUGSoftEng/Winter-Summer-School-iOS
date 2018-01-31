@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RGSForumInputTableViewCellProtocol {
+class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RGSAuthenticatableObjectDelegate {
     
     // MARK: - Variables and Constants
     
@@ -23,9 +23,6 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     
     /// ForumInputTableViewCell identifier.
     var inputTableViewCellIdentifier: String = "inputTableViewCellIdentifier"
-    
-    /// The current input cell instance.
-    var inputTableViewCell: RGSForumInputTableViewCell?
     
     // MARK: - Outlets
     
@@ -53,9 +50,44 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         if (indexPath.section == 0) {
             return initializeForumContentTableViewCell(with: forumThread)
         } else if (indexPath.section == 1) {
-            return initializeForumInputTableViewCell(isAuthenticated: SecurityManager.sharedInstance.identityIsAuthenticated())
+            return initializeForumInputTableViewCell(isAuthenticated: SecurityManager.sharedInstance.getUserAuthenticationState())
         } else {
             return initializeForumCommentTableViewCell(with: forumThread.comments![indexPath.row])
+        }
+    }
+    
+    // MARK: - UITableView Editing/Deletion Methods
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        // Only comment cells may be edited.
+        if (indexPath.section > 1) {
+            let authenticated = SecurityManager.sharedInstance.getUserAuthenticationState()
+            let userID = SecurityManager.sharedInstance.userIdentity
+            
+            // A comment cell may be edited on condition that the user is authenticated.
+            if let forumComment = self.forumThread.comments?[indexPath.row] {
+                return (authenticated && userID == forumComment.authorID)
+            }
+        }
+        
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            
+            // Extract comment.
+            let comment: RGSForumCommentDataModel = forumThread.comments![indexPath.row]
+            
+            // Dispatch DELETE request.
+            self.dispatchCommentDeleteRequest(comment.id!)
+            
+            // Remove entry from data source.
+            forumThread.comments?.remove(at: indexPath.row)
+            
+            // Animate removal.
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
         }
     }
     
@@ -65,8 +97,8 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         let offset: CGPoint = scrollView.contentOffset
         
         // If a first responder is active, close it: (Keyboard in case of adding a comment).
-        if (inputTableViewCell != nil) {
-            inputTableViewCell?.commentTextField.resignFirstResponder()
+        if let inputTableViewCell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? RGSForumInputTableViewCell {
+            inputTableViewCell.commentTextField.resignFirstResponder()
         }
         
         // If the TableView is enabled, animate reload indicator when tugging. If it is disabled, lock to reload position.
@@ -97,26 +129,7 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         }
     }
     
-    // MARK: - RGSForumInputTableViewCell Delegate Methods
-    
-    /// Method for when user invokes authentication button.
-    func userDidRequestAuthentication(sender: RGSForumInputTableViewCell) -> Void {
-        print("User did request authentication!")
-        
-        // Initiate login.
-        let authViewController = SecurityManager.sharedInstance.authenticationUI!.authViewController()
-        present(authViewController, animated: true, completion: {() -> Void in
-            print("Setting the cell to state authentication as: \(SecurityManager.sharedInstance.identityIsAuthenticated())")
-        })
-    }
-    
-    /// Method for when the user submits a comment.
-    /// comment: - A string composing of the comment body.
-    func userDidSubmitComment (comment: String, sender: RGSForumInputTableViewCell) -> Void {
-        print("User did request to submit comment: \(comment)")
-    }
-    
-    // MARK: - Private Class Methods
+    // MARK: - Private Class Methods: UITableView
     
     /// Initialize a content view cell: The thread content.
     func initializeForumContentTableViewCell (with thread: RGSForumThreadDataModel) -> RGSForumContentTableViewCell {
@@ -150,14 +163,14 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     /// Initialize an input view cell: A cell for authenticating to the forum and submitting comments.
     func initializeForumInputTableViewCell (isAuthenticated: Bool) -> RGSForumInputTableViewCell {
         var cell: RGSForumInputTableViewCell?
-        
+
         if ((cell = tableView.dequeueReusableCell(withIdentifier: inputTableViewCellIdentifier) as! RGSForumInputTableViewCell?) == nil) {
-            cell = RGSForumInputTableViewCell(isAuthenticated: isAuthenticated)
+            cell = RGSForumInputTableViewCell()
         }
         
-        // Set self as input table view cell delegate, and update reference.
+        // Set self as authenticatable delegate.
         cell?.delegate = self
-        inputTableViewCell = cell
+        cell?.isAuthenticated = isAuthenticated
         return cell!
     }
     
@@ -173,6 +186,115 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         tableView.setContentOffset(.zero, animated: true)
     }
     
+    // MARK: - RGSAuthenticatableObjectDelegate Delegate Methods
+    
+    /// Method for when user invokes authentication button.
+    func userDidRequestAuthentication(sender: UITableViewCell) -> Void {
+        print("User did request authentication!")
+        
+        // Initialize and present the authentication view controller.
+        let authViewController = SecurityManager.sharedInstance.authenticationUI!.authViewController()
+        present(authViewController, animated: true, completion: nil)
+    }
+    
+    /// Method for when user invokes deauthentication button.
+    func userDidRequestDeauthentication (sender: UITableViewCell) -> Void{
+        print("User did request deauthentication!")
+        
+        // Signal to SecurityManager to sign the user out.
+        SecurityManager.sharedInstance.deauthenticateUser()
+    }
+    
+    /// Method for when the user submits content.
+    /// contentString: - A string composing the body of the submitted content.
+    func userDidSubmitContent (contentString: String?, sender: UITableViewCell) -> Void {
+        print("User did request to submit comment: \(contentString)")
+        if let comment = contentString {
+            dispatchCommentPostRequest(comment)
+        }
+    }
+    
+    // MARK: - Private Class Methods: AlertControllers
+    
+    /// Presents an error message to the user.
+    /// - message: The message which will appear beneath the title.
+    func displayNetworkActionAlert (_ message: String) {
+        let alertController = ActionManager.sharedInstance.getActionSheet(title: "Network Anomaly", message: message, dismissMessage: "Okay")
+        self.present(alertController, animated: false, completion: nil)
+    }
+    
+    // MARK: - Notifications
+    
+    /// Handler for changes to user authentication state.
+    func userAuthenticationStateDidChange (_ notification: Notification) -> Void {
+        print("RGSForumThread: Received change of notification state message!")
+        
+        // Test.
+        if let userInfo = notification.userInfo as? [String: String] {
+            print("Signed In As \(userInfo["userDisplayName"])!")
+        } else {
+            print("Signed Out!")
+        }
+        
+        // Update inputCell appearance.
+        if let inputTableViewCell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? RGSForumInputTableViewCell {
+            inputTableViewCell.isAuthenticated = (notification.userInfo != nil)
+        }
+        
+        // Reload inputCell.
+        tableView.reloadSections(IndexSet.init(integer: 1), with: .middle)
+    }
+    
+    // MARK: - Superclass Method Overrides
+    
+    /// Handler for display of title label: Defaults to false
+    override func shouldShowTitleLabel() -> (Bool, String?) {
+        return (true, forumThread.author)
+    }
+    
+    /// Handler for display of return button: Defaults to false
+    override func shouldShowReturnButton() -> Bool {
+        return true
+    }
+    
+    // MARK: - Class Method Overrides
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setNavigationBarTheme()
+        
+        // Register: Content Table View Cell.
+        let contentTableViewCell: UINib = UINib(nibName: "RGSForumContentTableViewCell", bundle: nil)
+        tableView.register(contentTableViewCell, forCellReuseIdentifier: contentTableViewCellIdentifier)
+        
+        // Register: Comment Table View Cell.
+        let commentTableViewCell: UINib = UINib(nibName: "RGSForumCommentTableViewCell", bundle: nil)
+        tableView.register(commentTableViewCell, forCellReuseIdentifier: commentTableViewCellIdentifier)
+        
+        // Register: Input Table View Cell.
+        let inputTableViewCell: UINib = UINib(nibName: "RGSForumInputTableViewCell", bundle: nil)
+        tableView.register(inputTableViewCell, forCellReuseIdentifier: inputTableViewCellIdentifier)
+        
+        // Configure table to do automatic cell sizing.
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        // Register for User Authentication State Change notifications.
+        let notificationName = Notification.Name(rawValue: "NSUserAuthenticationStateChange")
+        NotificationCenter.default.addObserver(self, selector: #selector(userAuthenticationStateDidChange(_:)), name: notificationName, object: nil)
+        
+        // Attempt to refresh ForumComment Model by querying the server.
+        self.refreshModelData();
+    }
+    
+}
+
+extension RGSForumThreadViewController {
+    
+    // MARK: - Network GET Requests.
+    
+    /// Dispatches a task to perform a GET request for new model data.
+    /// Automatically invokes secondary model data GET request.
     func refreshModelData(automatic: Bool = true) {
         
         // If popup was dismissed, undo upon manual refresh.
@@ -199,8 +321,7 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         }
     }
     
-    
-    /// Dispatches a task to fetch secondary resources.
+    /// Dispatches a task to perform a GET request for all secondary resources.
     /// - model: An array of data models to update.
     func refreshSecondaryModelData (model: [RGSForumCommentDataModel]) -> Void {
         
@@ -240,42 +361,67 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         }
     }
     
-    // MARK: - Superclass Method Overrides
+    // MARK: - Network POST Requests.
     
-    /// Handler for display of title label: Defaults to false
-    override func shouldShowTitleLabel() -> (Bool, String?) {
-        return (true, forumThread.author)
+    /// Dispatches a task to perform a POST request to the application server.
+    /// Presents an alertController on failure.
+    func dispatchCommentPostRequest (_ comment: String) {
+        
+        // Construct POST request body.
+        var body: [String: Any] = [:]
+        body["text"] = comment
+        body["author"] = SecurityManager.sharedInstance.userDisplayName
+        body["posterID"] = SecurityManager.sharedInstance.userIdentity
+        body["imgURL"] = SecurityManager.sharedInstance.userImageURL
+        body["parentThread"] = forumThread.id
+        
+        // Dispatch POST request.
+        do {
+            let data = try JSONSerialization.data(withJSONObject: body, options: [])
+            let url = NetworkManager.sharedInstance.URLForForumComments()
+            NetworkManager.sharedInstance.makePostRequest(url: url, data: data, onCompletion: {(_, response: URLResponse?) -> Void in
+                
+                // Extract httpResponse
+                let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
+                print("Received status code: \(httpResponse.statusCode)")
+                DispatchQueue.main.async {
+                    if (httpResponse.statusCode != 200) {
+                        self.displayNetworkActionAlert("Unable to submit comment!")
+                    } else {
+                        print("The comment was submitted. Refreshing the model data...")
+                        self.refreshModelData()
+                    }
+                }
+                
+            })
+        } catch {
+            self.displayNetworkActionAlert("Unable to build JSON body. Please contact developers!")
+        }
     }
     
-    /// Handler for display of return button: Defaults to false
-    override func shouldShowReturnButton() -> Bool {
-        return true
+    // MARK: - Network DELETE Requests.
+    
+    /// Dispatches a task to perform a DELETE request to the application server.
+    /// Presents an alertController on failure.
+    /// - commentId: The ID of the comment to be deleted.
+    func dispatchCommentDeleteRequest (_ commentId: String) {
+        
+        // Construct DELETE request URL.
+        let url: String = NetworkManager.sharedInstance.URLWithOptions(url: NetworkManager.sharedInstance.URLForForumComments(), options: "id=\(commentId)")
+        
+        // Dispatch DELETE request.
+        NetworkManager.sharedInstance.makeDeleteRequest(url: url, onCompletion: {(_, response: URLResponse?) -> Void in
+            
+            // Extract httpResponse.
+            let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
+            DispatchQueue.main.async {
+                if (httpResponse.statusCode != 200) {
+                    self.displayNetworkActionAlert("Unable to delete comment!")
+                } else {
+                    print("The comment deletion was sent! Refreshing the model data...")
+                    self.refreshModelData()
+                }
+            }
+        })
     }
-    
-    // MARK: - Class Method Overrides
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setNavigationBarTheme()
-        
-        // Register: Content Table View Cell.
-        let contentTableViewCell: UINib = UINib(nibName: "RGSForumContentTableViewCell", bundle: nil)
-        tableView.register(contentTableViewCell, forCellReuseIdentifier: contentTableViewCellIdentifier)
-        
-        // Register: Comment Table View Cell.
-        let commentTableViewCell: UINib = UINib(nibName: "RGSForumCommentTableViewCell", bundle: nil)
-        tableView.register(commentTableViewCell, forCellReuseIdentifier: commentTableViewCellIdentifier)
-        
-        // Register: Input Table View Cell.
-        let inputTableViewCell: UINib = UINib(nibName: "RGSForumInputTableViewCell", bundle: nil)
-        tableView.register(inputTableViewCell, forCellReuseIdentifier: inputTableViewCellIdentifier)
-        
-        // Configure table to do automatic cell sizing.
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableViewAutomaticDimension
-        
-        // Attempt to refresh ForumComment Model by querying the server.
-        self.refreshModelData();
-    }
-    
 }

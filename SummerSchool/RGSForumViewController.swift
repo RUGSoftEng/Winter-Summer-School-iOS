@@ -19,22 +19,34 @@ func installComments (forumThread: RGSForumThreadDataModel) -> Void {
     
     let forthComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "4", author: "William Shockley", authorID: "WS", body: "Sorry, but I think you both kind of discovered it by brute force. It's not really an original idea you executed. The joint transistor, however, is arguably an original idea.", imagePath: "https://www.nobelprize.org/nobel_prizes/physics/laureates/1956/shockley_postcard.jpg", date: Date())
     
-    let fifthComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "5", author: "Mervin Kelly", authorID: "MK", body: "That's enough Shockley. Your attitude is grounds for termination.", imagePath: "https://history.aip.org/phn/Photos/kelly_mervin_a5.jpg", date: Date())
+    let fifthComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "5", author: "Mervin Kelly", authorID: "9QaYeJ9aWBbc4zWLLrrjxzTAoOT2", body: "That's enough Shockley. Your attitude is grounds for termination.", imagePath: "https://history.aip.org/phn/Photos/kelly_mervin_a5.jpg", date: Date())
     
     forumThread.comments = [firstComment, secondComment, thirdComment, forthComment, fifthComment]
     
 }
 
 
-class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RGSAuthenticatableObjectDelegate {
     
     // MARK: - Variables & Constants
     
-    /// UITableViewCellIdentifier
+    /// Content Form Segue Identifier.
+    let contentFormSegueIdentifier = "showContentFormViewController"
+    
+    /// Forum Thread Segue Identifier.
+    let forumThreadSegueIdentifier = "showForumThreadViewController"
+    
+    /// RGSForumThreadTableViewCellIdentifier
     let forumThreadTableViewCellIdentifier: String = "forumThreadTableViewCellIdentifier"
     
-    /// UITableViewCell Custom Height
+    /// RGSForumButtonTableViewCellIdentifier
+    let forumButtonTableViewCellIdentifier: String = "forumButtonTableViewCellIdentifier"
+    
+    /// ForumThread Cell Custom Height
     let forumThreadTableViewCellHeight: CGFloat = 80
+    
+    /// ForumButton Cell Custom Height
+    let forumButtonTableViewCellHeight: CGFloat = 46
     
     /// Data for the UITableView
     var forumThreads: [RGSForumThreadDataModel]! {
@@ -69,52 +81,60 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     // MARK: - UITableViewDelegate/DataSource Protocol Methods
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (forumThreads == nil) ? 0 : forumThreads!.count
+        if (section == 0) {
+            return 1
+        } else {
+            return (forumThreads == nil) ? 0 : forumThreads!.count
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return forumThreadTableViewCellHeight
+        return (indexPath.section == 0 ? forumButtonTableViewCellHeight : forumThreadTableViewCellHeight)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Selection is disabled for button cells.
+        if (indexPath.section != 1) {
+            return
+        }
+        
         let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         tableView.deselectRow(at: indexPath, animated: false)
-        self.performSegue(withIdentifier: "RGSForumThreadViewController", sender: cell)
+        self.performSegue(withIdentifier: forumThreadSegueIdentifier, sender: cell)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: RGSForumThreadTableViewCell = tableView.dequeueReusableCell(withIdentifier: forumThreadTableViewCellIdentifier) as! RGSForumThreadTableViewCell
-        let forumThread = forumThreads[indexPath.row]
-        
-        cell.title = forumThread.title
-        cell.author = forumThread.author
-        cell.date = forumThread.date
-        cell.commentCount = forumThread.comments?.count
-        cell.authorImage = forumThread.image
-        
-        return cell
+        if (indexPath.section == 0) {
+            return initializeForumButtonTableViewCell()
+        } else {
+            return initializeForumThreadTableViewCell(with: forumThreads[indexPath.row])
+        }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        let authorIdentity: String = forumThreads[indexPath.row].authorID!
-        debugPrint("User with identity \(SecurityManager.sharedInstance.userIdentity) is trying to edit a post with author identity \(authorIdentity)")
-        return (SecurityManager.sharedInstance.identityIsAuthenticated() && (SecurityManager.sharedInstance.userIdentity == authorIdentity))
+        let thread = forumThreads[indexPath.row]
+        
+        return (SecurityManager.sharedInstance.getUserAuthenticationState() && SecurityManager.sharedInstance.userIdentity == thread.authorID)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        // Action for deletion.
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
-            let alertController: UIAlertController = ActionManager.sharedInstance.getRemoveActionSheet(title: "Forum Thread Deletion", message: "Are you sure you want to delete this thread?", dismissMessage: "I am", handler: {(_: UIAlertAction) -> Void in
-                self.forumThreads.remove(at: indexPath.row)
-                self.tableView.deleteRows(at: [indexPath], with: .fade)
-            })
-            present(alertController, animated: true, completion: nil)
-        }
+        // Extract thread.
+        let thread: RGSForumThreadDataModel = forumThreads[indexPath.row]
+        
+        // Dispatch DELETE request.
+        self.dispatchThreadDeleteRequest(thread.id!)
+        
+        // Remove entry from data source.
+        forumThreads.remove(at: indexPath.row)
+        
+        // Animate removal.
+        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
     }
     
     // MARK: - UITableView ScrollView Delegate Protocol Methods
@@ -148,8 +168,38 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         }
     }
     
+    // MARK: - Private Class Methods: UITableView
     
-    // MARK: - Private Class Methods
+    /// Initialize a thread view cell: A thread.
+    func initializeForumThreadTableViewCell (with thread: RGSForumThreadDataModel) -> RGSForumThreadTableViewCell {
+        var cell: RGSForumThreadTableViewCell?
+        
+        if ((cell = tableView.dequeueReusableCell(withIdentifier: forumThreadTableViewCellIdentifier) as! RGSForumThreadTableViewCell?) == nil) {
+            cell = RGSForumThreadTableViewCell()
+        }
+
+        cell?.title = thread.title
+        cell?.author = thread.author
+        cell?.date = thread.date
+        cell?.commentCount = thread.comments?.count
+        cell?.authorImage = thread.image
+        
+        return cell!
+    }
+    
+    /// Initialize a button view cell: Buttons for allowing thread posting and signing in/out.
+    func initializeForumButtonTableViewCell () -> RGSForumButtonTableViewCell {
+        var cell: RGSForumButtonTableViewCell?
+        
+        if ((cell = tableView.dequeueReusableCell(withIdentifier: forumButtonTableViewCellIdentifier) as! RGSForumButtonTableViewCell?) == nil) {
+            cell = RGSForumButtonTableViewCell()
+        }
+        
+        // Set self as authenticatable delegate.
+        cell?.delegate = self
+        cell?.isAuthenticated = SecurityManager.sharedInstance.getUserAuthenticationState()
+        return cell!
+    }
     
     func suspendTableViewInteraction(contentOffset offset: CGPoint) {
         tableView.setContentOffset(offset, animated: true)
@@ -162,6 +212,140 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         tableView.isUserInteractionEnabled = true
         tableView.setContentOffset(.zero, animated: true)
     }
+    
+    // MARK: - RGSAuthenticatableObjectDelegate Delegate Methods
+    
+    /// Method for when user invokes authentication button.
+    func userDidRequestAuthentication(sender: UITableViewCell) -> Void {
+        print("User did request authentication!")
+        
+        // Initialize and present the authentication view controller.
+        let authViewController = SecurityManager.sharedInstance.authenticationUI!.authViewController()
+        present(authViewController, animated: true, completion: nil)
+    }
+    
+    /// Method for when user invokes deauthentication button.
+    func userDidRequestDeauthentication (sender: UITableViewCell) -> Void{
+        print("User did request deauthentication!")
+        
+        // Signal to SecurityManager to sign the user out.
+        SecurityManager.sharedInstance.deauthenticateUser()
+    }
+    
+    /// Method for when the user submits content.
+    /// contentString: - A string composing the body of the submitted content.
+    func userDidSubmitContent (contentString: String?, sender: UITableViewCell) -> Void {
+        print("User did request to submit thread")
+        performSegue(withIdentifier: contentFormSegueIdentifier, sender: self)
+    }
+    
+    // MARK: - Private Class Methods: AlertControllers
+    
+    /// Presents an error message to the user.
+    /// - message: The message which will appear beneath the title.
+    func displayNetworkActionAlert (_ message: String) {
+        let alertController = ActionManager.sharedInstance.getActionSheet(title: "Network Anomaly", message: message, dismissMessage: "Okay")
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    // MARK: - Notifications
+    
+    /// Handler for when the app is about to suspend execution
+    override func applicationWillResignActive(notification: NSNotification) {
+        super.applicationWillResignActive(notification: notification)
+        
+        if (forumThreads != nil) {
+            print("Saving forum threads...")
+            RGSForumThreadDataModel.saveDataModel(forumThreads, context: DataManager.sharedInstance.context)
+        }
+    }
+    
+    /// Handler for changes to user authentication state.
+    func userAuthenticationStateDidChange (_ notification: Notification) -> Void {
+        print("RGSForumViewController: Received change of notification state!")
+        
+        // Update buttonCell appearance.
+        if let buttonTableViewCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RGSForumButtonTableViewCell {
+            buttonTableViewCell.isAuthenticated = (notification.userInfo != nil)
+        }
+        
+        // Reload buttonCell.
+        tableView.reloadSections(IndexSet.init(integer: 0), with: .middle)
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if (segue.identifier == forumThreadSegueIdentifier) {
+            // Extract destination ViewController, cell tapped in question.
+            let forumThreadViewController: RGSForumThreadViewController = segue.destination as! RGSForumThreadViewController
+            let indexPath: IndexPath = tableView.indexPath(for: sender as! RGSForumThreadTableViewCell)!
+            
+            // Set announcement to be displayed to that corresponding to the tapped cell.
+            let forumThread = forumThreads[indexPath.row]
+            forumThreadViewController.forumThread = forumThread
+        } else {
+            
+        }
+    }
+    
+    
+    // MARK: - Class Method Overrides
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setNavigationBarTheme()
+        
+        // Register Thread UITableViewCell
+        let forumThreadTableViewCellNib: UINib = UINib(nibName: "RGSForumThreadTableViewCell", bundle: nil)
+        tableView.register(forumThreadTableViewCellNib, forCellReuseIdentifier: forumThreadTableViewCellIdentifier)
+        
+        // Register Button UITableViewCell
+        let forumButtonTableViewCellNib: UINib = UINib(nibName: "RGSForumButtonTableViewCell", bundle: nil)
+        tableView.register(forumButtonTableViewCellNib, forCellReuseIdentifier: forumButtonTableViewCellIdentifier)
+        
+        // Attempt to load ForumThread Model from Core Data.
+        if let forumThreads = RGSForumThreadDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSForumThreadDataModel.sort) {
+            self.forumThreads = forumThreads
+        }
+        
+        // Register for User Authentication State Change notifications.
+        let notificationName = Notification.Name(rawValue: "NSUserAuthenticationStateChange")
+        NotificationCenter.default.addObserver(self, selector: #selector(userAuthenticationStateDidChange(_:)), name: notificationName, object: nil)
+
+        // Attempt to refresh ForumThread Model by querying the server.
+        self.refreshModelData();
+        
+        
+        let forumThread: RGSForumThreadDataModel = RGSForumThreadDataModel(id: "1", title: "Issuing a formal complaint.", author: "Walter Brattain", authorID: "WB", body: "I'd like to make a formal complaint about Mr.Shockley. For the past year John Bardeen and I have slaved away in our laboratory on what eventually became the point-touch transistor. Countless hours were spent experimenting with Germanium of various purities and electrical currents. Meanwhile, Mr.Shockley spent his time almost entirely preoccupied with his own projects and gave little to no assistance (or even an indication of interest) whatsoever. This is why I find it absolutely unacceptable that he interrupts our established tradition of not stepping on others work by introducing this so called joint transistor during our public release phase. I imagine Mr.Bardeen would agree with me immensely.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date(), comments: [])
+        self.forumThreads = [forumThread]
+        
+        // INSTALL DEMO COMMENTS
+        installComments(forumThread: forumThreads[0])
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        // Flush forumThreads
+        forumThreads = []
+    }
+    
+}
+
+
+extension RGSForumViewController {
+    
+    // MARK: - Network Support Methods.
+    
+    func filtered (model: [RGSForumThreadDataModel], by schoolId: String) -> [RGSForumThreadDataModel] {
+        return model.filter({(model: RGSForumThreadDataModel) -> Bool in
+            return true
+        })
+    }
+    
+    // MARK: - Network GET Requests.
     
     func refreshModelData(automatic: Bool = true) {
         
@@ -225,62 +409,33 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         }
     }
     
-    // MARK: - Notifications
+    // MARK: - Network POST Requests.
     
-    /// Handler for when the app is about to suspend execution
-    override func applicationWillResignActive(notification: NSNotification) {
-        super.applicationWillResignActive(notification: notification)
+    // MARK: - Network PUT Requests.
+    
+    // MARK: - Network DELETE Requests.
+    
+    /// Dispatches a task to perform a DELETE request to the application server.
+    /// Presents an alertController on failure.
+    /// - threadId: The ID of the thread to be deleted.
+    func dispatchThreadDeleteRequest (_ threadId: String) {
         
-        if (forumThreads != nil) {
-            print("Saving forum threads...")
-            RGSForumThreadDataModel.saveDataModel(forumThreads, context: DataManager.sharedInstance.context)
-        }
+        // Construct DELETE request URL.
+        let url: String = NetworkManager.sharedInstance.URLWithOptions(url: NetworkManager.sharedInstance.URLForForumThreads(), options: "id=\(threadId)")
+        
+        // Dispatch DELETE request.
+        NetworkManager.sharedInstance.makeDeleteRequest(url: url, onCompletion: {(_, response: URLResponse?) -> Void in
+            
+            // Extract httpResponse.
+            let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
+            DispatchQueue.main.async {
+                if (httpResponse.statusCode != 200) {
+                    self.displayNetworkActionAlert("Unable to delete thread!")
+                } else {
+                    print("The thread deletion was sent! Refreshing the model data...")
+                    self.refreshModelData()
+                }
+            }
+        })
     }
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        // Extract destination ViewController, cell tapped in question.
-        let forumThreadViewController: RGSForumThreadViewController = segue.destination as! RGSForumThreadViewController
-        let indexPath: IndexPath = tableView.indexPath(for: sender as! RGSForumThreadTableViewCell)!
-        
-        // Set announcement to be displayed to that corresponding to the tapped cell.
-        let forumThread = forumThreads[indexPath.row]
-        forumThreadViewController.forumThread = forumThread
-    }
-    
-    
-    // MARK: - Class Method Overrides
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setNavigationBarTheme()
-        
-        // Register Custom UITableViewCell
-        let forumTableViewCellNib: UINib = UINib(nibName: "RGSForumThreadTableViewCell", bundle: nil)
-        tableView.register(forumTableViewCellNib, forCellReuseIdentifier: forumThreadTableViewCellIdentifier)
-        
-        // Attempt to load ForumThread Model from Core Data.
-        if let forumThreads = RGSForumThreadDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSForumThreadDataModel.sort) {
-            self.forumThreads = forumThreads
-        }
-
-        // Attempt to refresh ForumThread Model by querying the server.
-        self.refreshModelData();
-        
-        let forumThread: RGSForumThreadDataModel = RGSForumThreadDataModel(id: "1", title: "Issuing a formal complaint.", author: "Walter Brattain", authorID: "WB", body: "I'd like to make a formal complaint about Mr.Shockley. For the past year John Bardeen and I have slaved away in our laboratory on what eventually became the point-touch transistor. Countless hours were spent experimenting with Germanium of various purities and electrical currents. Meanwhile, Mr.Shockley spent his time almost entirely preoccupied with his own projects and gave little to no assistance (or even an indication of interest) whatsoever. This is why I find it absolutely unacceptable that he interrupts our established tradition of not stepping on others work by introducing this so called joint transistor during our public release phase. I imagine Mr.Bardeen would agree with me immensely.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date(), comments: [])
-        self.forumThreads = [forumThread]
-        
-        // INSTALL DEMO COMMENTS
-        installComments(forumThread: forumThreads[0])
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-        // Flush forumThreads
-        forumThreads = []
-    }
-    
 }

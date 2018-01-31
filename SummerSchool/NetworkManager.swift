@@ -17,6 +17,7 @@ enum ServerPath: String {
     case schoolInfoPath = "/API/school"
     case lecturerPath = "/API/lecturer"
     case forumPath = "/API/forum/thread"
+    case forumComment = "/API/forum/comment"
 }
 
 final class NetworkManager {
@@ -56,13 +57,28 @@ final class NetworkManager {
         if (options.count > 0) {
             serverPath += "?"
             for (i, option) in options.enumerated() {
-                serverPath += option + (i + 1 >= options.count ? "": "&")
+                serverPath += option + (i + 1 >= options.count ? "" : "&")
             }
         }
         return serverPath
     }
     
     // MARK: - Public Methods
+    
+    /// Returns a URL appended with the given parameters.
+    /// - options: The optional parameters to include.
+    func URLWithOptions(url: String, options: String...) -> String {
+        var newURL = url
+        
+        if (options.count > 0) {
+            newURL += "?"
+            for (i, option) in options.enumerated() {
+                newURL += option + (i + 1 >= options.count ? "" : "&")
+            }
+        }
+        
+        return newURL;
+    }
     
     /// Returns the address needed to extract general information
     /// from the server.
@@ -100,9 +116,15 @@ final class NetworkManager {
         return serverAddress + ServerPath.forumPath.rawValue
     }
     
+    /// Returns the address needed to extract comment postings
+    /// from the server.
+    func URLForForumComments() -> String {
+        return serverAddress + ServerPath.forumComment.rawValue
+    }
+    
     /// Returns a concatenated address needed to extract the
     /// resource from the server.
-    func URLForResourceWithPath(_ path: String) -> String {
+    func URLForResourceWithPath (_ path: String) -> String {
         return serverAddress + path
     }
     
@@ -112,7 +134,7 @@ final class NetworkManager {
     /// - Parameters:
     ///     - offset: The offset from the current week from which to
     ///               extract events. -1 = last week, 2 = next next week.
-    func URLForEventsByWeek(offset: Int) -> String {
+    func URLForEventsByWeek (offset: Int) -> String {
         return serverAddress + serverPathWithOptions(path: .eventPath, options: "week=\(offset)")
     }
     
@@ -122,7 +144,7 @@ final class NetworkManager {
     /// - Parameters:
     ///     - url: A String describing the resource to aim the request at.
     ///     - onCompletion: A closure to execute upon completion.
-    func makeGetRequest(url: String, onCompletion: @escaping (_: Data?, _: URLResponse?) -> Void) -> Void {
+    func makeGetRequest (url: String, onCompletion: @escaping (_: Data?, _: URLResponse?) -> Void) -> Void {
         
         // Construct Request
         var request: URLRequest = URLRequest(url: URL(string: url)!)
@@ -141,6 +163,72 @@ final class NetworkManager {
             
             // Update network status. Assumes all requests require a data response.
             self.hasNetworkConnection = (data != nil)
+            
+            // Execute callback
+            onCompletion(data, response)
+        }
+        
+        task.resume()
+    }
+    
+    /// Performs a POST request to the given URL, executes a callback with the response
+    /// from the server.
+    ///
+    /// - Parameters:
+    ///     - url: A String describing the resource to aim the request at.
+    ///     - data: The request body.
+    ///     - onCompletion: A closure to execute on completion.
+    func makePostRequest (url: String, data: Data?, onCompletion: @escaping (_: Data?, _: URLResponse?) -> Void) -> Void {
+        
+        // Construct request.
+        var request: URLRequest = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "POST"
+        request.httpBody = data
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let session: URLSession = URLSession.shared
+        
+        // Start Network Activity Indicator.
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let task = session.dataTask(with: request) {data, response, err in
+            
+            // Stop Network Activity Indicator
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
+            
+            // Execute callback
+            onCompletion(data, response)
+        }
+        
+        task.resume()
+    }
+    
+    /// Performs a DELETE request to the given URL, executes a callback with the response
+    /// from the server.
+    ///
+    /// - Parameters:
+    ///     - url: A String describing the resource to aim the request at.
+    ///     - onCompletion: A closure to execute on completion.
+    func makeDeleteRequest (url: String, onCompletion: @escaping (_: Data?, _: URLResponse?) -> Void) -> Void {
+        
+        // Construct request.
+        var request: URLRequest = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "DELETE"
+        
+        let session: URLSession = URLSession.shared
+        
+        // Start Network Activity Indicator.
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let task = session.dataTask(with: request) {data, response, err in
+            
+            // Stop Network Activity Indicator
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
             
             // Execute callback
             onCompletion(data, response)

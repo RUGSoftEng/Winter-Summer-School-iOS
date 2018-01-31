@@ -30,7 +30,7 @@
 		6B3D493F200D2B69006E6DF4 /* RGSForumCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B3D493D200D2B69006E6DF4 /* RGSForumCommentTableViewCell.xib */; };
 		6B3D4942200D45FB006E6DF4 /* RGSForumInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3D4940200D45FB006E6DF4 /* RGSForumInputTableViewCell.swift */; };
 		6B3D4943200D45FB006E6DF4 /* RGSForumInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B3D4941200D45FB006E6DF4 /* RGSForumInputTableViewCell.xib */; };
-		6B3D4945200D4DB7006E6DF4 /* RGSForumInputTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3D4944200D4DB7006E6DF4 /* RGSForumInputTableViewCellDelegate.swift */; };
+		6B3D4945200D4DB7006E6DF4 /* RGSAuthenticatableObjectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3D4944200D4DB7006E6DF4 /* RGSAuthenticatableObjectDelegate.swift */; };
 		6B42480C1F3092D800D03082 /* RGSLecturerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B42480B1F3092D800D03082 /* RGSLecturerProfileViewController.swift */; };
 		6B461E6A1F1FB80500C7992B /* RGSEmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B461E681F1FB80500C7992B /* RGSEmptyTableViewCell.swift */; };
 		6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B461E691F1FB80500C7992B /* RGSEmptyTableViewCell.xib */; };
@@ -38,6 +38,8 @@
 		6B686ED41FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B686ED21FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift */; };
 		6B686ED51FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B686ED31FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib */; };
 		6B7118931FE46D25000F4917 /* RGSAnnouncementDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7118921FE46D25000F4917 /* RGSAnnouncementDataModel.swift */; };
+		6B7755DA20211115003E2568 /* RGSForumButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7755D820211115003E2568 /* RGSForumButtonTableViewCell.swift */; };
+		6B7755DB20211115003E2568 /* RGSForumButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */; };
 		6B9D9A2B1F387D2A00776309 /* RGSTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */; };
 		6B9D9A2D1F387D3D00776309 /* RGSTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */; };
 		6BA3F3971F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */; };
@@ -61,6 +63,7 @@
 		6BB7A9551EE4A7E9005FA5B0 /* RGSForumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7A9541EE4A7E9005FA5B0 /* RGSForumViewController.swift */; };
 		6BB7A9591EE4A80C005FA5B0 /* RGSLockScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7A9581EE4A80C005FA5B0 /* RGSLockScreenViewController.swift */; };
 		6BB7A9641EE4BBAA005FA5B0 /* RGSControlBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7A9631EE4BBAA005FA5B0 /* RGSControlBarDelegate.swift */; };
+		6BD9C14F20213230007BFAE1 /* RGSContentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD9C14E20213230007BFAE1 /* RGSContentFormViewController.swift */; };
 		6BDFBA2D1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BDFBA2C1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib */; };
 		6BDFBA2F1EEC2C0A0018EC84 /* RGSScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDFBA2E1EEC2C0A0018EC84 /* RGSScheduleTableViewCell.swift */; };
 		6BE46BA4200A70840022BFA6 /* RGSGeneralInfoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA3200A70840022BFA6 /* RGSGeneralInfoDataModel.swift */; };
@@ -97,7 +100,7 @@
 		6B3D493D200D2B69006E6DF4 /* RGSForumCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumCommentTableViewCell.xib; sourceTree = "<group>"; };
 		6B3D4940200D45FB006E6DF4 /* RGSForumInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumInputTableViewCell.swift; sourceTree = "<group>"; };
 		6B3D4941200D45FB006E6DF4 /* RGSForumInputTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumInputTableViewCell.xib; sourceTree = "<group>"; };
-		6B3D4944200D4DB7006E6DF4 /* RGSForumInputTableViewCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumInputTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		6B3D4944200D4DB7006E6DF4 /* RGSAuthenticatableObjectDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAuthenticatableObjectDelegate.swift; sourceTree = "<group>"; };
 		6B42480B1F3092D800D03082 /* RGSLecturerProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLecturerProfileViewController.swift; sourceTree = "<group>"; };
 		6B461E681F1FB80500C7992B /* RGSEmptyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSEmptyTableViewCell.swift; sourceTree = "<group>"; };
 		6B461E691F1FB80500C7992B /* RGSEmptyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSEmptyTableViewCell.xib; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 		6B686ED21FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadTableViewCell.swift; sourceTree = "<group>"; };
 		6B686ED31FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumThreadTableViewCell.xib; sourceTree = "<group>"; };
 		6B7118921FE46D25000F4917 /* RGSAnnouncementDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementDataModel.swift; sourceTree = "<group>"; };
+		6B7755D820211115003E2568 /* RGSForumButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumButtonTableViewCell.swift; sourceTree = "<group>"; };
+		6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumButtonTableViewCell.xib; sourceTree = "<group>"; };
 		6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSTabView.swift; sourceTree = "<group>"; };
 		6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSTabView.xib; sourceTree = "<group>"; };
 		6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -132,6 +137,7 @@
 		6BD4C03820101860002D881E /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileProvider.framework; path = ../../../../../../../Downloads/FileProvider.framework; sourceTree = "<group>"; };
 		6BD4C03A2010193B002D881E /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		6BD4C03E20101981002D881E /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
+		6BD9C14E20213230007BFAE1 /* RGSContentFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSContentFormViewController.swift; sourceTree = "<group>"; };
 		6BDFBA2C1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSScheduleTableViewCell.xib; sourceTree = "<group>"; };
 		6BDFBA2E1EEC2C0A0018EC84 /* RGSScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		6BE46BA3200A70840022BFA6 /* RGSGeneralInfoDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSGeneralInfoDataModel.swift; sourceTree = "<group>"; };
@@ -204,6 +210,7 @@
 			children = (
 				6BB7A9541EE4A7E9005FA5B0 /* RGSForumViewController.swift */,
 				6B3CAB77200BE08900126C22 /* RGSForumThreadViewController.swift */,
+				6BD9C14E20213230007BFAE1 /* RGSContentFormViewController.swift */,
 			);
 			name = Forum;
 			sourceTree = "<group>";
@@ -313,6 +320,7 @@
 				6B686ED31FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib */,
 				6B3CAB7A200BEE3800126C22 /* RGSForumContentTableViewCell.xib */,
 				6B3D493D200D2B69006E6DF4 /* RGSForumCommentTableViewCell.xib */,
+				6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */,
 				6B3D4941200D45FB006E6DF4 /* RGSForumInputTableViewCell.xib */,
 				6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */,
 			);
@@ -331,6 +339,7 @@
 				6B686ED21FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift */,
 				6B3CAB79200BEE3800126C22 /* RGSForumContentTableViewCell.swift */,
 				6B3D493C200D2B69006E6DF4 /* RGSForumCommentTableViewCell.swift */,
+				6B7755D820211115003E2568 /* RGSForumButtonTableViewCell.swift */,
 				6B3D4940200D45FB006E6DF4 /* RGSForumInputTableViewCell.swift */,
 				6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */,
 				6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */,
@@ -343,7 +352,7 @@
 			children = (
 				6BB7A9631EE4BBAA005FA5B0 /* RGSControlBarDelegate.swift */,
 				6B4C43861FE6CFED00CC827E /* RGSDataModelDelegate.swift */,
-				6B3D4944200D4DB7006E6DF4 /* RGSForumInputTableViewCellDelegate.swift */,
+				6B3D4944200D4DB7006E6DF4 /* RGSAuthenticatableObjectDelegate.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -437,6 +446,7 @@
 				6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */,
 				6B3A5065200FFD59001E594E /* GoogleService-Info.plist in Resources */,
 				6BB3EE2B1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib in Resources */,
+				6B7755DB20211115003E2568 /* RGSForumButtonTableViewCell.xib in Resources */,
 				6BDFBA2D1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib in Resources */,
 				6B362F9A1F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib in Resources */,
 				6B1D7D101F2125EC003B453B /* Settings.bundle in Resources */,
@@ -524,6 +534,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B7755DA20211115003E2568 /* RGSForumButtonTableViewCell.swift in Sources */,
 				6B123B4B1EEDBD6F0006EC08 /* DataManager.swift in Sources */,
 				6BB7A9511EE4A7BF005FA5B0 /* RGSLecturerViewController.swift in Sources */,
 				6B42480C1F3092D800D03082 /* RGSLecturerProfileViewController.swift in Sources */,
@@ -531,7 +542,7 @@
 				6BA97DF21F34A72B002D0A32 /* RGSScheduleTableViewHeaderFooterView.swift in Sources */,
 				6BB7A9591EE4A80C005FA5B0 /* RGSLockScreenViewController.swift in Sources */,
 				6BB0CF691EE5AC730018A7CD /* RGSBaseViewController.swift in Sources */,
-				6B3D4945200D4DB7006E6DF4 /* RGSForumInputTableViewCellDelegate.swift in Sources */,
+				6B3D4945200D4DB7006E6DF4 /* RGSAuthenticatableObjectDelegate.swift in Sources */,
 				6B4C43871FE6CFED00CC827E /* RGSDataModelDelegate.swift in Sources */,
 				6B362F991F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift in Sources */,
 				6BA8860B1F1E4E61007D0341 /* SpecificationManager.swift in Sources */,
@@ -541,6 +552,7 @@
 				6B9D9A2B1F387D2A00776309 /* RGSTabView.swift in Sources */,
 				6BE46BA8200AB3E70022BFA6 /* RGSForumCommentDataModel.swift in Sources */,
 				6B686ED41FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift in Sources */,
+				6BD9C14F20213230007BFAE1 /* RGSContentFormViewController.swift in Sources */,
 				6BB7A9531EE4A7D2005FA5B0 /* RGSScheduleViewController.swift in Sources */,
 				6BB7A9551EE4A7E9005FA5B0 /* RGSForumViewController.swift in Sources */,
 				6B7118931FE46D25000F4917 /* RGSAnnouncementDataModel.swift in Sources */,

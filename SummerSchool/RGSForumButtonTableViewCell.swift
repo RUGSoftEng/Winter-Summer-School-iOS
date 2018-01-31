@@ -1,14 +1,14 @@
 //
-//  RGSForumInputTableViewCell.swift
+//  RGSForumButtonTableViewCell.swift
 //  SummerSchool
 //
-//  Created by Charles Randolph on 1/15/18.
+//  Created by Charles Randolph on 1/30/18.
 //  Copyright © 2018 RUG. All rights reserved.
 //
 
 import UIKit
 
-class RGSForumInputTableViewCell: UITableViewCell {
+class RGSForumButtonTableViewCell: UITableViewCell {
     
     // MARK: - Variables & Constants
     
@@ -24,18 +24,18 @@ class RGSForumInputTableViewCell: UITableViewCell {
         }
     }
     
-    // MARK: - Outlets
+    // MARK: - IBOutlets
     
-    /// The authentication button. Also masquerades as a label when user is authenticated.
+    /// Button for submitting a post.
+    @IBOutlet weak var submitPostButton: UIButton!
+    
+    /// Button for toggling authentication state.
     @IBOutlet weak var authenticationButton: UIButton!
     
-    /// The comment text-field.
-    @IBOutlet weak var commentTextField: UITextField!
+    // MARK: - IBActions
     
-    // MARK: - Actions
-    
-    /// Action for when user pressed authentication button.
-    @IBAction func didPressAuthenticateButton (control: UIControl) {
+    /// Action for when user toggles authentication state.
+    @IBAction func didPressAuthenticationButton (control: UIControl) {
         if (delegate != nil) {
             if (isAuthenticated) {
                 delegate?.userDidRequestDeauthentication(sender: self)
@@ -45,19 +45,11 @@ class RGSForumInputTableViewCell: UITableViewCell {
         }
     }
     
-    /// Action for when user has decided to send a comment.
-    @IBAction func didSendComment (control: UITextField) {
-        commentTextField.resignFirstResponder()
-        
-        // Extract comment.
-        let comment: String? = control.text
-        
-        if (delegate != nil && comment != nil) {
-            delegate?.userDidSubmitContent(contentString: comment!, sender: self)
+    /// Action for when the user decides to submit a post.
+    @IBAction func didPressSubmitPostButton (control: UIControl) {
+        if (delegate != nil) {
+            delegate?.userDidSubmitContent(contentString: nil, sender: self)
         }
-        
-        // Clear text field.
-        commentTextField.text = ""
     }
     
     // MARK: - Private class methods
@@ -70,31 +62,34 @@ class RGSForumInputTableViewCell: UITableViewCell {
             // Configure authenticationButton.
             authenticationButton.setTitle("Sign Out", for: .normal)
             authenticationButton.setTitleColor(AppearanceManager.sharedInstance.red, for: .normal)
-            authenticationButton.isEnabled = true
             
-            // Configure commentTextField.
-            commentTextField.isEnabled = true
-            commentTextField.placeholder = "Aa"
+            // Configure submitPostButton.
+            submitPostButton.setTitle("Submit Post", for: .normal)
+            submitPostButton.setTitleColor(AppearanceManager.sharedInstance.red, for: .normal)
+            submitPostButton.isEnabled = true
             
         } else {
             
             // Configure authenticationButton.
-            authenticationButton.setTitle("Sign in to comment", for: .normal)
+            authenticationButton.setTitle("Sign In", for: .normal)
             authenticationButton.setTitleColor(AppearanceManager.sharedInstance.red, for: .normal)
-            authenticationButton.isEnabled = true
             
-            // Configure commentTextField.
-            commentTextField.isEnabled = false
-            commentTextField.placeholder = "You must be signed in to comment ..."
-            
+            // Configure submitPostButton.
+            submitPostButton.setTitle("Submit Post", for: .normal)
+            submitPostButton.setTitleColor(AppearanceManager.sharedInstance.lightTextGrey, for: .normal)
+            submitPostButton.isEnabled = false
         }
     }
     
-    // MARK - Class Method Overrides
     
+    // MARK: - Class Method Overrides
+
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        
+        // Initialization code
         setAppearance(authenticated: self.isAuthenticated)
     }
+
+    
 }

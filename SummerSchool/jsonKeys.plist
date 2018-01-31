@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>applicationServerURL</key>
+	<string>http://turing13.housing.rug.nl:8800</string>
 	<key>schoolIdKey</key>
 	<string>school</string>
 	<key>schoolNameKey</key>
