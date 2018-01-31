@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>applicationFormEncoding</key>
+	<string>application/x-www-form-urlencoded</string>
 	<key>applicationServerURL</key>
 	<string>http://turing13.housing.rug.nl:8800</string>
 	<key>schoolIdKey</key>
@@ -12,5 +14,15 @@
 	<string>startDate</string>
 	<key>schoolEndDateKey</key>
 	<string>endDate</string>
+	<key>threadTitleKey</key>
+	<string>title</string>
+	<key>threadBodyKey</key>
+	<string>description</string>
+	<key>threadAuthorKey</key>
+	<string>author</string>
+	<key>threadAuthorIdKey</key>
+	<string>posterID</string>
+	<key>threadImageURLKey</key>
+	<string>imageURL</string>
 </dict>
 </plist>

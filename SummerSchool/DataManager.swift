@@ -396,6 +396,17 @@ final class DataManager {
         return forumThreads
     }
     
+    /// Attempts to fetch and return ForumComment data.
+    func parseForumCommentData (data: Data?) -> [RGSForumCommentDataModel]? {
+        var forumComments: [RGSForumCommentDataModel]? = nil
+        
+        if (data != nil) {
+            forumComments = RGSForumCommentDataModel.parseDataModel(from: data!, sort: RGSForumCommentDataModel.sort)
+        }
+        
+        return forumComments
+    }
+    
     
     /// Attempts to deserialize and return an EventPacket object for JSON
     /// obtained from a server request.

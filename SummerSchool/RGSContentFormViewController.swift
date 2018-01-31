@@ -8,9 +8,22 @@
 
 import UIKit
 
+
+
+protocol RGSContentFormDelegate {
+    
+    /* Submits a content form to be handled by the delegate. Composes of a nonempty title and body */
+    func submitContentForm (with title: String, and body: String) -> Void
+    
+}
+
+
 class RGSContentFormViewController: UIViewController, UITextViewDelegate {
     
     // MARK: - Variables & Constants
+    
+    /// The content form delegate.
+    var delegate: RGSContentFormDelegate?
     
     /// The text of the title field.
     var titleText: String? {
@@ -45,11 +58,16 @@ class RGSContentFormViewController: UIViewController, UITextViewDelegate {
     /// Action for tap on the cancel button.
     @IBAction func userDidTapCancelButton (sender: UIControl) {
         print("User cancelled!")
+        showParentViewController()
     }
     
     /// Action for tap on the submit button.
     @IBAction func userDidTapSubmitButton (sender: UIControl) {
         print("User submits their post...")
+        if (delegate != nil) {
+            delegate?.submitContentForm(with: titleText!, and: bodyText!)
+        }
+        showParentViewController()
     }
     
     /// Action for when the user has finished editing.
@@ -71,6 +89,11 @@ class RGSContentFormViewController: UIViewController, UITextViewDelegate {
     }
     
     // MARK: - Private Class Methods.
+    
+    /// Unwinds to parent ViewController
+    func showParentViewController () {
+        performSegue(withIdentifier: "unwindToParent", sender: self)
+    }
     
     /// Returns true if the user meets submission requirements.
     func requiredFieldsComplete () -> Bool {

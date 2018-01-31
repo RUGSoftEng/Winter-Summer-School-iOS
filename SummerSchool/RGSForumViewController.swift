@@ -8,25 +8,7 @@
 
 import UIKit
 
-func installComments (forumThread: RGSForumThreadDataModel) -> Void {
-    //let forumThread: RGSForumThreadDataModel = RGSForumThreadDataModel(id: "1", title: "Issuing a formal complaint.", author: "Walter Brattain", authorID: "WB", body: "I'd like to make a formal complaint about Mr.Shockley. For the past year John Bardeen and I have slaved away in our laboratory on what eventually became the point-touch transistor. Countless hours were spent experimenting with Germanium of various purities and electrical currents. Meanwhile, Mr.Shockley spent his time almost entirely preoccupied with his own projects and gave little to no assistance (or even an indication of interest) whatsoever. This is why I find it absolutely unacceptable that he interrupts our established tradition of not stepping on others work by introducing this so called joint transistor during our public release phase. I imagine Mr.Bardeen would agree with me immensely.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date(), comments: [])
-    
-    let firstComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "1", author: "William Shockley", authorID: "WS", body: "Yes, but I still invented the joint transistor. And it's an improvement over the point-touch transistor anyways.", imagePath: "https://www.nobelprize.org/nobel_prizes/physics/laureates/1956/shockley_postcard.jpg", date: Date())
-    
-    let secondComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "2", author: "Walter Brattain", authorID: "WB", body: "It's just ridiculous and not in the spirit of our work environment here at Bell Labs. You just had to try and trump our breakthrough with the point-contact transistor.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date())
-    
-    let thirdComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "3", author: "John Bardeen", authorID: "JB", body: "You also took over a lot of the lecturer roles at our press conferences with regard to the subject...", imagePath: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Bardeen.jpg", date: Date())
-    
-    let forthComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "4", author: "William Shockley", authorID: "WS", body: "Sorry, but I think you both kind of discovered it by brute force. It's not really an original idea you executed. The joint transistor, however, is arguably an original idea.", imagePath: "https://www.nobelprize.org/nobel_prizes/physics/laureates/1956/shockley_postcard.jpg", date: Date())
-    
-    let fifthComment: RGSForumCommentDataModel = RGSForumCommentDataModel(id: "5", author: "Mervin Kelly", authorID: "9QaYeJ9aWBbc4zWLLrrjxzTAoOT2", body: "That's enough Shockley. Your attitude is grounds for termination.", imagePath: "https://history.aip.org/phn/Photos/kelly_mervin_a5.jpg", date: Date())
-    
-    forumThread.comments = [firstComment, secondComment, thirdComment, forthComment, fifthComment]
-    
-}
-
-
-class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RGSAuthenticatableObjectDelegate {
+class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RGSAuthenticatableObjectDelegate, RGSContentFormDelegate {
     
     // MARK: - Variables & Constants
     
@@ -54,7 +36,6 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
             if (forumThreads != nil) {
                 print("Got data!")
                 print(forumThreads)
-                tableView.reloadData()
             } else {
                 forumThreads = oldForumThreads
             }
@@ -70,7 +51,11 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var loadingIndicator: RGSLoadingIndicatorView!
     
     // MARK: - Actions
-
+    
+    /// Unwind Segue Handle
+    @IBAction func prepareForUnwind(_ segue: UIStoryboardSegue) {
+        
+    }
     
     // MARK: - Superclass Method Overrides
     
@@ -117,24 +102,29 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        let thread = forumThreads[indexPath.row]
-        
-        return (SecurityManager.sharedInstance.getUserAuthenticationState() && SecurityManager.sharedInstance.userIdentity == thread.authorID)
+        if (indexPath.section == 1) {
+            let thread = forumThreads[indexPath.row]
+            return (SecurityManager.sharedInstance.getUserAuthenticationState() && SecurityManager.sharedInstance.userIdentity == thread.authorID)
+        }
+        return false
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
+        print("forumThread count prior = \(forumThreads.count)")
+        
         // Extract thread.
-        let thread: RGSForumThreadDataModel = forumThreads[indexPath.row]
+        let thread: RGSForumThreadDataModel = forumThreads.remove(at: indexPath.row)
+
+        print("IndexPath info: section = \(indexPath.section), row = \(indexPath.row)!")
         
-        // Dispatch DELETE request.
-        self.dispatchThreadDeleteRequest(thread.id!)
-        
-        // Remove entry from data source.
-        forumThreads.remove(at: indexPath.row)
+        print("forumThread count after = \(forumThreads.count)")
         
         // Animate removal.
         tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
+        
+        // Dispatch DELETE request.
+        self.dispatchThreadDeleteRequest(thread.id!)
     }
     
     // MARK: - UITableView ScrollView Delegate Protocol Methods
@@ -181,7 +171,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         cell?.title = thread.title
         cell?.author = thread.author
         cell?.date = thread.date
-        cell?.commentCount = thread.comments?.count
+        cell?.commentCount = thread.commentCount
         cell?.authorImage = thread.image
         
         return cell!
@@ -239,6 +229,13 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         performSegue(withIdentifier: contentFormSegueIdentifier, sender: self)
     }
     
+    // MARK: - RGSContentForm Delegate Methods
+    
+    /* Submits a content form to be handled by the delegate. Composes of a nonempty title and body */
+    func submitContentForm (with title: String, and body: String) -> Void{
+        dispatchThreadPostRequest(title, body)
+    }
+    
     // MARK: - Private Class Methods: AlertControllers
     
     /// Presents an error message to the user.
@@ -278,6 +275,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if (segue.identifier == forumThreadSegueIdentifier) {
+            
             // Extract destination ViewController, cell tapped in question.
             let forumThreadViewController: RGSForumThreadViewController = segue.destination as! RGSForumThreadViewController
             let indexPath: IndexPath = tableView.indexPath(for: sender as! RGSForumThreadTableViewCell)!
@@ -287,6 +285,11 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
             forumThreadViewController.forumThread = forumThread
         } else {
             
+            // Extact destination ViewController.
+            let contentFormViewController: RGSContentFormViewController = segue.destination as! RGSContentFormViewController
+            
+            // Set delegate as self.
+            contentFormViewController.delegate = self
         }
     }
     
@@ -316,13 +319,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
 
         // Attempt to refresh ForumThread Model by querying the server.
         self.refreshModelData();
-        
-        
-        let forumThread: RGSForumThreadDataModel = RGSForumThreadDataModel(id: "1", title: "Issuing a formal complaint.", author: "Walter Brattain", authorID: "WB", body: "I'd like to make a formal complaint about Mr.Shockley. For the past year John Bardeen and I have slaved away in our laboratory on what eventually became the point-touch transistor. Countless hours were spent experimenting with Germanium of various purities and electrical currents. Meanwhile, Mr.Shockley spent his time almost entirely preoccupied with his own projects and gave little to no assistance (or even an indication of interest) whatsoever. This is why I find it absolutely unacceptable that he interrupts our established tradition of not stepping on others work by introducing this so called joint transistor during our public release phase. I imagine Mr.Bardeen would agree with me immensely.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Brattain.jpg", date: Date(), comments: [])
-        self.forumThreads = [forumThread]
-        
-        // INSTALL DEMO COMMENTS
-        installComments(forumThread: forumThreads[0])
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -360,11 +357,14 @@ extension RGSForumViewController {
             sleep(1)
             DispatchQueue.main.async {
                 self.forumThreads = fetched
+                self.tableView.reloadData()
                 self.resumeTableViewInteraction()
                 self.displayWarningPopupIfNeeded(animated: true)
                 
                 // Try to update images
-                self.refreshSecondaryModelData(model: self.forumThreads)
+                if (self.forumThreads != nil) {
+                   self.refreshSecondaryModelData(model: self.forumThreads)
+                }
             }
         })
     }
@@ -403,6 +403,7 @@ extension RGSForumViewController {
                 for (i, item) in model.enumerated() {
                     item.image = resource[i]
                 }
+                print("Reloading secondary data!")
                 self.tableView.reloadData()
             }
             
@@ -410,6 +411,44 @@ extension RGSForumViewController {
     }
     
     // MARK: - Network POST Requests.
+    
+    /// Dispatches a task to perform a POST request to the application server.
+    /// Presents an alertController on failure.
+    /// - title: The title of the thread.
+    /// - body: The body of the thread.
+    func dispatchThreadPostRequest (_ title: String, _ body: String) {
+        print("Dispatching a thread POST with title \(title) and body \(body)")
+        
+        // Construct POST request body.
+        var hashMap: [String: String] = [:]
+        hashMap["title"] = title
+        hashMap["description"] = body
+        hashMap["author"] = SecurityManager.sharedInstance.userDisplayName
+        hashMap["posterID"] = SecurityManager.sharedInstance.userIdentity
+        hashMap["imgURL"] = SecurityManager.sharedInstance.userImageURL
+        
+        let bodyData: String = NetworkManager.sharedInstance.queryStringFromHashMap(map: hashMap)
+        print("Body Data: \(bodyData)")
+        
+        // Dispatch POST request.
+        let data = bodyData.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        let url = NetworkManager.sharedInstance.URLForForumThreads()
+        NetworkManager.sharedInstance.makePostRequest(url: url, data: data, onCompletion: {(_, response: URLResponse?) -> Void in
+            
+            // Extract httpResponse
+            let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
+            print("Received status code: \(httpResponse.statusCode)")
+            DispatchQueue.main.async {
+                if (httpResponse.statusCode != 200) {
+                    self.displayNetworkActionAlert("Unable to submit thread!")
+                } else {
+                    print("The thread was submitted. Refreshing the model data...")
+                    self.refreshModelData()
+                }
+            }
+            
+        })
+    }
     
     // MARK: - Network PUT Requests.
     

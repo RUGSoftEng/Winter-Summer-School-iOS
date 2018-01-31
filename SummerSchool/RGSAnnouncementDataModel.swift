@@ -13,7 +13,7 @@ class RGSAnnouncementDataModel: RGSDataModelDelegate {
     
     /// MARK: - Properties.
     
-    var id, school, title, description, author: String?
+    var id, schoolId, title, description: String?
     var date: Date?
     
     /// MARK: - Protocol Methods.
@@ -23,10 +23,9 @@ class RGSAnnouncementDataModel: RGSDataModelDelegate {
         "entityName"    : "AnnouncementEntity",
         "title"         : "title",
         "description"   : "announcementDescription",
-        "author"        : "author",
         "dateString"    : "dateString",
+        "schoolId"      : "schoolId",
         "id"            : "id"
-        
     ]
     
     /// Saves all fields to the given NSManagedObject.
@@ -35,7 +34,7 @@ class RGSAnnouncementDataModel: RGSDataModelDelegate {
         let entityKey = RGSAnnouncementDataModel.entityKey
         managedObject.setValue(title, forKey: entityKey["title"]!)
         managedObject.setValue(description, forKey: entityKey["description"]!)
-        managedObject.setValue(author, forKey: entityKey["author"]!)
+        managedObject.setValue(schoolId, forKey: entityKey["schoolId"]!)
         managedObject.setValue(id, forKey: entityKey["id"]!)
         let dateString = DateManager.sharedInstance.dateToISOString(date, format: .JSONGeneralDateFormat)
         managedObject.setValue(dateString, forKey: entityKey["dateString"]!)
@@ -48,24 +47,18 @@ class RGSAnnouncementDataModel: RGSDataModelDelegate {
         // Mandatory fields.
         guard
             let id          = json["_id"] as? String,
-            let school      = json["school"] as? String,
             let title       = json["title"] as? String,
             let description = json["description"] as? String,
-            let author      = json["poster"] as? String,
+            let schoolId    = json["school"] as? String,
             let dateString  = json["created"] as? String
         else { return nil }
         
         self.id             = id
-        self.school         = school
+        self.schoolId       = schoolId
         self.title          = title
         self.description    = description
-        self.author         = author
         self.date           = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
-        
-        // Optional fields.
-        if let author = json["poster"] as? String {
-            self.author = author
-        }
+    
     }
     
     /// Initializes the data model from NSManagedObject.
@@ -78,14 +71,14 @@ class RGSAnnouncementDataModel: RGSDataModelDelegate {
             let id          = managedObject.value(forKey: entityKey["id"]!) as? String,
             let title       = managedObject.value(forKey: entityKey["title"]!) as? String,
             let description = managedObject.value(forKey: entityKey["description"]!) as? String,
-            let author      = managedObject.value(forKey: entityKey["author"]!) as? String,
+            let schoolId    = managedObject.value(forKey: entityKey["schoolId"]!) as? String,
             let dateString  = managedObject.value(forKey: entityKey["dateString"]!) as? String
         else { return nil }
         
         self.id             = id
         self.title          = title
         self.description    = description
-        self.author         = author
+        self.schoolId       = schoolId
         self.date           = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
     }
 
@@ -96,6 +89,11 @@ extension RGSAnnouncementDataModel {
     /// Sorting method for an array of class instances.
     static func sort (a: RGSAnnouncementDataModel, b: RGSAnnouncementDataModel) -> Bool {
         return (a.date! > b.date!)
+    }
+    
+    /// Filtering method for an array of class instances.
+    static func filter (model: RGSAnnouncementDataModel) -> Bool {
+        return (model.schoolId == SpecificationManager.sharedInstance.schoolId!)
     }
     
     /// Parses a array of JSON objects into an array of data model instances.
@@ -120,8 +118,8 @@ extension RGSAnnouncementDataModel {
             models.append(model!)
         }
         
-        // Return sorted models.
-        return models.sorted(by: sort)
+        // Return filtered and sorted models.
+        return (models.filter(filter)).sorted(by: sort)
     }
     
     /// Retrieves all model entities from Core Data, and returns them in an array

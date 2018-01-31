@@ -149,7 +149,7 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
             print("SecurityManager: FireBase Status\n\tDisplayName: \(userInstance.displayName)\n\tProfile Image URL: \(userInstance.photoURL)\n\tEmail: \(userInstance.email)")
             // Assign all local variables.
             self.userDisplayName = userInstance.displayName
-            self.userImageURL = String(describing: userInstance.photoURL)
+            self.userImageURL = String(describing: userInstance.photoURL!)
             self.userIdentity = userInstance.uid
             
             // Construct userInfo dictionary.

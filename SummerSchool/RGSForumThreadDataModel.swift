@@ -15,7 +15,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
     /// MARK: - Properties.
     var id, title, body, author, authorID, imagePath: String?
     var date: Date?
-    var comments: [RGSForumCommentDataModel]?
+    var commentCount: Int?
     var image: UIImage?
     
     /// MARK: - Protocol Methods.
@@ -29,6 +29,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         "author"        : "author",
         "authorID"      : "authorID",
         "dateString"    : "dateString",
+        "commentCount"  : "commentCount",
         "imagePath"     : "imagePath",
         "image"         : "image"
     ]
@@ -43,6 +44,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         managedObject.setValue(title, forKey: entityKey["title"]!)
         managedObject.setValue(author, forKey: entityKey["author"]!)
         managedObject.setValue(authorID, forKey: entityKey["authorID"]!)
+        managedObject.setValue(commentCount, forKey: entityKey["commentCount"]!)
         let dateString = DateManager.sharedInstance.dateToISOString(date, format: .JSONGeneralDateFormat)
         managedObject.setValue(dateString, forKey: entityKey["dateString"]!)
         
@@ -60,7 +62,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
     }
     
     /// Conveniently initializes the class with given fields.
-    required init(id: String, title: String, author: String, authorID: String, body: String, imagePath: String?, date: Date, comments: [RGSForumCommentDataModel]) {
+    required init(id: String, title: String, author: String, authorID: String, body: String, imagePath: String?, date: Date, commentCount: Int) {
         self.id = id
         self.title = title
         self.author = author
@@ -68,7 +70,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         self.body = body
         self.imagePath = imagePath
         self.date = date
-        self.comments = comments
+        self.commentCount = commentCount
     }
     
     /// Initializes the data model from JSON.
@@ -81,7 +83,8 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
             let title       = json["title"] as? String,
             let author      = json["author"] as? String,
             let authorID    = json["posterID"] as? String,
-            let dateString  = json["date"] as? String
+            let dateString  = json["created"] as? String,
+            let comments    = json["comments"] as? [String]
         else { return nil }
         
         self.id = id
@@ -89,12 +92,13 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         self.author = author
         self.authorID = authorID
         self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        self.commentCount = comments.count
         
         // Optional fields.
         if let body = json["description"] as? String {
            self.body = body
         }
-        if let imagePath = json["imgurl"] as? String {
+        if let imagePath = json["imgURL"] as? String {
             self.imagePath = imagePath
         }
         
@@ -107,11 +111,12 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         
         // Mandatory fields.
         guard
-            let id          = managedObject.value(forKey: entityKey["id"]!) as? String,
-            let title       = managedObject.value(forKey: entityKey["title"]!) as? String,
-            let author      = managedObject.value(forKey: entityKey["author"]!) as? String,
-            let authorID    = managedObject.value(forKey: entityKey["authorID"]!) as? String,
-            let dateString  = managedObject.value(forKey: entityKey["dateString"]!) as? String
+            let id              = managedObject.value(forKey: entityKey["id"]!) as? String,
+            let title           = managedObject.value(forKey: entityKey["title"]!) as? String,
+            let author          = managedObject.value(forKey: entityKey["author"]!) as? String,
+            let authorID        = managedObject.value(forKey: entityKey["authorID"]!) as? String,
+            let dateString      = managedObject.value(forKey: entityKey["dateString"]!) as? String,
+            let commentCount    = managedObject.value(forKey: entityKey["commentCount"]!) as? Int
         else { return nil }
         
         self.id = id
@@ -119,6 +124,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         self.author = author
         self.authorID = authorID
         self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        self.commentCount = commentCount
         
         // Optional fields.
         if let body = managedObject.value(forKey: entityKey["body"]!) as? String {

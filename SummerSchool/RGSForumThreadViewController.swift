@@ -15,6 +15,9 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     /// The forum thread object.
     var forumThread: RGSForumThreadDataModel!
     
+    /// The forum comments model.
+    var forumComments: [RGSForumCommentDataModel]!
+    
     /// ForumContentTableViewCell identifier.
     var contentTableViewCellIdentifier: String = "contentTableViewCellIdentifier"
     
@@ -43,7 +46,10 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (section < 2) ? 1 : (forumThread.comments == nil ? 0 : forumThread.comments!.count)
+        if (section < 2) {
+            return 1
+        }
+        return (forumComments == nil) ? 0 : forumComments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,7 +58,7 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         } else if (indexPath.section == 1) {
             return initializeForumInputTableViewCell(isAuthenticated: SecurityManager.sharedInstance.getUserAuthenticationState())
         } else {
-            return initializeForumCommentTableViewCell(with: forumThread.comments![indexPath.row])
+            return initializeForumCommentTableViewCell(with: forumComments[indexPath.row])
         }
     }
     
@@ -66,9 +72,9 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
             let userID = SecurityManager.sharedInstance.userIdentity
             
             // A comment cell may be edited on condition that the user is authenticated.
-            if let forumComment = self.forumThread.comments?[indexPath.row] {
-                return (authenticated && userID == forumComment.authorID)
-            }
+            let forumComment = forumComments[indexPath.row]
+            
+            return (authenticated && userID == forumComment.authorID)
         }
         
         return false
@@ -78,13 +84,13 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         if (editingStyle == UITableViewCellEditingStyle.delete) {
             
             // Extract comment.
-            let comment: RGSForumCommentDataModel = forumThread.comments![indexPath.row]
+            let comment: RGSForumCommentDataModel = forumComments[indexPath.row]
             
             // Dispatch DELETE request.
             self.dispatchCommentDeleteRequest(comment.id!)
             
             // Remove entry from data source.
-            forumThread.comments?.remove(at: indexPath.row)
+            forumComments.remove(at: indexPath.row)
             
             // Animate removal.
             tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
@@ -298,27 +304,26 @@ extension RGSForumThreadViewController {
     func refreshModelData(automatic: Bool = true) {
         
         // If popup was dismissed, undo upon manual refresh.
-        //if (automatic == false) {
-        //    NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
-        //}
-        
-        // let url: String = NetworkManager.sharedInstance.URLForAnnouncements()
-        // NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?) -> Void in
-        //    let fetched: [RGSAnnouncementDataModel]? = DataManager.sharedInstance.parseAnnouncementData(data: data)
-        //    sleep(1)
-        //    DispatchQueue.main.async {
-        //        self.announcements = fetched
-        //        self.resumeTableViewInteraction()
-        //        self.displayWarningPopupIfNeeded(animated: true)
-        
-        //        // Try to update images
-        //        self.refreshSecondaryModelData(model: self.forumThreads)
-        //   }
-        //})
-        if let comments = self.forumThread.comments {
-            print("Refreshing Comments!")
-            self.refreshSecondaryModelData(model: comments)
+        if (automatic == false) {
+            NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
         }
+        
+        let url: String = NetworkManager.sharedInstance.URLWithOptions(url: NetworkManager.sharedInstance.URLForForumComments(), options: "parentThread=\(forumThread.id!)")
+        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, response: URLResponse?) -> Void in
+            let fetched: [RGSForumCommentDataModel]? = DataManager.sharedInstance.parseForumCommentData(data: data)
+            sleep(1)
+            DispatchQueue.main.async {
+                self.forumComments = fetched
+                self.tableView.reloadData()
+                self.resumeTableViewInteraction()
+                self.displayWarningPopupIfNeeded(animated: true)
+        
+                // Try to update images
+                if (self.forumComments != nil) {
+                    self.refreshSecondaryModelData(model: self.forumComments)
+                }
+           }
+        })
     }
     
     /// Dispatches a task to perform a GET request for all secondary resources.
@@ -368,35 +373,34 @@ extension RGSForumThreadViewController {
     func dispatchCommentPostRequest (_ comment: String) {
         
         // Construct POST request body.
-        var body: [String: Any] = [:]
-        body["text"] = comment
-        body["author"] = SecurityManager.sharedInstance.userDisplayName
-        body["posterID"] = SecurityManager.sharedInstance.userIdentity
-        body["imgURL"] = SecurityManager.sharedInstance.userImageURL
-        body["parentThread"] = forumThread.id
+        var hashMap: [String: String] = [:]
+        hashMap["text"] = comment
+        hashMap["author"] = SecurityManager.sharedInstance.userDisplayName
+        hashMap["posterID"] = SecurityManager.sharedInstance.userIdentity
+        hashMap["imgURL"] = SecurityManager.sharedInstance.userImageURL
+        hashMap["parentThread"] = forumThread.id
+        
+        let bodyData: String = NetworkManager.sharedInstance.queryStringFromHashMap(map: hashMap)
+        print("Body Data: \(bodyData)")
         
         // Dispatch POST request.
-        do {
-            let data = try JSONSerialization.data(withJSONObject: body, options: [])
-            let url = NetworkManager.sharedInstance.URLForForumComments()
-            NetworkManager.sharedInstance.makePostRequest(url: url, data: data, onCompletion: {(_, response: URLResponse?) -> Void in
-                
-                // Extract httpResponse
-                let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
-                print("Received status code: \(httpResponse.statusCode)")
-                DispatchQueue.main.async {
-                    if (httpResponse.statusCode != 200) {
-                        self.displayNetworkActionAlert("Unable to submit comment!")
-                    } else {
-                        print("The comment was submitted. Refreshing the model data...")
-                        self.refreshModelData()
-                    }
+        let data = bodyData.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        let url = NetworkManager.sharedInstance.URLForForumComments()
+        NetworkManager.sharedInstance.makePostRequest(url: url, data: data, onCompletion: {(_, response: URLResponse?) -> Void in
+            
+            // Extract httpResponse
+            let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
+            print("Received status code: \(httpResponse.statusCode)")
+            DispatchQueue.main.async {
+                if (httpResponse.statusCode != 200) {
+                    self.displayNetworkActionAlert("Unable to submit comment!")
+                } else {
+                    print("The comment was submitted. Refreshing the model data...")
+                    self.refreshModelData()
                 }
-                
-            })
-        } catch {
-            self.displayNetworkActionAlert("Unable to build JSON body. Please contact developers!")
-        }
+            }
+            
+        })
     }
     
     // MARK: - Network DELETE Requests.

@@ -139,31 +139,19 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KgF-UN-Bmu">
                                 <rect key="frame" x="16" y="136" width="343" height="37"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By John Doe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrF-g3-06f">
-                                        <rect key="frame" x="8" y="8" width="228" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="14"/>
-                                        <color key="textColor" red="0.62745098040000002" green="0.62745098040000002" blue="0.62745098040000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dd/mm/yyyy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mse-zf-IBY">
-                                        <rect key="frame" x="244" y="8" width="91" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="91" id="Uvx-RN-yQx"/>
-                                        </constraints>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dd/mm/yyyy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mse-zf-IBY">
+                                        <rect key="frame" x="8" y="8" width="327" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="14"/>
                                         <color key="textColor" red="0.62745098040000002" green="0.62745098040000002" blue="0.62745098040000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="RrF-g3-06f" firstAttribute="top" secondItem="KgF-UN-Bmu" secondAttribute="top" constant="8" id="1PL-Pv-gWl"/>
-                                    <constraint firstItem="RrF-g3-06f" firstAttribute="leading" secondItem="KgF-UN-Bmu" secondAttribute="leading" constant="8" id="3rH-Ou-mBS"/>
-                                    <constraint firstItem="mse-zf-IBY" firstAttribute="leading" secondItem="RrF-g3-06f" secondAttribute="trailing" constant="8" id="AF8-aM-nNj"/>
-                                    <constraint firstItem="mse-zf-IBY" firstAttribute="top" secondItem="KgF-UN-Bmu" secondAttribute="top" constant="8" id="Ddo-Dg-psx"/>
-                                    <constraint firstAttribute="bottom" secondItem="RrF-g3-06f" secondAttribute="bottom" constant="8" id="Hqo-48-YUG"/>
-                                    <constraint firstAttribute="trailing" secondItem="mse-zf-IBY" secondAttribute="trailing" constant="8" id="mZG-Yk-8tV"/>
-                                    <constraint firstAttribute="bottom" secondItem="mse-zf-IBY" secondAttribute="bottom" constant="8" id="mlV-pa-OY3"/>
+                                    <constraint firstAttribute="trailing" secondItem="mse-zf-IBY" secondAttribute="trailing" constant="8" id="3fF-AH-OeK"/>
+                                    <constraint firstItem="mse-zf-IBY" firstAttribute="top" secondItem="KgF-UN-Bmu" secondAttribute="top" constant="8" id="eCe-fW-9aV"/>
+                                    <constraint firstItem="mse-zf-IBY" firstAttribute="leading" secondItem="KgF-UN-Bmu" secondAttribute="leading" constant="8" id="pJt-E7-FCS"/>
                                     <constraint firstAttribute="height" constant="37" id="y5a-Oc-aMv"/>
+                                    <constraint firstAttribute="bottom" secondItem="mse-zf-IBY" secondAttribute="bottom" constant="8" id="yyM-pm-Bdp"/>
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="STS-39-LJV">
@@ -193,7 +181,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="authorLabel" destination="RrF-g3-06f" id="uJd-aF-E6Q"/>
                         <outlet property="dateLabel" destination="mse-zf-IBY" id="Nmz-tt-Th7"/>
                         <outlet property="descriptionTextView" destination="STS-39-LJV" id="hAP-kH-ovf"/>
                         <outlet property="titleLabel" destination="Iml-dB-ZNc" id="kBq-fi-t5j"/>
@@ -739,9 +726,11 @@
                         <outlet property="cancelButton" destination="5TW-m5-hNG" id="FCh-sW-9i4"/>
                         <outlet property="submitButton" destination="9iu-wZ-WLq" id="umy-xA-Wx2"/>
                         <outlet property="titleTextField" destination="BNl-om-AUJ" id="NHK-l0-Pmq"/>
+                        <segue destination="jM2-Iy-w6e" kind="unwind" identifier="unwindToParent" unwindAction="prepareForUnwind:" id="Zrg-5l-91U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gft-It-dU6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="jM2-Iy-w6e" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4816.8000000000002" y="2831.3343328335836"/>
         </scene>
@@ -915,7 +904,7 @@
                         <outlet property="helpButton" destination="3Ka-r6-hNt" id="46Z-B0-Msk"/>
                         <outlet property="imageView" destination="hs5-8H-PCE" id="ZpA-Dm-y7X"/>
                         <outlet property="titleLabel" destination="LLt-fZ-VSu" id="WoU-HP-9gB"/>
-                        <segue destination="KJ8-l7-7Kd" kind="unwind" identifier="unwindToMain" unwindAction="prepareForUnwind:" id="9fZ-gC-Nxg"/>
+                        <segue destination="KJ8-l7-7Kd" kind="unwind" identifier="unwindToParent" unwindAction="prepareForUnwind:" id="9fZ-gC-Nxg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EfF-jC-Cwa" userLabel="First Responder" sceneMemberID="firstResponder"/>

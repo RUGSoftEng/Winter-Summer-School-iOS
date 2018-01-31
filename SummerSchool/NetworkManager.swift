@@ -80,6 +80,20 @@ final class NetworkManager {
         return newURL;
     }
     
+    /// Constructs a query string with the given dictionary.
+    func queryStringFromHashMap (map: [String: String]) -> String {
+        var queryString = ""
+        
+        for (i, key) in map.keys.enumerated() {
+            queryString += key + "=" + map[key]!
+            if (i < map.keys.count - 1) {
+                queryString += "&"
+            }
+        }
+        
+        return queryString.replacingOccurrences(of: " ", with: "+")
+    }
+    
     /// Returns the address needed to extract general information
     /// from the server.
     func URLForGeneralInformation() -> String {
@@ -184,8 +198,7 @@ final class NetworkManager {
         var request: URLRequest = URLRequest(url: URL(string: url)!)
         request.httpMethod = "POST"
         request.httpBody = data
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
         let session: URLSession = URLSession.shared
         

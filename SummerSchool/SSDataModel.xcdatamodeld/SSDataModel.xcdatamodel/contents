@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G18013" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G19009" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AnnouncementEntity" representedClassName="AnnouncementEntity" syncable="YES" codeGenerationType="class">
         <attribute name="announcementDescription" attributeType="String" syncable="YES"/>
-        <attribute name="author" attributeType="String" syncable="YES"/>
         <attribute name="dateString" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="schoolId" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
@@ -20,6 +20,7 @@
         <attribute name="author" attributeType="String" syncable="YES"/>
         <attribute name="authorID" attributeType="String" syncable="YES"/>
         <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="commentCount" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="dateString" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -48,7 +49,7 @@
     <elements>
         <element name="AnnouncementEntity" positionX="-315" positionY="-126" width="189" height="120"/>
         <element name="EventEntity" positionX="-47" positionY="36" width="128" height="148"/>
-        <element name="ForumThreadEntity" positionX="-621" positionY="36" width="225" height="165"/>
+        <element name="ForumThreadEntity" positionX="-621" positionY="36" width="225" height="180"/>
         <element name="GeneralInfoEntity" positionX="-594" positionY="-120" width="207" height="120"/>
         <element name="LecturerEntity" positionX="-288" positionY="45" width="180" height="135"/>
         <element name="WeekDayEntity" positionX="-45" positionY="-99" width="189" height="73"/>

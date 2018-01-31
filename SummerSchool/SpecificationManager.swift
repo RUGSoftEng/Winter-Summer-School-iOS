@@ -95,7 +95,7 @@ final class SpecificationManager {
     
     // MARK: - Variables & Constants: Strings
     
-    let networkLossMessageString: String = "Can't call home. Check network connection!"
+    let networkLossMessageString: String = "Check network connection!"
     
     /// Singleton instance
     static let sharedInstance = SpecificationManager()

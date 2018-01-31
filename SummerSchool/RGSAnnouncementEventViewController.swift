@@ -20,9 +20,6 @@ class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManager
     /// The UILabel for the announcement title.
     @IBOutlet weak var titleLabel: UILabel!
     
-    /// The UILabel for the author of the announcement.
-    @IBOutlet weak var authorLabel: UILabel!
-    
     /// The UILabel for the date of the announcement.
     @IBOutlet weak var dateLabel: UILabel!
     
@@ -53,7 +50,6 @@ class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManager
         
         // Set fonts.
         titleLabel.font = SpecificationManager.sharedInstance.titleLabelFont
-        authorLabel.font = SpecificationManager.sharedInstance.subTitleLabelFont
         dateLabel.font = SpecificationManager.sharedInstance.subTitleLabelFont
         descriptionTextView.font = SpecificationManager.sharedInstance.textViewFont
         
@@ -70,9 +66,8 @@ class RGSAnnouncementEventViewController: RGSBaseViewController, NSLayoutManager
                 titleLabelHeight.constant = max(min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits), SpecificationManager.sharedInstance.titleLabelMinimumHeight)
             }
             
-            // Set Author and Date.
-            if let author = announcement.author, let date = announcement.date {
-                authorLabel.text = "By " + author
+            // Set Date.
+            if let date = announcement.date {
                 dateLabel.text = DateManager.sharedInstance.dateToISOString(date, format: .generalPresentationDateFormat)
             }
             

@@ -64,8 +64,14 @@ extension RGSForumCommentDataModel {
     /// Parses a array of JSON objects into an array of data model instances.
     /// - json: JSON object.
     /// - sort: Sorting method.
-    static func parseDataModel (from jsonArray: [Any], sort: (RGSForumCommentDataModel, RGSForumCommentDataModel) -> Bool) -> [RGSForumCommentDataModel]? {
+    static func parseDataModel (from data: Data, sort: (RGSForumCommentDataModel, RGSForumCommentDataModel) -> Bool) -> [RGSForumCommentDataModel]? {
         var models: [RGSForumCommentDataModel] = []
+        
+        // Extract the JSON array.
+        guard
+            let json = try? JSONSerialization.jsonObject(with: data, options: []),
+            let jsonArray = json as? [Any]
+        else { return nil }
         
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {

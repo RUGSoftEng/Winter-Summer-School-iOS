@@ -98,7 +98,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
                     SpecificationManager.sharedInstance.setUserSettings(false, name!, schoolId!, start!, end!)
                     
                     self.authorizationCodeTextField.isEnabled = true
-                    self.showMainViewController()
+                    self.showParentViewController()
                 }
             })
             
@@ -112,13 +112,13 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     /// Handles action for when the user reopens this ViewController
     func applicationWillEnterForeground(notification: NSNotification) {
         if (SecurityManager.sharedInstance.shouldShowLockScreen == false) {
-            showMainViewController()
+            showParentViewController()
         }
     }
     
     /// Returns the user to the main view controller
-    func showMainViewController() {
-        performSegue(withIdentifier: "unwindToMain", sender: self)
+    func showParentViewController() {
+        performSegue(withIdentifier: "unwindToParent", sender: self)
     }
     
     // MARK: - Protocol Methods: UIPopoverPresentationControllerDelegate
