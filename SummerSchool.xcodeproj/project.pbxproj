@@ -16,7 +16,7 @@
 		6B1E35F41ECF9DE400E2CD77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B1E35F31ECF9DE400E2CD77 /* Assets.xcassets */; };
 		6B1E35F71ECF9DE400E2CD77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B1E35F51ECF9DE400E2CD77 /* LaunchScreen.storyboard */; };
 		6B2DD0DF1F33A79E00B6D3A2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2DD0DE1F33A79E00B6D3A2 /* Extensions.swift */; };
-		6B34A9FE201FCFDC00D7D5F1 /* jsonKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B34A9FD201FCFDC00D7D5F1 /* jsonKeys.plist */; };
+		6B34A9FE201FCFDC00D7D5F1 /* applicationConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B34A9FD201FCFDC00D7D5F1 /* applicationConfig.plist */; };
 		6B362F991F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B362F971F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift */; };
 		6B362F9A1F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B362F981F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib */; };
 		6B362F9C1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B362F9B1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift */; };
@@ -86,7 +86,7 @@
 		6B1E35F61ECF9DE400E2CD77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B1E35F81ECF9DE400E2CD77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B2DD0DE1F33A79E00B6D3A2 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		6B34A9FD201FCFDC00D7D5F1 /* jsonKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = jsonKeys.plist; sourceTree = "<group>"; };
+		6B34A9FD201FCFDC00D7D5F1 /* applicationConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = applicationConfig.plist; sourceTree = "<group>"; };
 		6B362F971F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementTableViewCell.swift; sourceTree = "<group>"; };
 		6B362F981F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSAnnouncementTableViewCell.xib; sourceTree = "<group>"; };
 		6B362F9B1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementEventViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +260,7 @@
 				6B2DD0E01F33A7B700B6D3A2 /* Miscellaneous */,
 				6B7118911FE46CDC000F4917 /* Data Models */,
 				6B123B451EEDA8CD0006EC08 /* Singletons */,
+				6B9249462022623C0064525A /* Resources */,
 				6B1E35EC1ECF9DE400E2CD77 /* AppDelegate.swift */,
 				6B1E35F01ECF9DE400E2CD77 /* Main.storyboard */,
 				6B1E35F31ECF9DE400E2CD77 /* Assets.xcassets */,
@@ -268,7 +269,6 @@
 				6B3A5064200FFD59001E594E /* GoogleService-Info.plist */,
 				6BEDE1001F290EA700A11BBC /* SSDataModel.xcdatamodeld */,
 				6B1D7D0F1F2125EC003B453B /* Settings.bundle */,
-				6B34A9FD201FCFDC00D7D5F1 /* jsonKeys.plist */,
 			);
 			path = SummerSchool;
 			sourceTree = "<group>";
@@ -291,6 +291,14 @@
 				6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */,
 			);
 			name = "Data Models";
+			sourceTree = "<group>";
+		};
+		6B9249462022623C0064525A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6B34A9FD201FCFDC00D7D5F1 /* applicationConfig.plist */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		6BB7A94B1EE4A72B005FA5B0 /* ViewControllers */ = {
@@ -442,7 +450,7 @@
 				6B1E35F41ECF9DE400E2CD77 /* Assets.xcassets in Resources */,
 				6B1E35F21ECF9DE400E2CD77 /* Main.storyboard in Resources */,
 				6B362FA01F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib in Resources */,
-				6B34A9FE201FCFDC00D7D5F1 /* jsonKeys.plist in Resources */,
+				6B34A9FE201FCFDC00D7D5F1 /* applicationConfig.plist in Resources */,
 				6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */,
 				6B3A5065200FFD59001E594E /* GoogleService-Info.plist in Resources */,
 				6BB3EE2B1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib in Resources */,

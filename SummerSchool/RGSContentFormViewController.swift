@@ -39,6 +39,9 @@ class RGSContentFormViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    /// The placeholder boolean flag.
+    var firstTimeEditingBody: Bool = true
+    
     // MARK: - Outlets
     
     /// The cancel button.
@@ -82,6 +85,14 @@ class RGSContentFormViewController: UIViewController, UITextViewDelegate {
     }
     
     // MARK: UITextView Delegate Methods
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if (firstTimeEditingBody) {
+            textView.text = ""
+            textView.textColor = UIColor.black
+            firstTimeEditingBody = false
+        }
+    }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.resignFirstResponder()

@@ -641,7 +641,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" text="Body" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zPP-Wc-5if">
                                 <rect key="frame" x="16" y="104" width="343" height="543"/>
                                 <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.7803921568627451" green="0.7803921568627451" blue="0.80392156862745101" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no" keyboardType="alphabet"/>
                                 <connections>
@@ -958,7 +958,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="IGZ-BO-FyE" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Info" image="InfoIcon" id="jR0-Xv-eRC"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Fpt-zF-JX9">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fpt-zF-JX9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -981,7 +981,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sTk-X4-IfY" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Announcements" image="AnnouncementIcon" id="D3G-fl-qmg"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dHh-vR-yiL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dHh-vR-yiL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1000,7 +1000,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="C9G-kN-NRI" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Staff" image="LecturerIcon" id="zc0-T6-99u"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Vr6-gT-L6p">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vr6-gT-L6p">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1019,7 +1019,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gJc-uQ-eIB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Schedule" image="ScheduleIcon" id="u9x-IE-y4w"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="b5c-Jc-n4C">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="b5c-Jc-n4C">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1038,7 +1038,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vXv-jV-zAE" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Forum" image="ForumIcon" id="mnA-SW-rZg"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dcl-re-1yo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dcl-re-1yo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
