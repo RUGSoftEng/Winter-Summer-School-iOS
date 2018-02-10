@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, RGSAuthenticatableObjectDelegate {
     
     // MARK: - Variables and Constants
@@ -269,6 +270,8 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         super.viewDidLoad()
         setNavigationBarTheme()
         
+        
+        
         // Register: Content Table View Cell.
         let contentTableViewCell: UINib = UINib(nibName: "RGSForumContentTableViewCell", bundle: nil)
         tableView.register(contentTableViewCell, forCellReuseIdentifier: contentTableViewCellIdentifier)
@@ -314,7 +317,7 @@ extension RGSForumThreadViewController {
             sleep(1)
             DispatchQueue.main.async {
                 self.forumComments = fetched
-                self.tableView.reloadData()
+                self.tableView.reloadData(in: 2, with: .fade)
                 self.resumeTableViewInteraction()
                 self.displayWarningPopupIfNeeded(animated: true)
         
@@ -339,14 +342,16 @@ extension RGSForumThreadViewController {
             
             // Retrieve Resources: Ensure models are only read.
             for item in model {
-                if let resourceURL = item.imagePath {
-                    let (data, _, _) = URLSession.shared.synchronousDataTask(with: URL(string: resourceURL)!)
+                if let imagePath = item.imagePath, let resourceURL = URL(string: imagePath)  {
+                    let (data, _, _) = URLSession.shared.synchronousDataTask(with: resourceURL)
                     
                     if let imageData = data, let image = UIImage(data: imageData) {
                         resource.append(image)
                     } else {
                         resource.append(nil)
                     }
+                } else {
+                    resource.append(nil)
                 }
             }
             
@@ -360,7 +365,7 @@ extension RGSForumThreadViewController {
                 for (i, item) in model.enumerated() {
                     item.image = resource[i]
                 }
-                self.tableView.reloadData()
+                self.tableView.reloadData(in: 2, with: .fade)
             }
             
         }
@@ -388,16 +393,14 @@ extension RGSForumThreadViewController {
         let url = NetworkManager.sharedInstance.URLForForumComments()
         NetworkManager.sharedInstance.makePostRequest(url: url, data: data, onCompletion: {(_, response: URLResponse?) -> Void in
             
-            // Extract httpResponse
-            let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
-            print("Received status code: \(httpResponse.statusCode)")
-            DispatchQueue.main.async {
-                if (httpResponse.statusCode != 200) {
+            // Fail if no response.
+            if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
+                DispatchQueue.main.async {
                     self.displayNetworkActionAlert("Unable to submit comment!")
-                } else {
-                    print("The comment was submitted. Refreshing the model data...")
-                    self.refreshModelData()
                 }
+            } else {
+                print("The thread was submitted. Refreshing the model data...")
+                self.refreshModelData()
             }
             
         })
@@ -429,3 +432,5 @@ extension RGSForumThreadViewController {
         })
     }
 }
+
+

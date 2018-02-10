@@ -51,7 +51,7 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
     // MARK: - Variables & Constants
     
     /// The Event Object to be displayed in the View.
-    var event: Event!
+    var event: RGSEventDataModel!
     
     /// The UITextView for the event description.
     var descriptionTextView: UITextView!
@@ -174,7 +174,7 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
             
             // Set description, round textView
             descriptionTextView.layer.cornerRadius = 10.0
-            if let description = event.description {
+            if let description = event.body {
                 do {
                     descriptionTextView.attributedText = try NSAttributedString(HTMLString: description, font: descriptionTextView.font)
                 } catch {
@@ -183,7 +183,7 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
             }
             
             // Set Address
-            if let address = event.address {
+            if let address = event.location {
                 
                 // Initialize the MapView default region.
                 let coordinates = SpecificationManager.sharedInstance.defaultMapCoordinates.coordinate

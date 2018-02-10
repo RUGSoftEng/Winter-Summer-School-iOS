@@ -12,7 +12,7 @@ import UIKit
 enum ServerPath: String {
     case generalInfoPath = "/API/generalinfo"
     case announcementPath = "/API/announcement"
-    case eventPath = "/calendar/event"
+    case eventPath = "/API/event"
     case loginCodePath = "/API/loginCode"
     case schoolInfoPath = "/API/school"
     case lecturerPath = "/API/lecturer"
@@ -115,7 +115,7 @@ final class NetworkManager {
     /// Returns the address needed to extract school information
     /// from the server.
     func URLForSchoolInfo (_ schoolId: String) -> String {
-        return serverAddress + serverPathWithOptions(path: .schoolInfoPath, options: "id=\(schoolId)")
+        return serverAddress + serverPathWithOptions(path: .schoolInfoPath, options: "_id=\(schoolId)")
     }
     
     /// Returns the address needed to extract lecturers 

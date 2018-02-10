@@ -357,7 +357,7 @@ extension RGSForumViewController {
             sleep(1)
             DispatchQueue.main.async {
                 self.forumThreads = fetched
-                self.tableView.reloadData()
+                self.tableView.reloadData(in: 1, with: .fade)
                 self.resumeTableViewInteraction()
                 self.displayWarningPopupIfNeeded(animated: true)
                 
@@ -404,7 +404,7 @@ extension RGSForumViewController {
                     item.image = resource[i]
                 }
                 print("Reloading secondary data!")
-                self.tableView.reloadData()
+                self.tableView.reloadData(in: 1, with: .fade)
             }
             
         }
@@ -435,16 +435,14 @@ extension RGSForumViewController {
         let url = NetworkManager.sharedInstance.URLForForumThreads()
         NetworkManager.sharedInstance.makePostRequest(url: url, data: data, onCompletion: {(_, response: URLResponse?) -> Void in
             
-            // Extract httpResponse
-            let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
-            print("Received status code: \(httpResponse.statusCode)")
-            DispatchQueue.main.async {
-                if (httpResponse.statusCode != 200) {
+            // Fail if no response.
+            if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
+                DispatchQueue.main.async {
                     self.displayNetworkActionAlert("Unable to submit thread!")
-                } else {
-                    print("The thread was submitted. Refreshing the model data...")
-                    self.refreshModelData()
                 }
+            } else {
+                print("The thread was submitted. Refreshing the model data...")
+                self.refreshModelData()
             }
             
         })

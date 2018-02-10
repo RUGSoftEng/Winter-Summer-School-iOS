@@ -8,19 +8,8 @@
 
 import UIKit
 
-struct Section {
-    var dateString: String
-    var events: [Event]
-    var isCollapsed: Bool
-    
-    init(dateString: String, events: [Event], isCollapsed: Bool = false) {
-        self.dateString = dateString
-        self.events = events
-        self.isCollapsed = isCollapsed
-    }
-}
 
-class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIScrollViewDelegate, UITableViewDataSource, RGSScheduleTableViewHeaderFooterViewProtocol {
+class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIScrollViewDelegate, UITableViewDataSource {
     
     // MARK: - Variables & Constants
     
@@ -32,9 +21,6 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
             }
         }
     }
-    
-    /// UITableViewHeaderFooterView Identifier
-    let scheduleTableViewHeaderFooterViewIdentifier: String = "scheduleTableViewHeaderFooterViewIdentifier"
     
     /// UITableViewCell Identifier
     let scheduleTableViewCellIdentifier: String = "scheduleTableViewCellIdentifier"
@@ -54,28 +40,11 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     }
     
     /// Data for the UITableView
-    var events: [(Date, [Event])]? {
+    var events: [RGSEventDataModel]? {
         didSet (oldEvents) {
-            if (tableView != nil && events != nil) {
-                sections = eventsToSections(events!)
-                tableView.reloadData()
-            } else {
-                events = oldEvents
-            }
+            print("Got data!")
+            tableView.reloadData()
         }
-    }
-    
-    /// Array of titles for each section.
-    private var sections: [Section]!
-    
-    /// Iterates over the raw events and sorts them into sections
-    func eventsToSections(_ events: [(Date, [Event])]) -> [Section] {
-        var sections: [Section] = []
-        for (date, dateEvents) in events {
-            let dateString: String = DateManager.sharedInstance.dateToISOString(date, format: .weekdayDateFormat, timeZone: TimeZone.init(secondsFromGMT: 0)!)!
-            sections.append(Section(dateString: dateString, events: dateEvents, isCollapsed: true))
-        }
-        return sections
     }
     
     // MARK: - Outlets
@@ -98,70 +67,36 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     // MARK: - UITableViewDelegate/DataSource Protocol Methods
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return (sections == nil) ? 0 : sections!.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (sections.indices.contains(section) && sections[section].isCollapsed == false) {
-            return max(sections[section].events.count, 1)
-        } else {
+        if (events == nil) {
             return 0
         }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return scheduleTableViewHeaderFooterViewHeight
+        return (events?.count)!
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if (sections.indices.contains(indexPath.section) && sections[indexPath.section].events.count > 0) {
-            return scheduleTableViewCellHeight
-        } else {
-            return scheduleEmptyTableViewCellHeight
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: scheduleTableViewHeaderFooterViewIdentifier) as? RGSScheduleTableViewHeaderFooterView ?? RGSScheduleTableViewHeaderFooterView(reuseIdentifier: scheduleTableViewHeaderFooterViewIdentifier)
-        
-        header.title = sections[section].dateString
-        header.section = section
-        header.delegate = self
-        return header
+        return scheduleTableViewCellHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        // Only select a cell if it will be a RGSScheduleTableViewCell.
-        if (sections[indexPath.section].events.count > 0) {
-            let cell: RGSScheduleTableViewCell = tableView.cellForRow(at: indexPath) as! RGSScheduleTableViewCell
-            tableView.deselectRow(at: indexPath, animated: false)
-            performSegue(withIdentifier: "RGSScheduleEventViewController", sender: cell)
-        }
+        let cell: RGSScheduleTableViewCell = tableView.cellForRow(at: indexPath) as! RGSScheduleTableViewCell
+        tableView.deselectRow(at: indexPath, animated: false)
+        performSegue(withIdentifier: "RGSScheduleEventViewController", sender: cell)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if (sections.indices.contains(indexPath.section)) {
-            let s: Section = sections[indexPath.section]
-            
-            if (s.events.indices.contains(indexPath.row)) {
-                let cell: RGSScheduleTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleTableViewCellIdentifier, for: indexPath) as! RGSScheduleTableViewCell
-                let event: Event = s.events[indexPath.row]
-                
-                cell.startDate = event.startDate
-                cell.title = event.title
-                cell.address = event.address
-                return cell
-            } else {
-                let cell: RGSEmptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleEmptyTableViewCellIdentifier, for: indexPath) as! RGSEmptyTableViewCell
-                cell.title = "Nothing scheduled!"
-                return cell
-            }
-        } else {
-            return UITableViewCell()
-        }
+        let cell: RGSScheduleTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleTableViewCellIdentifier, for: indexPath) as! RGSScheduleTableViewCell
+        let event: RGSEventDataModel = events![indexPath.row]
+        
+        cell.startDate = event.startDate
+        cell.title = event.title
+        cell.address = event.location
+        return cell
     }
     
     // MARK: - UITableView ScrollView Delegate Protocol Methods
@@ -197,21 +132,6 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         }
     }
     
-    // MARK: - RGSCollapsibleTableViewHeader Delegate Protocol Methods
-    
-    func toggleSection(header: RGSScheduleTableViewHeaderFooterView, section: Int) {
-        
-        // Assign the inverse state to collapsed.
-        let collapsed = !sections[section].isCollapsed
-        
-        // Toggle collapse/expansion
-        sections[section].isCollapsed = collapsed
-        header.isCollapsed = collapsed
-        
-        // Reload the section
-        tableView.reloadSections(NSIndexSet(index: section) as IndexSet, with: .automatic)
-    }
-    
     // MARK: - Private Class Methods
     
     func suspendTableViewInteraction(contentOffset offset: CGPoint) {
@@ -226,24 +146,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         tableView.setContentOffset(.zero, animated: true)
     }
     
-    func refreshModelWithDataForWeek(automatic: Bool = true, _ week: Int) {
-        
-        // If popup was dismissed, undo upon manual referesh.
-        if (automatic == false) {
-            NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
-        }
-        
-        let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: week)
-        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, _ : URLResponse?) -> Void in
-            let fetched: EventPacket? = DataManager.sharedInstance.parseDataToEventPacket(data: data)
-            sleep(1)
-            DispatchQueue.main.async() {
-                self.events = fetched?.events
-                self.resumeTableViewInteraction()
-                self.displayWarningPopupIfNeeded(animated: true)
-            }
-        })
-    }
+
     
     // MARK: - Notifications
     
@@ -254,7 +157,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         // Save events
         if (events != nil) {
             print("Saving schedule data...")
-            DataManager.sharedInstance.saveScheduleData(events: self.events!)
+            RGSEventDataModel.saveDataModel(events!, context: DataManager.sharedInstance.context)
         }
     }
     
@@ -269,8 +172,8 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         let indexPath: IndexPath = tableView.indexPath(for: sender as! RGSScheduleTableViewCell)!
         
         // Set event to be displayed to that corresponding to the tapped cell.
-        let s: Section = sections[indexPath.section]
-        scheduleEventViewController.event = s.events[indexPath.row]
+        let event: RGSEventDataModel = events![indexPath.row]
+        scheduleEventViewController.event = event
      }
     
     
@@ -288,13 +191,10 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         let scheduleEmptyTableViewCellNib: UINib = UINib(nibName: "RGSEmptyTableViewCell", bundle: nil)
         tableView.register(scheduleEmptyTableViewCellNib, forCellReuseIdentifier: scheduleEmptyTableViewCellIdentifier)
         
-        // Register custom UITableViewHeaderFooterView
-        let scheduleTableViewHeaderFooterViewNib: UINib = UINib(nibName: "RGSScheduleTableViewHeaderFooterView", bundle: nil)
-        tableView.register(scheduleTableViewHeaderFooterViewNib, forHeaderFooterViewReuseIdentifier: scheduleTableViewHeaderFooterViewIdentifier)
         
-        // Attempt to load Schedule Model from Database
-        if let eventPacket = DataManager.sharedInstance.loadScheduleData() {
-            self.events = eventPacket.events
+        // Attempt to load Schedule Model from Database.
+        if let events = RGSEventDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSEventDataModel.sort) {
+            self.events = events
         }
         
         // Attempt to refresh Schedule Model by querying the server.
@@ -311,4 +211,32 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         events = [];
     }
 
+}
+
+extension RGSScheduleViewController {
+    
+    // MARK: - Network Support Methods
+    
+    // MARK: - Network GET Requests.
+    
+    func refreshModelWithDataForWeek(automatic: Bool = true, _ week: Int) {
+        
+        // If popup was dismissed, undo upon manual referesh.
+        if (automatic == false) {
+            NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
+        }
+        
+        let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: week)
+        
+        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, _ : URLResponse?) -> Void in
+            let fetched: [RGSEventDataModel]? = DataManager.sharedInstance.parseEventData(data: data)
+            sleep(1)
+            DispatchQueue.main.async() {
+                self.events = fetched
+                self.resumeTableViewInteraction()
+                self.displayWarningPopupIfNeeded(animated: true)
+            }
+        })
+    }
+    
 }

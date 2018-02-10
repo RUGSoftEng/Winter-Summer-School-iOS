@@ -35,11 +35,11 @@ class RGSForumCommentDataModel {
 
         // Mandatory fields.
         guard
-            let id          = json["commentID"] as? String,
+            let id          = json["_id"] as? String,
             let author      = json["author"] as? String,
             let authorID    = json["posterID"] as? String,
             let body        = json["text"] as? String,
-            let dateString  = json["date"] as? String
+            let dateString  = json["created"] as? String
         else { return nil }
         self.id             = id
         self.author         = author
@@ -48,7 +48,7 @@ class RGSForumCommentDataModel {
         self.date           = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
         
         // Optional fields.
-        if let imagePath = json["imgurl"] as? String {
+        if let imagePath = json["imgURL"] as? String {
             self.imagePath = imagePath
         }
     }

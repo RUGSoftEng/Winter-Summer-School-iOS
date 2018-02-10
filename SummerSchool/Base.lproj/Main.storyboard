@@ -31,7 +31,7 @@
                                     <constraint firstAttribute="width" constant="45" id="v2d-39-Qb4"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0tc-pJ-vHI">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0tc-pJ-vHI">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -81,7 +81,7 @@
                                     <constraint firstAttribute="height" constant="45" id="osc-Xb-ylc"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6dn-PW-XW4">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6dn-PW-XW4">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -587,13 +587,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Abh-aC-YpO" customClass="RGSLoadingIndicatorView" customModule="SummerSchool" customModuleProvider="target">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Abh-aC-YpO" customClass="RGSLoadingIndicatorView" customModule="SummerSchool" customModuleProvider="target">
                                 <rect key="frame" x="165" y="72" width="45" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="4CJ-nT-GXp"/>
-                                    <constraint firstAttribute="width" constant="45" id="tZQ-el-iB5"/>
-                                </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0vW-QG-I4x">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
@@ -606,12 +603,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="0vW-QG-I4x" secondAttribute="trailing" id="Asf-SJ-yiE"/>
-                            <constraint firstItem="0vW-QG-I4x" firstAttribute="top" secondItem="H4y-TM-gwa" secondAttribute="bottom" id="a3O-98-T3Z"/>
-                            <constraint firstItem="0vW-QG-I4x" firstAttribute="leading" secondItem="qmf-6b-pVO" secondAttribute="leading" id="ecd-j2-Gd7"/>
-                            <constraint firstItem="Abh-aC-YpO" firstAttribute="centerX" secondItem="qmf-6b-pVO" secondAttribute="centerX" id="pnD-cg-ZLb"/>
-                            <constraint firstItem="Abh-aC-YpO" firstAttribute="top" secondItem="H4y-TM-gwa" secondAttribute="bottom" constant="8" id="uza-0W-xyZ"/>
-                            <constraint firstItem="4e6-Fg-ZZG" firstAttribute="top" secondItem="0vW-QG-I4x" secondAttribute="bottom" id="wGN-fY-9Jo"/>
+                            <constraint firstItem="4e6-Fg-ZZG" firstAttribute="top" secondItem="0vW-QG-I4x" secondAttribute="bottom" id="UoV-S0-m5P"/>
+                            <constraint firstItem="0vW-QG-I4x" firstAttribute="leading" secondItem="qmf-6b-pVO" secondAttribute="leading" id="aXK-ul-0SR"/>
+                            <constraint firstItem="0vW-QG-I4x" firstAttribute="top" secondItem="H4y-TM-gwa" secondAttribute="bottom" id="f0H-SC-nK9"/>
+                            <constraint firstAttribute="trailing" secondItem="0vW-QG-I4x" secondAttribute="trailing" id="gJ8-JJ-Fdv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xec-21-TbP"/>
@@ -765,12 +760,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="JhC-To-X4Z" secondAttribute="trailing" id="9Wi-HB-AKB"/>
-                            <constraint firstItem="JhC-To-X4Z" firstAttribute="leading" secondItem="mI9-Z3-8EL" secondAttribute="leading" id="MWM-r8-J1Y"/>
-                            <constraint firstItem="JhC-To-X4Z" firstAttribute="top" secondItem="3Kb-34-WWz" secondAttribute="bottom" id="VsY-LH-UPF"/>
-                            <constraint firstItem="vA3-55-FQJ" firstAttribute="top" secondItem="JhC-To-X4Z" secondAttribute="bottom" id="gPq-bY-Th0"/>
+                            <constraint firstAttribute="trailing" secondItem="JhC-To-X4Z" secondAttribute="trailing" id="PYR-j1-hLS"/>
+                            <constraint firstItem="JhC-To-X4Z" firstAttribute="top" secondItem="3Kb-34-WWz" secondAttribute="bottom" id="bZO-hh-oFK"/>
                             <constraint firstItem="U9C-G0-1Xz" firstAttribute="centerX" secondItem="mI9-Z3-8EL" secondAttribute="centerX" id="ikF-IY-aVQ"/>
                             <constraint firstItem="U9C-G0-1Xz" firstAttribute="top" secondItem="3Kb-34-WWz" secondAttribute="bottom" constant="8" id="khQ-2A-3ev"/>
+                            <constraint firstItem="JhC-To-X4Z" firstAttribute="leading" secondItem="mI9-Z3-8EL" secondAttribute="leading" id="nbg-Vh-0BE"/>
+                            <constraint firstItem="vA3-55-FQJ" firstAttribute="top" secondItem="JhC-To-X4Z" secondAttribute="bottom" id="uS3-JH-WUh"/>
                         </constraints>
                     </view>
                     <connections>
@@ -958,7 +953,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="IGZ-BO-FyE" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Info" image="InfoIcon" id="jR0-Xv-eRC"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fpt-zF-JX9">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Fpt-zF-JX9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -981,7 +976,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sTk-X4-IfY" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Announcements" image="AnnouncementIcon" id="D3G-fl-qmg"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dHh-vR-yiL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dHh-vR-yiL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1000,7 +995,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="C9G-kN-NRI" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Staff" image="LecturerIcon" id="zc0-T6-99u"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vr6-gT-L6p">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Vr6-gT-L6p">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1019,7 +1014,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gJc-uQ-eIB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Schedule" image="ScheduleIcon" id="u9x-IE-y4w"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="b5c-Jc-n4C">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="b5c-Jc-n4C">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1038,7 +1033,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vXv-jV-zAE" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Forum" image="ForumIcon" id="mnA-SW-rZg"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dcl-re-1yo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dcl-re-1yo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

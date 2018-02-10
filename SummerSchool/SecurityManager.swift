@@ -97,11 +97,18 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
         
         // Construct schoolInfo verification URL.
         let requestURL: String = NetworkManager.sharedInstance.URLForSchoolInfo(schoolId)
-        
+        print("Dispatching Request for School Info with URL: \(requestURL)")
         // Dispatch request. All fields are expected in return data as an indication of success.
         NetworkManager.sharedInstance.makeGetRequest(url: requestURL, onCompletion: {(data: Data?, response: URLResponse?) -> Void in
+            print("Got response: \(response)")
+            // Fail if no response.
+            if (response == nil) {
+                return callback(nil, nil, nil)
+            }
+            
             let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
             let schoolInfo: (String, String, String)? = DataManager.sharedInstance.parseSchoolInfoResponseData(data: data)
+            print("schoolInfo = \(schoolInfo)")
             
             // Status Code isn't 200 or schoolInfo is nil -> Bad network connection.
             if (httpResponse.statusCode != 200 || schoolInfo == nil) {
@@ -122,6 +129,12 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
     
         // Dispatch request. A school Id is expected in the return data as an indication of success.
         NetworkManager.sharedInstance.makeGetRequest(url: requestURL, onCompletion: {(data: Data?, response: URLResponse?) -> Void in
+            
+            // Fail if no response.
+            if (response == nil) {
+                return callback(.badNetworkConnection, nil)
+            }
+            
             let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
             let schoolId: String? = DataManager.sharedInstance.parseLoginCodeResponseData(data: data)
             print("SecurityManager: Authentication Status\n\tRequest URL: \(requestURL)\n\tResponse Code: \(httpResponse.statusCode)\n\tSchool ID: \(schoolId)")

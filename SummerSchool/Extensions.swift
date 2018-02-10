@@ -100,6 +100,13 @@ extension UILabel {
     }
 }
 
+/// Extension to UITableView allowing it to reload certain sections of the table with an animation.
+extension UITableView {
+    func reloadData (in section: Int, with animation: UITableViewRowAnimation) {
+        reloadSections(IndexSet(integer: section), with: animation)
+    }
+}
+
 /// Extension to RGSBaseViewController with control routines for Warning Popup Button.
 extension RGSBaseViewController {
     

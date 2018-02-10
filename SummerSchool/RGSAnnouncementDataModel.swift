@@ -93,7 +93,10 @@ extension RGSAnnouncementDataModel {
     
     /// Filtering method for an array of class instances.
     static func filter (model: RGSAnnouncementDataModel) -> Bool {
-        return (model.schoolId == SpecificationManager.sharedInstance.schoolId!)
+        if (SpecificationManager.sharedInstance.schoolId != nil) {
+            return (model.schoolId == SpecificationManager.sharedInstance.schoolId!)
+        }
+        return true
     }
     
     /// Parses a array of JSON objects into an array of data model instances.

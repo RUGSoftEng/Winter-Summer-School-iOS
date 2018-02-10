@@ -10,154 +10,6 @@ import Foundation
 import CoreData
 import UIKit
 
-// MARK: - Structures: Event, EventPacket
-
-/// Structure representing an event.
-struct Event {
-    var id: String?
-    var title: String?
-    var address: String?
-    var description: String?
-    var ssid: String?
-    var startDate: Date?
-    var endDate: Date?
-}
-
-/// Extension with initializer for Event.
-extension Event {
-    
-    // Initializer for JSON objects.
-    init?(json: [String: Any]) {
-        
-        // Mandatory fields: Return nil if missing.
-        guard
-            let id: String = json["id"] as? String,
-            let title: String = json["summary"] as? String,
-            let address: String = json["location"] as? String,
-            let description: String = json["description"] as? String,
-            let start: [String: String] = json["start"] as? [String: String],
-            let end: [String: String] = json["end"] as? [String: String]
-        else {
-            return nil
-        }
-        
-        self.id = id
-        self.title = title
-        self.address = address
-        self.description = description
-        self.startDate = DateManager.sharedInstance.ISOStringToDate(start["dateTime"], format: DateFormat.JSONScheduleEventDateFormat)
-        self.endDate = DateManager.sharedInstance.ISOStringToDate(end["dateTime"], format: DateFormat.JSONScheduleEventDateFormat)
-        self.ssid = "Unavailable"
-        
-        // Initialize custom field. Return placeholder if unavailable.
-        guard
-            let extendedProperties: [String: Any] = json["extendedProperties"] as? [String: Any],
-            let shared: [String: String] = extendedProperties["shared"] as? [String: String]
-            else {
-                return
-        }
-        
-        self.ssid = shared["ssid"]
-    }
-    
-    // Initializer for NSManagedObject objects
-    init?(managedObject: NSManagedObject) {
-        
-        // Mandatory fields: Return nil if missing.
-        guard
-            let title: String = managedObject.value(forKey: EventEntityKey.title.rawValue) as? String,
-            let address: String = managedObject.value(forKey: EventEntityKey.address.rawValue) as? String,
-            let description: String = managedObject.value(forKey: EventEntityKey.description.rawValue) as? String,
-            let startDateString: String = managedObject.value(forKey: EventEntityKey.startDateString.rawValue) as? String,
-            let endDateString: String = managedObject.value(forKey: EventEntityKey.endDateString.rawValue) as? String,
-            let ssid: String = managedObject.value(forKey: EventEntityKey.ssid.rawValue) as? String
-        else {
-            return nil
-        }
-        
-        self.title = title
-        self.address = address
-        self.description = description
-        self.startDate = DateManager.sharedInstance.ISOStringToDate(startDateString, format: DateFormat.JSONScheduleEventDateFormat)
-        self.endDate = DateManager.sharedInstance.ISOStringToDate(endDateString, format: DateFormat.JSONScheduleEventDateFormat)
-        self.ssid = ssid
-        
-        // Optional fields:
-    }
-}
-
-/// Structure representing an event packet received from the server.
-struct EventPacket {
-    var events: [(Date, [Event])]?
-}
-
-/// Extension with initializer for EventPacket.
-extension EventPacket {
-    
-    // Initializer for JSON objects.
-    init?(json: [[Any]]) {
-        
-        var events: [(Date, [Event])] = [(Date, [Event])]()
-        
-        for item in json {
-            var parsedEvents: [Event] = [Event]()
-            guard
-                let dateString: String = item[0] as? String,
-                let dateEvents: [Any] = item[1] as? [Any]
-                else {
-                    return nil
-            }
-            
-            for serializedEvent in dateEvents {
-                if let event = Event.init(json: serializedEvent as! [String : Any]) {
-                    parsedEvents.append(event)
-                } else {
-                    return nil
-                }
-            }
-            let date: Date? = DateManager.sharedInstance.ISOStringToDate(dateString, format: DateFormat.JSONGeneralDateFormat)
-            events.append((date!, parsedEvents))
-        }
-        
-        self.events = events
-    }
-    
-    // Initializer for NSManagedObjects. Expects an array of WeekDayEntities represented as NSManagedObjects
-    // Note: Do not call this method if isCoreDataAvailable is set to false.
-    init?(managedObjects: [NSManagedObject]) {
-        var events: [(Date, [Event])] = []
-        
-        if (managedObjects.count != 7) {
-            return nil
-        }
-        
-        for weekDayEntity in managedObjects {
-            
-            // Initialize the dateString, and events of that week day. Return nil if any corruption is present.
-            guard
-                let dateString: String = weekDayEntity.value(forKey: WeekDayEntityKey.dateString.rawValue) as? String,
-                let date: Date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
-            else {
-                return nil
-            }
-            
-            // Extract dateEvents, sort them by starting date
-            let dateEventEntities: NSMutableSet = weekDayEntity.mutableSetValue(forKey: WeekDayEntityKey.events.rawValue)
-            let dateEvents: [Event] = dateEventEntities.map({(eventEntity) -> Event in
-                return Event(managedObject: eventEntity as! NSManagedObject)!
-            }).sorted(by: {(a: Event, b: Event) -> Bool in
-                return a.startDate! < b.startDate!
-            })
-            
-            // Add tuple to events list.
-            events.append((date, dateEvents))
-        }
-        
-        // Sort events by ascending date (may not be in order)
-        self.events = events.sorted(by: {$0.0 < $1.0})
-    }
-}
-
 // MARK: - Structures: Lecturers
 
 struct Lecturer {
@@ -262,35 +114,6 @@ extension LoginCode {
 
 // MARK: - Enumerations: NSManagedObject Entity Keys
 
-/// Entity Keys for the EventEntity object
-enum EventEntityKey: String {
-    case entityName         = "EventEntity"
-    case title              = "title"
-    case address            = "address"
-    case description        = "eventDescription"
-    case startDateString    = "startDateString"
-    case endDateString      = "endDateString"
-    case ssid               = "ssid"
-    case weekDay            = "weekDay"
-}
-
-/// Entity keys for the WeekDayEntity object
-enum WeekDayEntityKey: String {
-    case entityName         = "WeekDayEntity"
-    case dateString         = "dateString"
-    case events             = "events"
-}
-
-/// Entity keys for the GeneralInfoEntity object
-enum GeneralInfoEntityKey: String {
-    case entityName         = "GeneralInfoEntity"
-    case id                 = "id"
-    case title              = "title"
-    case description        = "generalInfoDescription"
-    case category           = "category"
-    case dateString         = "dateString"
-}
-
 /// Entity keys for the LecturerEntity object
 enum LecturerEntityKey: String {
     case entityName         = "LecturerEntity"
@@ -348,15 +171,36 @@ final class DataManager {
             return nil
         }
         
+        if let json = try? JSONSerialization.jsonObject(with: data!, options: [])  {
+            print("JSON RAW = \(json)")
+            if let jsonArray = json as? [String: Any] {
+                print("JSON Array = \(jsonArray)")
+            } else {
+                print("Can't unwrap as array!")
+            }
+        }
+        
         guard
             let json = try? JSONSerialization.jsonObject(with: data!, options: []),
-            let jsonArray = json as? [String: Any],
-            let schoolName = jsonArray["name"] as? String,
-            let schoolStartDateString = jsonArray["startDate"] as? String,
-            let schoolEndDateString = jsonArray["endDate"] as? String
+            let jsonArray = json as? [Any],
+            let jsonData = jsonArray[0] as? [String: Any],
+            let schoolName = jsonData["name"] as? String,
+            let schoolStartDateString = jsonData["startDate"] as? String,
+            let schoolEndDateString = jsonData["endDate"] as? String
         else { return nil }
         
         return (schoolName, schoolStartDateString, schoolEndDateString)
+    }
+    
+    /// Attempts to fetch and return Event data.
+    func parseEventData (data: Data?) -> [RGSEventDataModel]? {
+        var events: [RGSEventDataModel]? = nil
+        
+        if (data != nil) {
+            events = RGSEventDataModel.parseDataModel(from: data!, sort: RGSEventDataModel.sort)
+        }
+        
+        return events
     }
     
     /// Attempts to fetch and return General Information data.
@@ -407,30 +251,7 @@ final class DataManager {
         return forumComments
     }
     
-    
-    /// Attempts to deserialize and return an EventPacket object for JSON
-    /// obtained from a server request.
-    ///
-    /// - Parameters:
-    ///     - data: The JSON encoded data.
-    func parseDataToEventPacket(data: Data?) -> EventPacket? {
-        if (data == nil) {
-            return nil
-        }
-        
-        guard
-            let json = try? JSONSerialization.jsonObject(with: data!, options: []),
-            let dictionary: [String: Any] = json as? [String: Any],
-            let eventString: String = dictionary["data"] as? String,
-            let eventData: Data = eventString.data(using: String.Encoding.utf8),
-            let eventjson = try? JSONSerialization.jsonObject(with: eventData, options: []),
-            let eventPacket: EventPacket = EventPacket.init(json: eventjson as! [[Any]])
-            else {
-                return nil
-        }
-        
-        return eventPacket
-    }
+
     
     /// Attempts to deserialize and return a Lecturer array for JSON
     /// obtained from a server request.
@@ -478,23 +299,6 @@ final class DataManager {
     
     // MARK: - Public Methods: Data Loading
     
-    /// Attempts to load in Schedule data using CoreData
-    /// returns an EventPacket if one exists. Returns nil on
-    /// error or if the query returns an empty set.
-    func loadScheduleData() -> EventPacket? {
-        
-        if (isCoreDataAvailable == false) {
-            return nil
-        }
-
-        do {
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: WeekDayEntityKey.entityName.rawValue)
-            let weekDayEntities: [NSManagedObject] = try self.context.fetch(request) as! [NSManagedObject]
-            return EventPacket(managedObjects: weekDayEntities)
-        } catch {
-            return nil
-        }
-    }
     
     /// Attempts to load in Lecturer data using CoreData
     /// returns an array of Lecturer objects if they exist.
@@ -524,75 +328,6 @@ final class DataManager {
     }
     
     // MARK: - Public Methods: Data Saving
-    
-    /// Attempts to overwrite the existing Schedule data stored with CoreData.
-    /// If the objects do not exist, they are created.
-    ///
-    /// - Parameters:
-    ///     - events: An array of (Date, [Event]) tuples.
-    func saveScheduleData(events: [(Date,[Event])]) -> Void {
-        
-        if (isCoreDataAvailable == false) {
-            return
-        }
-        
-        do {
-            
-            // Extract all WeekDayEntities
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: WeekDayEntityKey.entityName.rawValue)
-            var weekDayEntities: [NSManagedObject] = try self.context.fetch(request) as! [NSManagedObject]
-            
-            // For all WeekDayEntities...
-            for weekDayEntity in weekDayEntities {
-                let weekDayEntityEvents: NSMutableSet = weekDayEntity.mutableSetValue(forKey: WeekDayEntityKey.events.rawValue)
-                
-                // Remove all Events from the Context
-                for eventEntity in weekDayEntityEvents {
-                    let objectContext: NSManagedObjectContext = (eventEntity as AnyObject).managedObjectContext
-                    objectContext.delete(eventEntity as! NSManagedObject)
-                }
-            }
-            
-            // If there were no WeekDayEntities, create them.
-            if (weekDayEntities.count == 0) {
-                for _ in 0 ..< 7 {
-                    let weekDayEntity: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: WeekDayEntityKey.entityName.rawValue, into: self.context) as NSManagedObject
-                    weekDayEntities.append(weekDayEntity)
-                }
-            }
-            
-            //  Update dates and set new EventEntities.
-            for (index, weekDayEntity) in weekDayEntities.enumerated() {
-                let (date, events) = events[index]
-                
-                // Update WeekDayEntity Date
-                let dateString: String = DateManager.sharedInstance.dateToISOString(date, format: DateFormat.JSONGeneralDateFormat)!
-                weekDayEntity.setValue(dateString, forKey: WeekDayEntityKey.dateString.rawValue)
-                
-                // Get WeekDayEntity Events Set (should be empty)
-                let weekDayEntityEvents: NSMutableSet = weekDayEntity.mutableSetValue(forKey: WeekDayEntityKey.events.rawValue)
-                
-                for event in events {
-                    let eventEntity: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: EventEntityKey.entityName.rawValue, into: self.context)
-                    eventEntity.setValue(event.title, forKey: EventEntityKey.title.rawValue)
-                    eventEntity.setValue(event.address, forKey: EventEntityKey.address.rawValue)
-                    eventEntity.setValue(event.description, forKey: EventEntityKey.description.rawValue)
-                    eventEntity.setValue(event.ssid, forKey: EventEntityKey.ssid.rawValue)
-                    eventEntity.setValue(DateManager.sharedInstance.dateToISOString(event.startDate!, format: .JSONScheduleEventDateFormat), forKey: EventEntityKey.startDateString.rawValue)
-                    eventEntity.setValue(DateManager.sharedInstance.dateToISOString(event.endDate!, format: .JSONScheduleEventDateFormat), forKey: EventEntityKey.endDateString.rawValue)
-                    eventEntity.setValue(weekDayEntity, forKey: EventEntityKey.weekDay.rawValue)
-                    
-                    weekDayEntityEvents.add(eventEntity)
-                }
-            }
-            
-        } catch {
-            print("saveScheduleData: There was a problem when updating events!")
-            return
-        }
-        
-        saveContext()
-    }
     
     /// Attempts to overwrite the existing Lecturer data stored with Coredata.
     /// If no objects exist, they are created.
