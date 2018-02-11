@@ -231,6 +231,9 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
         // Set Firebase Authentication Providers.
         self.authenticationUI?.providers = [FUIGoogleAuth(), FUIFacebookAuth()] as [FUIAuthProvider]
         
+        // Remove Email as a Firebase Authorization option.
+        self.authenticationUI?.isSignInWithEmailHidden = true
+        
         // Initialize UserDisplayName from UserDefaults: (Might succeed only. Not in defaults).
         if let userDisplayName = defaults.string(forKey: UserDefaultKey.UserDisplayName.rawValue) {
             self.userDisplayName = userDisplayName
