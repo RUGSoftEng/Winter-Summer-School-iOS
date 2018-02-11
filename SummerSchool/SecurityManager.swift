@@ -62,6 +62,28 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
         let notification = Notification.init(name: Notification.Name(rawValue: "NSUserAuthenticationStateChange"), object: self, userInfo: userInfo)
         notificationCenter.post(notification)
     }
+    
+    /// Verifies that the summer school may still be accessed by the user. If not, the lockscreen is enabled.
+    /// - schoolId: The school identifier (The user must have successfully logged in at least once).
+    func verifySchoolInfo (schoolId: String) {
+        
+        // Perform the request if the user has a network connection. Otherwise postpone test until next time the app is started.
+        if (NetworkManager.sharedInstance.hasNetworkConnection) {
+            self.requestSchoolInfo(schoolId, callback: {(statusCode: Int?, schoolName: String?, startDate: String?, endDate: String?) -> Void in
+                if let code = statusCode, let expirationDate = DateManager.sharedInstance.ISOStringToDate(endDate, format: .JSONGeneralDateFormat) {
+                    
+                    // Lock the screen if not a 200 response code, or if the current date exceeds the expiration date.
+                    if (code != 200 || Date() > expirationDate) {
+                        print("SecurityManager: Lock screen enabled. The school no longer exists, or has expired!")
+                        SpecificationManager.sharedInstance.setShouldShowLockScreen(true)
+                    } else {
+                        print("SecurityManager: School Info Verified!")
+                    }
+                    
+                }
+            })
+        }
+    }
 
     // MARK: - Public Methods
     
@@ -93,17 +115,17 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
     /// Dispatches a GET request to obtain data given a schoolId.
     /// - schoolId: The Id of the school.
     /// - callback: A callback to which a string tuple (SchoolName, StartDate, EndDate) will be passed on success.
-    func requestSchoolInfo (_ schoolId: String, callback: @escaping (String?, String?, String?) -> Void) -> Void {
+    func requestSchoolInfo (_ schoolId: String, callback: @escaping (Int?, String?, String?, String?) -> Void) -> Void {
         
         // Construct schoolInfo verification URL.
         let requestURL: String = NetworkManager.sharedInstance.URLForSchoolInfo(schoolId)
-        print("Dispatching Request for School Info with URL: \(requestURL)")
+
         // Dispatch request. All fields are expected in return data as an indication of success.
         NetworkManager.sharedInstance.makeGetRequest(url: requestURL, onCompletion: {(data: Data?, response: URLResponse?) -> Void in
-            print("Got response: \(response)")
+            
             // Fail if no response.
             if (response == nil) {
-                return callback(nil, nil, nil)
+                return callback(nil, nil, nil, nil)
             }
             
             let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
@@ -112,10 +134,10 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
             
             // Status Code isn't 200 or schoolInfo is nil -> Bad network connection.
             if (httpResponse.statusCode != 200 || schoolInfo == nil) {
-                return callback(nil, nil, nil)
+                return callback(httpResponse.statusCode, nil, nil, nil)
             }
             
-            return callback(schoolInfo?.0, schoolInfo?.1, schoolInfo?.2)
+            return callback(httpResponse.statusCode, schoolInfo?.0, schoolInfo?.1, schoolInfo?.2)
         })
     }
     
@@ -155,6 +177,20 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
     
     // MARK: - Firebase FUIAuthDelegate Protocol Methods
     
+    /// Adjusts an image URL to an appropriate format. Mainly used to switch photoURL to use Facebook's Graph API.
+    func adjustedImageURL (url: URL?, with providerData: [UserInfo]?) -> String? {
+        
+        if (url == nil) {
+            return nil
+        }
+        
+        if (providerData != nil && providerData!.indices.contains(0) && providerData![0].providerID == "facebook.com") {
+            return "https://graph.facebook.com/" + providerData![0].uid + "/picture?type=small"
+        } else {
+            return String(describing: url!)
+        }
+    }
+    
     /// Delegate Method Handler.
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         var userInfo: [String: String]? = nil
@@ -162,9 +198,9 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
             print("SecurityManager: FireBase Status\n\tDisplayName: \(userInstance.displayName)\n\tProfile Image URL: \(userInstance.photoURL)\n\tEmail: \(userInstance.email)")
             // Assign all local variables.
             self.userDisplayName = userInstance.displayName
-            self.userImageURL = String(describing: userInstance.photoURL!)
+            self.userImageURL = adjustedImageURL(url: userInstance.photoURL, with: userInstance.providerData)
             self.userIdentity = userInstance.uid
-            
+
             // Construct userInfo dictionary.
             userInfo = ["userDisplayName" : userDisplayName!, "userImageURL": userImageURL!, "userIdentity": userIdentity!]
             
@@ -208,6 +244,12 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
         // Initialize UserIdentity from UserDefaults: (Might succeed only. Not in defaults).
         if let userIdentity = defaults.string(forKey: UserDefaultKey.UserIdentity.rawValue) {
             self.userIdentity = userIdentity
+        }
+        
+        // If the user is registered with a school, verify it is still active.
+        if let schoolId = SpecificationManager.sharedInstance.schoolId {
+            print("SecurityManager: Verifying school...")
+            self.verifySchoolInfo(schoolId: schoolId)
         }
         print("SecurityManager initialized with: userDisplayName: \(self.userDisplayName), userImageURL: \(self.userImageURL), userIdentity: \(self.userIdentity)")
     }

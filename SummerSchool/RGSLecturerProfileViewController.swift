@@ -18,7 +18,7 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
     // MARK: - Variables & Constants
     
     /// The lecturer
-    var lecturer: Lecturer!
+    var lecturer: RGSLecturerDataModel!
     
     /// The height of the header when extended.
     let maximumHeaderOffset: CGFloat = 8
@@ -87,8 +87,8 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
     // MARK: - Private Class Methods
     
     /// Returns boolean indicating whether or not the footer should be shown.
-    func shouldShowWebsite(lecturer: Lecturer?) -> Bool {
-        return (lecturer != nil && lecturer!.website!.isEmpty == false)
+    func shouldShowWebsite(lecturer: RGSLecturerDataModel?) -> Bool {
+        return (lecturer != nil && lecturer!.website != nil && lecturer!.website!.isEmpty == false)
     }
     
     /// Animates the collapse/extension of the header.
@@ -154,7 +154,7 @@ class RGSLecturerProfileViewController: RGSBaseViewController, UITextViewDelegat
             
             // Set the description
             do {
-                try descriptionTextView.attributedText = NSAttributedString(HTMLString: lecturer.description!, font: descriptionTextView.font)
+                try descriptionTextView.attributedText = NSAttributedString(HTMLString: lecturer.body!, font: descriptionTextView.font)
             } catch {
                 print("Couldn't set the lecturer description: \(error)")
             }

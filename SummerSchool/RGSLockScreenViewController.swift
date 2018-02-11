@@ -85,10 +85,10 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
         if (authState == .authenticated) {
             
             /// Fetch School Information.
-            SecurityManager.sharedInstance.requestSchoolInfo(schoolId!, callback: {(name: String?, start: String?, end: String?) -> Void in
+            SecurityManager.sharedInstance.requestSchoolInfo(schoolId!, callback: {(statusCode: Int?, name: String?, start: String?, end: String?) -> Void in
                 DispatchQueue.main.async() {
                     
-                    // If any fields are nil, fail with a network error.
+                    // If any fields are nil, fail with a network error (ignoring status code here).
                     if (name == nil || start == nil || end == nil) {
                         self.displayAuthenticationAlert(.badNetworkConnection)
                         return

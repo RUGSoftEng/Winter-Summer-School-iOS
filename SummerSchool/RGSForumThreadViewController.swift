@@ -270,8 +270,6 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         super.viewDidLoad()
         setNavigationBarTheme()
         
-        
-        
         // Register: Content Table View Cell.
         let contentTableViewCell: UINib = UINib(nibName: "RGSForumContentTableViewCell", bundle: nil)
         tableView.register(contentTableViewCell, forCellReuseIdentifier: contentTableViewCellIdentifier)

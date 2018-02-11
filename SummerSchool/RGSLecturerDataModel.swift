@@ -29,6 +29,14 @@ class RGSLecturerDataModel: RGSDataModelDelegate {
         "imageData"     : "imageData"
     ]
     
+    /// Initializes instance with given fields.
+    required init (id: String, name: String, body: String, imagePath: String) {
+        self.id = id
+        self.name = name
+        self.body = body
+        self.imagePath = imagePath
+    }
+    
     /// Saves all fields to the given NSManagedObject.
     /// - managedObject: The NSManagedObject representation.
     func saveTo (managedObject: NSManagedObject) {
