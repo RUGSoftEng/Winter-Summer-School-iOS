@@ -899,7 +899,8 @@
                         <outlet property="helpButton" destination="3Ka-r6-hNt" id="46Z-B0-Msk"/>
                         <outlet property="imageView" destination="hs5-8H-PCE" id="ZpA-Dm-y7X"/>
                         <outlet property="titleLabel" destination="LLt-fZ-VSu" id="WoU-HP-9gB"/>
-                        <segue destination="KJ8-l7-7Kd" kind="unwind" identifier="unwindToParent" unwindAction="prepareForUnwind:" id="9fZ-gC-Nxg"/>
+                        <segue destination="Rqq-vr-RM6" kind="presentation" identifier="showSchoolInfoViewController" id="gt1-JT-8JA"/>
+                        <segue destination="KJ8-l7-7Kd" kind="unwind" identifier="unwindToMain" unwindAction="unwindToMain:" id="O1x-1a-Cs3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EfF-jC-Cwa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -945,7 +946,83 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DJo-Oc-RgH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3362.4000000000001" y="286.50674662668666"/>
+            <point key="canvasLocation" x="3218" y="-160"/>
+        </scene>
+        <!--School Info View Controller-->
+        <scene sceneID="JOB-Xr-fWN">
+            <objects>
+                <viewController id="Rqq-vr-RM6" customClass="RGSSchoolInfoViewController" customModule="SummerSchool" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RRr-2J-WUm"/>
+                        <viewControllerLayoutGuide type="bottom" id="spP-pp-QhO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1i2-UL-rHT" customClass="UIControl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xfq-Cl-TLE">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZx-BH-wDN">
+                                <rect key="frame" x="46" y="204" width="283" height="259"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender &amp; Diversity School" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F5y-Ck-ifA">
+                                        <rect key="frame" x="8" y="8" width="267" height="205"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bfp-H1-dO2">
+                                        <rect key="frame" x="89" y="221" width="105" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="B0S-yy-2Ke"/>
+                                            <constraint firstAttribute="width" constant="105" id="JDH-Uw-yjj"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <state key="normal" title="Wrong school?">
+                                            <color key="titleColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.80000000000000004" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="259" id="1ZP-aM-BKw"/>
+                                    <constraint firstItem="Bfp-H1-dO2" firstAttribute="top" secondItem="F5y-Ck-ifA" secondAttribute="bottom" constant="8" id="Rnc-xg-Zfu"/>
+                                    <constraint firstAttribute="bottom" secondItem="Bfp-H1-dO2" secondAttribute="bottom" constant="8" id="USX-88-J4Q"/>
+                                    <constraint firstAttribute="trailing" secondItem="F5y-Ck-ifA" secondAttribute="trailing" constant="8" id="aos-s9-Ua4"/>
+                                    <constraint firstAttribute="width" constant="283" id="h1g-JB-iLq"/>
+                                    <constraint firstItem="F5y-Ck-ifA" firstAttribute="top" secondItem="UZx-BH-wDN" secondAttribute="top" constant="8" id="iVC-mg-LWB"/>
+                                    <constraint firstItem="Bfp-H1-dO2" firstAttribute="centerX" secondItem="UZx-BH-wDN" secondAttribute="centerX" id="mZn-si-b4R"/>
+                                    <constraint firstItem="F5y-Ck-ifA" firstAttribute="leading" secondItem="UZx-BH-wDN" secondAttribute="leading" constant="8" id="vAS-tw-kWo"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UZx-BH-wDN" firstAttribute="centerX" secondItem="1i2-UL-rHT" secondAttribute="centerX" id="8i4-DE-UqD"/>
+                            <constraint firstItem="Xfq-Cl-TLE" firstAttribute="top" secondItem="1i2-UL-rHT" secondAttribute="top" id="M3V-Ca-IaY"/>
+                            <constraint firstItem="Xfq-Cl-TLE" firstAttribute="leading" secondItem="1i2-UL-rHT" secondAttribute="leading" id="YWS-JN-wZD"/>
+                            <constraint firstItem="spP-pp-QhO" firstAttribute="top" secondItem="Xfq-Cl-TLE" secondAttribute="bottom" id="dHU-pB-nJf"/>
+                            <constraint firstItem="UZx-BH-wDN" firstAttribute="centerY" secondItem="1i2-UL-rHT" secondAttribute="centerY" id="noP-re-Xsr"/>
+                            <constraint firstAttribute="trailing" secondItem="Xfq-Cl-TLE" secondAttribute="trailing" id="vo6-Xn-PQh"/>
+                        </constraints>
+                        <connections>
+                            <action selector="backgroundTapWithSender:" destination="Rqq-vr-RM6" eventType="touchDown" id="klQ-Ub-x4q"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="contentView" destination="UZx-BH-wDN" id="59s-hW-LoX"/>
+                        <outlet property="helpButton" destination="Bfp-H1-dO2" id="4V9-mY-XnF"/>
+                        <outlet property="imageView" destination="Xfq-Cl-TLE" id="tWr-vl-STf"/>
+                        <outlet property="schoolNameLabel" destination="F5y-Ck-ifA" id="oNP-ok-LOn"/>
+                        <segue destination="nz8-hb-yGO" kind="unwind" identifier="unwindToLogin" unwindAction="unwindToLogin:" id="zQk-Zn-Qee"/>
+                        <segue destination="nz8-hb-yGO" kind="unwind" identifier="unwindToMain" unwindAction="unwindToMain:" id="JQK-hL-a4l"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NKU-tK-2s6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="nz8-hb-yGO" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3341.5999999999999" y="286.50674662668666"/>
         </scene>
         <!--Info-->
         <scene sceneID="4AH-GC-gpd">

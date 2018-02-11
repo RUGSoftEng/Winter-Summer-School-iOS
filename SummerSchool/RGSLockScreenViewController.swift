@@ -34,6 +34,11 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
 
     // MARK: - Actions
     
+    /// Unwind Segue Handle
+    @IBAction func unwindToLogin(_ segue: UIStoryboardSegue) {
+        
+    }
+    
     /// Handler for miscellanous taps outside of the keyboard when the authorization text field is being edited.
     @IBAction func backgroundTap(sender: UIControl) {
         authorizationCodeTextField.resignFirstResponder()
@@ -98,7 +103,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
                     SpecificationManager.sharedInstance.setUserSettings(false, name!, schoolId!, start!, end!)
                     
                     self.authorizationCodeTextField.isEnabled = true
-                    self.showParentViewController()
+                    self.showSchoolInfoViewController()
                 }
             })
             
@@ -118,7 +123,12 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     
     /// Returns the user to the main view controller
     func showParentViewController() {
-        performSegue(withIdentifier: "unwindToParent", sender: self)
+        performSegue(withIdentifier: "unwindToMain", sender: self)
+    }
+    
+    /// Presents the SchoolInfo view controller.
+    func showSchoolInfoViewController() {
+        performSegue(withIdentifier: "showSchoolInfoViewController", sender: self)
     }
     
     // MARK: - Protocol Methods: UIPopoverPresentationControllerDelegate
@@ -137,6 +147,13 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
                 popover.sourceView = self.helpButton
                 popover.sourceRect = self.helpButton.bounds
                 popover.permittedArrowDirections = .up
+            }
+        }
+        
+        if (segue.identifier == "showSchoolInfoViewController") {
+            if let schoolInfoViewController: RGSSchoolInfoViewController = segue.destination as? RGSSchoolInfoViewController {
+                schoolInfoViewController.screenShot = self.screenShot
+                schoolInfoViewController.schoolName = SpecificationManager.sharedInstance.schoolName
             }
         }
     }
@@ -163,7 +180,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
         super.viewDidLoad()
         
         // Set screenshot
-        self.imageView.image = screenShot;
+        self.imageView.image = screenShot
         
         // Apply a blur effect
         let blurEffect = UIBlurEffect(style: .light)

@@ -26,7 +26,7 @@ class RGSMainViewController: UITabBarController {
     // MARK: - Actions
     
     /// Unwind Segue Handle
-    @IBAction func prepareForUnwind(_ segue: UIStoryboardSegue) {
+    @IBAction func unwindToMain(_ segue: UIStoryboardSegue) {
         
     }
     
