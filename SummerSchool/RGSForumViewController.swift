@@ -419,18 +419,20 @@ extension RGSForumViewController {
     /// - title: The title of the thread.
     /// - body: The body of the thread.
     func dispatchThreadPostRequest (_ title: String, _ body: String) {
-        print("Dispatching a thread POST with title \(title) and body \(body)")
+
+        // Extract keys.
+        var keys: [String: String] = DataManager.sharedInstance.getKeyMap(for: "threadFormKeys")
         
         // Construct POST request body.
         var hashMap: [String: String] = [:]
-        hashMap["title"] = title
-        hashMap["description"] = body
-        hashMap["author"] = SecurityManager.sharedInstance.userDisplayName
-        hashMap["posterID"] = SecurityManager.sharedInstance.userIdentity
-        hashMap["imgURL"] = SecurityManager.sharedInstance.userImageURL
+        hashMap[keys["title"]!] = title
+        hashMap[keys["body"]!] = body
+        hashMap[keys["author"]!] = SecurityManager.sharedInstance.userDisplayName
+        hashMap[keys["authorId"]!] = SecurityManager.sharedInstance.userIdentity
+        hashMap[keys["imagePath"]!] = SecurityManager.sharedInstance.userImageURL
+        hashMap[keys["schoolId"]!] = SpecificationManager.sharedInstance.schoolId
         
         let bodyData: String = NetworkManager.sharedInstance.queryStringFromHashMap(map: hashMap)
-        print("Body Data: \(bodyData)")
         
         // Dispatch POST request.
         let data = bodyData.data(using: String.Encoding.utf8, allowLossyConversion: false)
@@ -438,13 +440,13 @@ extension RGSForumViewController {
         NetworkManager.sharedInstance.makePostRequest(url: url, data: data, onCompletion: {(_, response: URLResponse?) -> Void in
             
             // Fail if no response.
-            if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
                     self.displayNetworkActionAlert("Unable to submit thread!")
+                } else {
+                    print("The thread was submitted. Refreshing the model data...")
+                    self.refreshModelData()
                 }
-            } else {
-                print("The thread was submitted. Refreshing the model data...")
-                self.refreshModelData()
             }
             
         })
@@ -459,16 +461,18 @@ extension RGSForumViewController {
     /// - threadId: The ID of the thread to be deleted.
     func dispatchThreadDeleteRequest (_ threadId: String) {
         
+        // Get keys.
+        let keys: [String: String] = DataManager.sharedInstance.getKeyMap(for: "threadDeleteKeys")
+        
         // Construct DELETE request URL.
-        let url: String = NetworkManager.sharedInstance.URLWithOptions(url: NetworkManager.sharedInstance.URLForForumThreads(), options: "id=\(threadId)")
+        let url: String = NetworkManager.sharedInstance.URLWithOptions(url: NetworkManager.sharedInstance.URLForForumThreads(), options: "\(keys["id"]!)=\(threadId)")
         
         // Dispatch DELETE request.
         NetworkManager.sharedInstance.makeDeleteRequest(url: url, onCompletion: {(_, response: URLResponse?) -> Void in
             
-            // Extract httpResponse.
-            let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
+            // Fail if no response.
             DispatchQueue.main.async {
-                if (httpResponse.statusCode != 200) {
+                if (response == nil || (response as! HTTPURLResponse).statusCode != 200) {
                     self.displayNetworkActionAlert("Unable to delete thread!")
                 } else {
                     print("The thread deletion was sent! Refreshing the model data...")

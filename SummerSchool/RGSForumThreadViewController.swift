@@ -375,16 +375,18 @@ extension RGSForumThreadViewController {
     /// Presents an alertController on failure.
     func dispatchCommentPostRequest (_ comment: String) {
         
+        // Extract Keys.
+        let keys: [String: String] = DataManager.sharedInstance.getKeyMap(for: "commentFormKeys")
+        
         // Construct POST request body.
         var hashMap: [String: String] = [:]
-        hashMap["text"] = comment
-        hashMap["author"] = SecurityManager.sharedInstance.userDisplayName
-        hashMap["posterID"] = SecurityManager.sharedInstance.userIdentity
-        hashMap["imgURL"] = SecurityManager.sharedInstance.userImageURL
-        hashMap["parentThread"] = forumThread.id
+        hashMap[keys["body"]!] = comment
+        hashMap[keys["author"]!] = SecurityManager.sharedInstance.userDisplayName
+        hashMap[keys["authorId"]!] = SecurityManager.sharedInstance.userIdentity
+        hashMap[keys["imagePath"]!] = SecurityManager.sharedInstance.userImageURL
+        hashMap[keys["parentThread"]!] = forumThread.id
         
         let bodyData: String = NetworkManager.sharedInstance.queryStringFromHashMap(map: hashMap)
-        print("Body Data: \(bodyData)")
         
         // Dispatch POST request.
         let data = bodyData.data(using: String.Encoding.utf8, allowLossyConversion: false)
@@ -392,13 +394,13 @@ extension RGSForumThreadViewController {
         NetworkManager.sharedInstance.makePostRequest(url: url, data: data, onCompletion: {(_, response: URLResponse?) -> Void in
             
             // Fail if no response.
-            if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
                     self.displayNetworkActionAlert("Unable to submit comment!")
+                } else {
+                    print("The thread was submitted. Refreshing the model data...")
+                    self.refreshModelData()
                 }
-            } else {
-                print("The thread was submitted. Refreshing the model data...")
-                self.refreshModelData()
             }
             
         })
@@ -411,19 +413,21 @@ extension RGSForumThreadViewController {
     /// - commentId: The ID of the comment to be deleted.
     func dispatchCommentDeleteRequest (_ commentId: String) {
         
+        // Get keys.
+        let keys: [String: String] = DataManager.sharedInstance.getKeyMap(for: "commentDeleteKeys")
+        
         // Construct DELETE request URL.
-        let url: String = NetworkManager.sharedInstance.URLWithOptions(url: NetworkManager.sharedInstance.URLForForumComments(), options: "id=\(commentId)")
+        let url: String = NetworkManager.sharedInstance.URLWithOptions(url: NetworkManager.sharedInstance.URLForForumComments(), options: "\(keys["id"]!)=\(commentId)")
         
         // Dispatch DELETE request.
         NetworkManager.sharedInstance.makeDeleteRequest(url: url, onCompletion: {(_, response: URLResponse?) -> Void in
             
-            // Extract httpResponse.
-            let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
+            // Fail if no response.
             DispatchQueue.main.async {
-                if (httpResponse.statusCode != 200) {
+                if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
                     self.displayNetworkActionAlert("Unable to delete comment!")
                 } else {
-                    print("The comment deletion was sent! Refreshing the model data...")
+                    print("The thread was deleted. Refreshing the model data...")
                     self.refreshModelData()
                 }
             }

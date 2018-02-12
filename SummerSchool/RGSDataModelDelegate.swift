@@ -20,7 +20,8 @@ protocol RGSDataModelDelegate {
     
     /// Initializes the data model from JSON.
     /// - json: Data in JSON format.
-    init? (from json: [String: Any])
+    /// - keys: The JSON keys map.
+    init? (from json: [String: Any], with keys: [String: String])
     
     /// Initializes the data model from NSManagedObject.
     /// - managedObject: NSManagedObject instance.

@@ -55,15 +55,16 @@ class RGSGeneralInfoDataModel: RGSDataModelDelegate {
     
     /// Initializes the data model from JSON.
     /// - json: Data in JSON format.
-    required init? (from json: [String: Any]) {
+    required init? (from json: [String: Any], with keys: [String: String]) {
+        
         
         // Mandatory fields.
         guard
-            let id              = json["_id"] as? String,
-            let title           = json["title"] as? String,
-            let description     = json["description"] as? String,
-            let categoryString  = json["category"] as? String,
-            let dateString      = json["created"] as? String
+            let id              = json[keys["id"]!] as? String,
+            let title           = json[keys["title"]!] as? String,
+            let description     = json[keys["body"]!] as? String,
+            let categoryString  = json[keys["category"]!] as? String,
+            let dateString      = json[keys["dateString"]!] as? String
         else { return nil }
         
         self.id                 = id
@@ -105,7 +106,7 @@ extension RGSGeneralInfoDataModel {
     /// Parses a array of JSON objects into an array of data model instances.
     /// - data: Data to be parsed as JSON.
     /// - sort: Sorting method.
-    static func parseDataModel (from data: Data, sort: (RGSGeneralInfoDataModel, RGSGeneralInfoDataModel) -> Bool) -> [RGSGeneralInfoDataModel]? {
+    static func parseDataModel (from data: Data, with keys: [String: String], sort: (RGSGeneralInfoDataModel, RGSGeneralInfoDataModel) -> Bool) -> [RGSGeneralInfoDataModel]? {
         var models: [RGSGeneralInfoDataModel] = []
         
         // Extract the JSON array.
@@ -116,7 +117,7 @@ extension RGSGeneralInfoDataModel {
         
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {
-            let model: RGSGeneralInfoDataModel? = RGSGeneralInfoDataModel(from: item as! [String: Any])
+            let model: RGSGeneralInfoDataModel? = RGSGeneralInfoDataModel(from: item as! [String: Any], with: keys)
             if (model == nil) {
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
                 return nil

@@ -19,28 +19,19 @@ class RGSForumCommentDataModel {
     
     /// MARK: - Protocol Methods.
     
-    /// Conveniently initializes the class with given fields.
-    required init(id: String, author: String, authorID: String, body: String, imagePath: String?, date: Date) {
-        self.id = id
-        self.author = author
-        self.authorID = authorID
-        self.body = body
-        self.imagePath = imagePath
-        self.date = date
-    }
-    
     /// Initializes the data model from JSON.
     /// - json: Data in JSON format.
-    required init? (from json: [String: Any]) {
+    required init? (from json: [String: Any], with keys: [String: String]) {
 
         // Mandatory fields.
         guard
-            let id          = json["_id"] as? String,
-            let author      = json["author"] as? String,
-            let authorID    = json["posterID"] as? String,
-            let body        = json["text"] as? String,
-            let dateString  = json["created"] as? String
+            let id          = json[keys["id"]!] as? String,
+            let author      = json[keys["author"]!] as? String,
+            let authorID    = json[keys["authorId"]!] as? String,
+            let body        = json[keys["body"]!] as? String,
+            let dateString  = json[keys["dateString"]!] as? String
         else { return nil }
+        
         self.id             = id
         self.author         = author
         self.authorID       = authorID
@@ -48,7 +39,7 @@ class RGSForumCommentDataModel {
         self.date           = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
         
         // Optional fields.
-        if let imagePath = json["imgURL"] as? String {
+        if let imagePath = json[keys["imagePath"]!] as? String {
             self.imagePath = imagePath
         }
     }
@@ -64,7 +55,7 @@ extension RGSForumCommentDataModel {
     /// Parses a array of JSON objects into an array of data model instances.
     /// - json: JSON object.
     /// - sort: Sorting method.
-    static func parseDataModel (from data: Data, sort: (RGSForumCommentDataModel, RGSForumCommentDataModel) -> Bool) -> [RGSForumCommentDataModel]? {
+    static func parseDataModel (from data: Data, with keys: [String: String], sort: (RGSForumCommentDataModel, RGSForumCommentDataModel) -> Bool) -> [RGSForumCommentDataModel]? {
         var models: [RGSForumCommentDataModel] = []
         
         // Extract the JSON array.
@@ -75,7 +66,7 @@ extension RGSForumCommentDataModel {
         
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {
-            let model: RGSForumCommentDataModel? = RGSForumCommentDataModel(from: item as! [String: Any])
+            let model: RGSForumCommentDataModel? = RGSForumCommentDataModel(from: item as! [String: Any], with: keys)
             if (model == nil) {
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
                 return nil

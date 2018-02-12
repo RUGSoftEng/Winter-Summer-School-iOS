@@ -42,15 +42,15 @@ class RGSAnnouncementDataModel: RGSDataModelDelegate {
 
     /// Initializes the data model from JSON.
     /// - json: Data in JSON format.
-    required init? (from json: [String: Any]) {
+    required init? (from json: [String: Any], with keys: [String: String]) {
         
         // Mandatory fields.
         guard
-            let id          = json["_id"] as? String,
-            let title       = json["title"] as? String,
-            let description = json["description"] as? String,
-            let schoolId    = json["school"] as? String,
-            let dateString  = json["created"] as? String
+            let id          = json[keys["id"]!] as? String,
+            let title       = json[keys["title"]!] as? String,
+            let description = json[keys["body"]!] as? String,
+            let schoolId    = json[keys["schoolId"]!] as? String,
+            let dateString  = json[keys["dateString"]!] as? String
         else { return nil }
         
         self.id             = id
@@ -102,7 +102,7 @@ extension RGSAnnouncementDataModel {
     /// Parses a array of JSON objects into an array of data model instances.
     /// - data: Data to be parsed as JSON.
     /// - sort: Sorting method.
-    static func parseDataModel (from data: Data, sort: (RGSAnnouncementDataModel, RGSAnnouncementDataModel) -> Bool) -> [RGSAnnouncementDataModel]? {
+    static func parseDataModel (from data: Data, with keys: [String: String], sort: (RGSAnnouncementDataModel, RGSAnnouncementDataModel) -> Bool) -> [RGSAnnouncementDataModel]? {
         var models: [RGSAnnouncementDataModel] = []
         
         // Extract the JSON array.
@@ -113,7 +113,7 @@ extension RGSAnnouncementDataModel {
         
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {
-            let model: RGSAnnouncementDataModel? = RGSAnnouncementDataModel(from: item as! [String: Any])
+            let model: RGSAnnouncementDataModel? = RGSAnnouncementDataModel(from: item as! [String: Any], with: keys)
             if (model == nil) {
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
                 return nil

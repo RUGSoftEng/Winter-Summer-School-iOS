@@ -45,7 +45,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         managedObject.setValue(author, forKey: entityKey["author"]!)
         managedObject.setValue(authorID, forKey: entityKey["authorID"]!)
         managedObject.setValue(commentCount, forKey: entityKey["commentCount"]!)
-        let dateString = DateManager.sharedInstance.dateToISOString(date, format: .JSONGeneralDateFormat)
+        let dateString = DateManager.sharedInstance.dateToISOString(date, format: .JSONGeneralDateFormat)!
         managedObject.setValue(dateString, forKey: entityKey["dateString"]!)
         
         // Optional fields.
@@ -61,44 +61,32 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         }
     }
     
-    /// Conveniently initializes the class with given fields.
-    required init(id: String, title: String, author: String, authorID: String, body: String, imagePath: String?, date: Date, commentCount: Int) {
-        self.id = id
-        self.title = title
-        self.author = author
-        self.authorID = authorID
-        self.body = body
-        self.imagePath = imagePath
-        self.date = date
-        self.commentCount = commentCount
-    }
-    
     /// Initializes the data model from JSON.
     /// - json: Data in JSON format.
-    required init? (from json: [String: Any]) {
+    required init? (from json: [String: Any], with keys: [String: String]) {
         
         // Mandatory fields.
         guard
-            let id          = json["_id"] as? String,
-            let title       = json["title"] as? String,
-            let author      = json["author"] as? String,
-            let authorID    = json["posterID"] as? String,
-            let dateString  = json["created"] as? String,
-            let comments    = json["comments"] as? [String]
+        let id              = json[keys["id"]!] as? String,
+            let title       = json[keys["title"]!] as? String,
+            let author      = json[keys["author"]!] as? String,
+            let authorID    = json[keys["authorId"]!] as? String,
+            let dateString  = json[keys["dateString"]!] as? String,
+            let comments    = json[keys["comments"]!] as? [String]
         else { return nil }
         
         self.id = id
         self.title = title
         self.author = author
         self.authorID = authorID
-        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)!
         self.commentCount = comments.count
         
         // Optional fields.
-        if let body = json["description"] as? String {
+        if let body = json[keys["body"]!] as? String {
            self.body = body
         }
-        if let imagePath = json["imgURL"] as? String {
+        if let imagePath = json[keys["imagePath"]!] as? String {
             self.imagePath = imagePath
         }
         
@@ -123,7 +111,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         self.title = title
         self.author = author
         self.authorID = authorID
-        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)
+        self.date = DateManager.sharedInstance.ISOStringToDate(dateString, format: .JSONGeneralDateFormat)!
         self.commentCount = commentCount
         
         // Optional fields.
@@ -150,7 +138,7 @@ extension RGSForumThreadDataModel {
     /// Parses a array of JSON objects into an array of data model instances.
     /// - data: Data to be parsed as JSON.
     /// - sort: Sorting method.
-    static func parseDataModel (from data: Data, sort: (RGSForumThreadDataModel, RGSForumThreadDataModel) -> Bool) -> [RGSForumThreadDataModel]? {
+    static func parseDataModel (from data: Data, with keys: [String: String], sort: (RGSForumThreadDataModel, RGSForumThreadDataModel) -> Bool) -> [RGSForumThreadDataModel]? {
         var models: [RGSForumThreadDataModel] = []
         
         // Extract the JSON array.
@@ -161,7 +149,7 @@ extension RGSForumThreadDataModel {
         
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {
-            let model: RGSForumThreadDataModel? = RGSForumThreadDataModel(from: item as! [String: Any])
+            let model: RGSForumThreadDataModel? = RGSForumThreadDataModel(from: item as! [String: Any], with: keys)
             if (model == nil) {
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
                 return nil

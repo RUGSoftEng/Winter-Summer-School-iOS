@@ -55,17 +55,17 @@ class RGSEventDataModel: RGSDataModelDelegate {
     
     /// Initializes the data model from JSON.
     /// - json: Data in JSON format.
-    required init? (from json: [String: Any]) {
+    required init? (from json: [String: Any], with keys: [String: String]) {
         
         // Mandatory fields.
         guard
-            let id                  = json["_id"] as? String,
-            let schoolId            = json["school"] as? String,
-            let title               = json["title"] as? String,
-            let body                = json["details"] as? String,
-            let startDateString     = json["startDate"] as? String,
-            let endDateString       = json["endDate"] as? String
-            else { return nil }
+            let id                  = json[keys["id"]!] as? String,
+            let schoolId            = json[keys["schoolId"]!] as? String,
+            let title               = json[keys["title"]!] as? String,
+            let body                = json[keys["body"]!] as? String,
+            let startDateString     = json[keys["startDateString"]!] as? String,
+            let endDateString       = json[keys["endDateString"]!] as? String
+        else { return nil }
         
         self.id                     = id
         self.schoolId               = schoolId
@@ -130,7 +130,7 @@ extension RGSEventDataModel {
     /// Parses a array of JSON objects into an array of data model instances.
     /// - data: Data to be parsed as JSON.
     /// - sort: Sorting method.
-    static func parseDataModel (from data: Data, sort: (RGSEventDataModel, RGSEventDataModel) -> Bool) -> [RGSEventDataModel]? {
+    static func parseDataModel (from data: Data, with keys: [String: String], sort: (RGSEventDataModel, RGSEventDataModel) -> Bool) -> [RGSEventDataModel]? {
         var models: [RGSEventDataModel] = []
         
         // Extract the JSON array.
@@ -141,7 +141,7 @@ extension RGSEventDataModel {
         
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {
-            let model: RGSEventDataModel? = RGSEventDataModel(from: item as! [String: Any])
+            let model: RGSEventDataModel? = RGSEventDataModel(from: item as! [String: Any], with: keys)
             if (model == nil) {
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
                 return nil

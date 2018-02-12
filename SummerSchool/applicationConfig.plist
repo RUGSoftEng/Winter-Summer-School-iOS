@@ -2,6 +2,83 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>commentDeleteKeys</key>
+	<dict>
+		<key>id</key>
+		<string>id</string>
+	</dict>
+	<key>threadDeleteKeys</key>
+	<dict>
+		<key>id</key>
+		<string>id</string>
+	</dict>
+	<key>threadFormKeys</key>
+	<dict>
+		<key>title</key>
+		<string>title</string>
+		<key>body</key>
+		<string>description</string>
+		<key>author</key>
+		<string>author</string>
+		<key>authorId</key>
+		<string>posterID</string>
+		<key>imagePath</key>
+		<string>imgURL</string>
+		<key>schoolId</key>
+		<string>school</string>
+	</dict>
+	<key>commentFormKeys</key>
+	<dict>
+		<key>parentThread</key>
+		<string>parentThread</string>
+		<key>imagePath</key>
+		<string>imgURL</string>
+		<key>authorId</key>
+		<string>posterID</string>
+		<key>author</key>
+		<string>author</string>
+		<key>body</key>
+		<string>text</string>
+	</dict>
+	<key>forumCommentKeys</key>
+	<dict>
+		<key>id</key>
+		<string>_id</string>
+		<key>author</key>
+		<string>author</string>
+		<key>authorId</key>
+		<string>posterID</string>
+		<key>body</key>
+		<string>text</string>
+		<key>dateString</key>
+		<string>created</string>
+		<key>imagePath</key>
+		<string>imgURL</string>
+	</dict>
+	<key>lecturerKeys</key>
+	<dict>
+		<key>id</key>
+		<string>_id</string>
+		<key>name</key>
+		<string>name</string>
+		<key>body</key>
+		<string>description</string>
+	</dict>
+	<key>eventKeys</key>
+	<dict>
+		<key>schoolId</key>
+		<string>school</string>
+		<key>id</key>
+		<string>_id</string>
+		<key>title</key>
+		<string>title</string>
+		<key>body</key>
+		<string>details</string>
+		<key>endDateString</key>
+		<string>endDate</string>
+		<key>startDateString</key>
+		<string>startDate</string>
+	</dict>
 	<key>schoolKeys</key>
 	<dict>
 		<key>schoolName</key>
@@ -13,8 +90,6 @@
 	</dict>
 	<key>loginKeys</key>
 	<dict>
-		<key>code</key>
-		<string>code</string>
 		<key>schoolId</key>
 		<string>school</string>
 	</dict>
@@ -30,7 +105,7 @@
 		<string>author</string>
 		<key>authorId</key>
 		<string>posterID</string>
-		<key>imgurl</key>
+		<key>imagePath</key>
 		<string>imgURL</string>
 		<key>comments</key>
 		<string>comments</string>

@@ -10,32 +10,6 @@ import Foundation
 import CoreData
 import UIKit
 
-// MARK: - Structures: LoginCodes
-
-struct LoginCode {
-    var id: String?
-    var code: String?
-    var date: Date?
-}
-
-extension LoginCode {
-    init?(json: [String: Any]) {
-        guard
-            let id: String = json["_id"] as? String,
-            let code: String = json["code"] as? String,
-            let dateString: String = json["date"] as? String
-        else {
-            return nil
-        }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        
-        self.id = id
-        self.code = code
-        self.date = dateFormatter.date(from: dateString)
-    }
-}
-
 // MARK: - Class DataManager
 
 final class DataManager {
@@ -56,7 +30,44 @@ final class DataManager {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
     }
-
+    
+    /// The application configuration dictionary.
+    private var applicationConfiguration: [String: [String: String]]?
+    
+    // MARK: - Private Methods: Application Configuration.
+    
+    /// Attempts to read in the application configurations.
+    private func initializeAppConfig () -> Bool {
+        var fileURL: URL?
+        
+        // If the file cannot be located. Fail.
+        if let url = Bundle.main.url(forResource: "applicationConfig", withExtension: "plist") {
+            fileURL = url
+        } else {
+            print("DataManager: Fatal Error: Can't load the application configuration!")
+            return false
+        }
+        
+        // If the file cannot be opened. Fail.
+        if let applicationConfiguration = NSDictionary(contentsOf: fileURL!) as? [String: [String: String]] {
+            self.applicationConfiguration = applicationConfiguration
+            print(applicationConfiguration)
+            return true
+        }
+        
+        print("DataManager: Fatal error: Couldn't load from the plist, but the file exists!")
+        return false
+    }
+    
+    // MARK: - Public Methods: Application Configuration.
+    
+    /// Returns a hashmap/dictionary for the given masterkey.
+    /// - masterKey: The key to the hashmap/dictionary. The applicationConfig must be initialized.
+    ///              and an entry must exist.
+    func getKeyMap (for masterKey: String) -> [String: String] {
+        return applicationConfiguration![masterKey]!
+    }
+    
     // MARK: - Public Methods: Data Parsing
     
     /// Attempts to retrieve a school identifier from a loginCode request response.
@@ -66,10 +77,12 @@ final class DataManager {
             return nil
         }
         
+        let keys: [String: String] = getKeyMap(for: "loginKeys")
+        
         guard
             let json = try? JSONSerialization.jsonObject(with: data!, options: []),
             let jsonArray = json as? [String: Any],
-            let schoolId = jsonArray["school"] as? String
+            let schoolId = jsonArray[keys["schoolId"]!] as? String
         else { return nil }
         
         return schoolId
@@ -82,22 +95,15 @@ final class DataManager {
             return nil
         }
         
-        if let json = try? JSONSerialization.jsonObject(with: data!, options: [])  {
-            print("JSON RAW = \(json)")
-            if let jsonArray = json as? [String: Any] {
-                print("JSON Array = \(jsonArray)")
-            } else {
-                print("Can't unwrap as array!")
-            }
-        }
+        let keys: [String: String] = getKeyMap(for: "schoolKeys")
         
         guard
             let json = try? JSONSerialization.jsonObject(with: data!, options: []),
             let jsonArray = json as? [Any],
             let jsonData = jsonArray[0] as? [String: Any],
-            let schoolName = jsonData["name"] as? String,
-            let schoolStartDateString = jsonData["startDate"] as? String,
-            let schoolEndDateString = jsonData["endDate"] as? String
+            let schoolName = jsonData[keys["schoolName"]!] as? String,
+            let schoolStartDateString = jsonData[keys["startDateString"]!] as? String,
+            let schoolEndDateString = jsonData[keys["endDateString"]!] as? String
         else { print("Failed to get schoolInfo!"); return nil }
         
         return (schoolName, schoolStartDateString, schoolEndDateString)
@@ -108,7 +114,7 @@ final class DataManager {
         var events: [RGSEventDataModel]? = nil
         
         if (data != nil) {
-            events = RGSEventDataModel.parseDataModel(from: data!, sort: RGSEventDataModel.sort)
+            events = RGSEventDataModel.parseDataModel(from: data!, with: getKeyMap(for: "eventKeys"), sort: RGSEventDataModel.sort)
         }
         
         return events
@@ -119,7 +125,7 @@ final class DataManager {
         var generalInfo: [RGSGeneralInfoDataModel]? = nil
         
         if (data != nil) {
-            generalInfo = RGSGeneralInfoDataModel.parseDataModel(from: data!, sort: RGSGeneralInfoDataModel.sort)
+            generalInfo = RGSGeneralInfoDataModel.parseDataModel(from: data!, with: getKeyMap(for: "generalInfoKeys"), sort: RGSGeneralInfoDataModel.sort)
         }
         
         return generalInfo
@@ -130,7 +136,7 @@ final class DataManager {
         var announcements: [RGSAnnouncementDataModel]? = nil
         
         if (data != nil) {
-            announcements = RGSAnnouncementDataModel.parseDataModel(from: data!, sort: RGSAnnouncementDataModel.sort)
+            announcements = RGSAnnouncementDataModel.parseDataModel(from: data!, with: getKeyMap(for: "announcementKeys"), sort: RGSAnnouncementDataModel.sort)
         }
         
         return announcements
@@ -141,7 +147,7 @@ final class DataManager {
         var lecturers: [RGSLecturerDataModel]? = nil
         
         if (data != nil) {
-            lecturers = RGSLecturerDataModel.parseDataModel(from: data!, sort: RGSLecturerDataModel.sort)
+            lecturers = RGSLecturerDataModel.parseDataModel(from: data!, with: getKeyMap(for: "lecturerKeys"), sort: RGSLecturerDataModel.sort)
         }
         
         return lecturers
@@ -154,7 +160,7 @@ final class DataManager {
         var forumThreads: [RGSForumThreadDataModel]? = nil
         
         if (data != nil) {
-            forumThreads = RGSForumThreadDataModel.parseDataModel(from: data!, sort: RGSForumThreadDataModel.sort)
+            forumThreads = RGSForumThreadDataModel.parseDataModel(from: data!, with: getKeyMap(for: "forumThreadKeys"), sort: RGSForumThreadDataModel.sort)
         }
         
         return forumThreads
@@ -165,32 +171,10 @@ final class DataManager {
         var forumComments: [RGSForumCommentDataModel]? = nil
         
         if (data != nil) {
-            forumComments = RGSForumCommentDataModel.parseDataModel(from: data!, sort: RGSForumCommentDataModel.sort)
+            forumComments = RGSForumCommentDataModel.parseDataModel(from: data!, with: getKeyMap(for: "forumCommentKeys"), sort: RGSForumCommentDataModel.sort)
         }
         
         return forumComments
-    }
-    
-    /// Attempts to deserialize and return a LoginCode array for JSON
-    /// obtained from a server request.
-    ///
-    /// - Parameters:
-    ///     - data: The JSON encoded data.
-    func parseDataToLoginCodes(data: Data?) -> [LoginCode]? {
-        if (data == nil) {
-            return nil
-        }
-        
-        guard
-            let json = try? JSONSerialization.jsonObject(with: data!, options: []),
-            let loginCodeJSONArray: [Any] = json as? [Any]
-        else {
-            return nil
-        }
-        
-        return loginCodeJSONArray.map({(object: Any) -> LoginCode in
-            return LoginCode(json: object as! [String: Any])!
-        })
     }
     
     // MARK: - Public Methods: CoreData Interactions
@@ -199,5 +183,16 @@ final class DataManager {
     func saveContext() -> Void {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.saveContext()
+    }
+    
+    // MARK: - Class Method Overrides
+    
+    required init() {
+        
+        
+        // Load Application Configuration.
+        if (!initializeAppConfig()) {
+            print("DataManager: An error occurred when loading the application configuration!")
+        }
     }
 }

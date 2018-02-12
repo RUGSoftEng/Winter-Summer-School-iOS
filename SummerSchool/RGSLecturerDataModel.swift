@@ -29,14 +29,6 @@ class RGSLecturerDataModel: RGSDataModelDelegate {
         "imageData"     : "imageData"
     ]
     
-    /// Initializes instance with given fields.
-    required init (id: String, name: String, body: String, imagePath: String) {
-        self.id = id
-        self.name = name
-        self.body = body
-        self.imagePath = imagePath
-    }
-    
     /// Saves all fields to the given NSManagedObject.
     /// - managedObject: The NSManagedObject representation.
     func saveTo (managedObject: NSManagedObject) {
@@ -61,13 +53,13 @@ class RGSLecturerDataModel: RGSDataModelDelegate {
     
     /// Initializes the data model from JSON.
     /// - json: Data in JSON format.
-    required init? (from json: [String: Any]) {
+    required init? (from json: [String: Any], with keys: [String: String]) {
         
         // Mandatory fields.
         guard
-            let id                  = json["_id"] as? String,
-            let name                = json["name"] as? String,
-            let body                = json["description"] as? String
+            let id                  = json[keys["id"]!] as? String,
+            let name                = json[keys["name"]!] as? String,
+            let body                = json[keys["body"]!] as? String
         else { return nil }
         
         self.id                     = id
@@ -123,7 +115,7 @@ extension RGSLecturerDataModel {
     /// Parses a array of JSON objects into an array of data model instances.
     /// - data: Data to be parsed as JSON.
     /// - sort: Sorting method.
-    static func parseDataModel (from data: Data, sort: (RGSLecturerDataModel, RGSLecturerDataModel) -> Bool) -> [RGSLecturerDataModel]? {
+    static func parseDataModel (from data: Data, with keys: [String: String], sort: (RGSLecturerDataModel, RGSLecturerDataModel) -> Bool) -> [RGSLecturerDataModel]? {
         var models: [RGSLecturerDataModel] = []
         
         // Extract the JSON array.
@@ -134,7 +126,7 @@ extension RGSLecturerDataModel {
         
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {
-            let model: RGSLecturerDataModel? = RGSLecturerDataModel(from: item as! [String: Any])
+            let model: RGSLecturerDataModel? = RGSLecturerDataModel(from: item as! [String: Any], with: keys)
             if (model == nil) {
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
                 return nil
