@@ -8,15 +8,6 @@
 
 import UIKit
 
-func getSomeLecturers() -> [RGSLecturerDataModel] {
-    
-    let l1 = RGSLecturerDataModel(id: "1", name: "William Shockley", body: "Famous Physicist. Worked at Bell Labs.", imagePath: "https://www.nobelprize.org/nobel_prizes/physics/laureates/1956/shockley_postcard.jpg")
-    let l2 = RGSLecturerDataModel(id: "2", name: "Claude Shannon", body: "Mathematician. Author of a Mathematical Theory of Communication. Also member of Bell Labs.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/9/99/ClaudeShannon_MFO3807.jpg")
-    let l3 = RGSLecturerDataModel(id: "3", name: "Ken Thompson", body: "Turing Award Winner. Unix Operating System designer.", imagePath: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Ken_Thompson_%28Portrait%29.jpg")
-    
-    return [l1, l2, l3];
-}
-
 class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     // MARK: - Variables & Constants
@@ -195,16 +186,9 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
         if let lecturers = RGSLecturerDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSLecturerDataModel.sort) {
             self.lecturers = lecturers
         }
-        
-        if self.lecturers.isEmpty {
-            print("Loading placeholders!")
-            self.lecturers = getSomeLecturers()
-            print("Asking for secondary!")
-            self.refreshSecondaryModelData(model: self.lecturers)
-        }
 
         // Attempt to refresh Lecturer Model by querying the server.
-        //self.refreshModelData()
+        self.refreshModelData()
         
     }
 
@@ -262,16 +246,16 @@ extension RGSLecturerViewController {
             
             for item in model {
                 
-                if let resourceURL = item.imagePath {
-                    
-                    let (data, _, _) = URLSession.shared.synchronousDataTask(with: URL(string: resourceURL)!)
-                    
-                    if let imageData = data, let image = UIImage(data: imageData) {
-                        resource.append(image)
-                    } else {
-                        resource.append(nil)
-                    }
+                guard
+                    let resourceURL = item.imagePath,
+                    let imageData = URLSession.shared.synchronousDataTask(with: URL(string: resourceURL)!).0,
+                    let image = UIImage(data: imageData)
+                else {
+                    resource.append(nil)
+                    continue
                 }
+                
+                resource.append(image)
             }
             
             // Update self.lecturers.

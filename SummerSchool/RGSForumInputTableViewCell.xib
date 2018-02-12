@@ -27,7 +27,7 @@
                             <action selector="didSendCommentWithControl:" destination="KGk-i7-Jjw" eventType="editingDidEndOnExit" id="UJg-XF-Jf9"/>
                         </connections>
                     </textField>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afC-we-bjO">
+                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afC-we-bjO">
                         <rect key="frame" x="8" y="8" width="304" height="30"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                         <state key="normal" title="Add a comment">

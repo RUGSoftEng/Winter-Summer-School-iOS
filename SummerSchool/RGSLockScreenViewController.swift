@@ -140,6 +140,10 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // Clear logincode field.
+        self.authorizationCodeTextField.text = ""
+        
         if (segue.identifier == "DisplayHelpPopover") {
             let destination = segue.destination
             if let popover = destination.popoverPresentationController {
@@ -153,7 +157,6 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
         if (segue.identifier == "showSchoolInfoViewController") {
             if let schoolInfoViewController: RGSSchoolInfoViewController = segue.destination as? RGSSchoolInfoViewController {
                 schoolInfoViewController.screenShot = self.screenShot
-                schoolInfoViewController.schoolName = SpecificationManager.sharedInstance.schoolName
             }
         }
     }

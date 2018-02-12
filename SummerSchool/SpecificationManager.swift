@@ -37,13 +37,21 @@ final class SpecificationManager {
     
     /// ************************* School UserDefaults *****************************
     
-    /// The school name: Only accessible from within specificationManager.
+    /// The school name: Only settable from within specificationManager.
     private(set) var schoolName: String!
     
-    /// The school identifier: Only accessible from within specificationManager.
+    /// The school identifier: Only settable from within specificationManager.
     private(set) var schoolId: String!
     
-    /// The lockScreen flag: Only accessible from within specificationManager.
+    /// The school start date: Only settable from within specificationManager.
+    /// This field is not persisted and may be nil!
+    private(set) var schoolStartDate: Date!
+    
+    /// The school end date: Only settable from within specificationManager.
+    /// This field is not persisted and may be nil!
+    private(set) var schoolEndDate: Date!
+    
+    /// The lockScreen flag: Only settable from within specificationManager.
     private(set) var shouldShowLockScreen: Bool = true
     
     /// ***************************************************************************
@@ -136,6 +144,10 @@ final class SpecificationManager {
         self.shouldShowLockScreen = shouldShowLockScreen
         self.schoolName = schoolName
         self.schoolId = schoolId
+        
+        // Assign to non-persistent variables.
+        self.schoolStartDate = DateManager.sharedInstance.ISOStringToDate(startDate, format: .JSONGeneralDateFormat)
+        self.schoolEndDate = DateManager.sharedInstance.ISOStringToDate(endDate, format: .JSONGeneralDateFormat)
         
         // Assign all UserDefaults.
         defaults.set(self.shouldShowLockScreen, forKey: UserDefaultKey.LockScreen.rawValue)

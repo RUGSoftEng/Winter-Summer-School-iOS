@@ -21,7 +21,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zRC-Vt-Xnz">
                         <rect key="frame" x="0.0" y="0.0" width="61" height="79"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="kBh-II-gYk">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RUGLogo" translatesAutoresizingMaskIntoConstraints="NO" id="kBh-II-gYk">
                                 <rect key="frame" x="8" y="18" width="45" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="3xO-gB-9HU"/>
@@ -117,6 +117,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Profile" width="128" height="128"/>
+        <image name="RUGLogo" width="1280" height="1280"/>
     </resources>
 </document>

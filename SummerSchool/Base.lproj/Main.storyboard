@@ -899,8 +899,8 @@
                         <outlet property="helpButton" destination="3Ka-r6-hNt" id="46Z-B0-Msk"/>
                         <outlet property="imageView" destination="hs5-8H-PCE" id="ZpA-Dm-y7X"/>
                         <outlet property="titleLabel" destination="LLt-fZ-VSu" id="WoU-HP-9gB"/>
-                        <segue destination="Rqq-vr-RM6" kind="presentation" identifier="showSchoolInfoViewController" id="gt1-JT-8JA"/>
-                        <segue destination="KJ8-l7-7Kd" kind="unwind" identifier="unwindToMain" unwindAction="unwindToMain:" id="O1x-1a-Cs3"/>
+                        <segue destination="Rqq-vr-RM6" kind="presentation" identifier="showSchoolInfoViewController" modalTransitionStyle="crossDissolve" id="gt1-JT-8JA"/>
+                        <segue destination="KJ8-l7-7Kd" kind="unwind" identifier="unwindToMain" animates="NO" unwindAction="unwindToMain:" id="O1x-1a-Cs3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EfF-jC-Cwa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -967,8 +967,8 @@
                                 <rect key="frame" x="46" y="204" width="283" height="259"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender &amp; Diversity School" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F5y-Ck-ifA">
-                                        <rect key="frame" x="8" y="8" width="267" height="205"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <rect key="frame" x="8" y="8" width="267" height="135"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <color key="textColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -982,18 +982,33 @@
                                         <state key="normal" title="Wrong school?">
                                             <color key="titleColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="didTapHelpButton:" destination="Rqq-vr-RM6" eventType="touchDown" id="P2e-jE-c69"/>
+                                        </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="07/02/2018 - 31/02/2018" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvt-07-t0Z">
+                                        <rect key="frame" x="8" y="151" width="267" height="62"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="62" id="W3h-wg-Hjw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <color key="textColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.80000000000000004" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="259" id="1ZP-aM-BKw"/>
-                                    <constraint firstItem="Bfp-H1-dO2" firstAttribute="top" secondItem="F5y-Ck-ifA" secondAttribute="bottom" constant="8" id="Rnc-xg-Zfu"/>
+                                    <constraint firstItem="fvt-07-t0Z" firstAttribute="leading" secondItem="UZx-BH-wDN" secondAttribute="leading" constant="8" id="1c0-Va-0Ia"/>
+                                    <constraint firstAttribute="trailing" secondItem="F5y-Ck-ifA" secondAttribute="trailing" constant="8" id="3c2-4b-bPm"/>
                                     <constraint firstAttribute="bottom" secondItem="Bfp-H1-dO2" secondAttribute="bottom" constant="8" id="USX-88-J4Q"/>
-                                    <constraint firstAttribute="trailing" secondItem="F5y-Ck-ifA" secondAttribute="trailing" constant="8" id="aos-s9-Ua4"/>
+                                    <constraint firstItem="F5y-Ck-ifA" firstAttribute="leading" secondItem="UZx-BH-wDN" secondAttribute="leading" constant="8" id="W8r-PT-RsC"/>
+                                    <constraint firstItem="Bfp-H1-dO2" firstAttribute="top" secondItem="fvt-07-t0Z" secondAttribute="bottom" constant="8" id="aKa-HY-Znn"/>
                                     <constraint firstAttribute="width" constant="283" id="h1g-JB-iLq"/>
-                                    <constraint firstItem="F5y-Ck-ifA" firstAttribute="top" secondItem="UZx-BH-wDN" secondAttribute="top" constant="8" id="iVC-mg-LWB"/>
                                     <constraint firstItem="Bfp-H1-dO2" firstAttribute="centerX" secondItem="UZx-BH-wDN" secondAttribute="centerX" id="mZn-si-b4R"/>
-                                    <constraint firstItem="F5y-Ck-ifA" firstAttribute="leading" secondItem="UZx-BH-wDN" secondAttribute="leading" constant="8" id="vAS-tw-kWo"/>
+                                    <constraint firstItem="F5y-Ck-ifA" firstAttribute="top" secondItem="UZx-BH-wDN" secondAttribute="top" constant="8" id="qUJ-Uw-NZo"/>
+                                    <constraint firstAttribute="trailing" secondItem="fvt-07-t0Z" secondAttribute="trailing" constant="8" id="qpi-LV-G9v"/>
+                                    <constraint firstItem="fvt-07-t0Z" firstAttribute="top" secondItem="F5y-Ck-ifA" secondAttribute="bottom" constant="8" id="tEg-d7-9De"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1014,8 +1029,9 @@
                         <outlet property="contentView" destination="UZx-BH-wDN" id="59s-hW-LoX"/>
                         <outlet property="helpButton" destination="Bfp-H1-dO2" id="4V9-mY-XnF"/>
                         <outlet property="imageView" destination="Xfq-Cl-TLE" id="tWr-vl-STf"/>
+                        <outlet property="schoolDurationLabel" destination="fvt-07-t0Z" id="d8z-BU-kOI"/>
                         <outlet property="schoolNameLabel" destination="F5y-Ck-ifA" id="oNP-ok-LOn"/>
-                        <segue destination="nz8-hb-yGO" kind="unwind" identifier="unwindToLogin" unwindAction="unwindToLogin:" id="zQk-Zn-Qee"/>
+                        <segue destination="nz8-hb-yGO" kind="unwind" identifier="unwindToLogin" animates="NO" unwindAction="unwindToLogin:" id="zQk-Zn-Qee"/>
                         <segue destination="nz8-hb-yGO" kind="unwind" identifier="unwindToMain" unwindAction="unwindToMain:" id="JQK-hL-a4l"/>
                     </connections>
                 </viewController>

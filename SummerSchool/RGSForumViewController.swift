@@ -382,15 +382,17 @@ extension RGSForumViewController {
             
             // Retrieve Resources: Ensure models are only read.
             for item in model {
-                if let resourceURL = item.imagePath {
-                    let (data, _, _) = URLSession.shared.synchronousDataTask(with: URL(string: resourceURL)!)
-                    
-                    if let imageData = data, let image = UIImage(data: imageData) {
-                        resource.append(image)
-                    } else {
-                        resource.append(nil)
-                    }
+                
+                guard
+                    let resourceURL = item.imagePath,
+                    let imageData = URLSession.shared.synchronousDataTask(with: URL(string: resourceURL)!).0,
+                    let image = UIImage(data: imageData)
+                else {
+                    resource.append(nil)
+                    continue
                 }
+                
+                resource.append(image)
             }
             
             // Dispatch task to Grand Central: Required for UI updates.

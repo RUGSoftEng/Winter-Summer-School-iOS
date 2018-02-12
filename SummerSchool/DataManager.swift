@@ -98,7 +98,7 @@ final class DataManager {
             let schoolName = jsonData["name"] as? String,
             let schoolStartDateString = jsonData["startDate"] as? String,
             let schoolEndDateString = jsonData["endDate"] as? String
-        else { return nil }
+        else { print("Failed to get schoolInfo!"); return nil }
         
         return (schoolName, schoolStartDateString, schoolEndDateString)
     }
