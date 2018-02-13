@@ -48,8 +48,8 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     var events: [RGSEventDataModel]? {
         didSet (oldEvents) {
             print("Got data!")
-            
-            tableView.reloadData()
+            let sections = IndexSet(integersIn: 0...self.tableView.numberOfSections - 1)
+            tableView.reloadSections(sections, with: .automatic)
         }
     }
     

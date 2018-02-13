@@ -25,7 +25,8 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
     var lecturers: [RGSLecturerDataModel]! {
         didSet (oldLecturers) {
             if (lecturers != nil) {
-                self.collectionView.reloadData()
+                let sections = IndexSet(integersIn: 0...self.collectionView.numberOfSections - 1)
+                self.collectionView.reloadSections(sections)
             } else {
                 lecturers = oldLecturers
             }
