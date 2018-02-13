@@ -13,6 +13,11 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     // MARK: - Variables & Constants
     
+    /// The current day.
+    var now: Date {
+        return Date()
+    }
+    
     /// The current week for which content is being displayed in the tableView
     var week: Int = 0 {
         didSet (oldWeek) {
@@ -43,6 +48,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     var events: [RGSEventDataModel]? {
         didSet (oldEvents) {
             print("Got data!")
+            
             tableView.reloadData()
         }
     }
@@ -67,14 +73,37 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     // MARK: - UITableViewDelegate/DataSource Protocol Methods
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        
+        // A section for each of the next seven days, starting from the current day.
+        return 7
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        // If the section is zero (today), simply return that instead.
+        if (section == 0) {
+            return "Today"
+        }
+        
+        // Otherwise, compute the date "section" numer of days into the future.
+        let sectionDate = DateManager.sharedInstance.startOfDay(in: section, from: now)
+        return DateManager.sharedInstance.dateToISOString(sectionDate, format: .weekdayDateFormat)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        // If no events, return nothing.
         if (events == nil) {
             return 0
         }
-        return (events?.count)!
+        
+        // If the section is zero (today), return only events that have not yet occurred. 
+        if (section == 0) {
+            return eventsInRange(from: now, to: DateManager.sharedInstance.endOfDay(for: now))!.count
+        }
+        
+        // For all other days, return only events starting that day up till (and not including) end date.
+        return eventsForSection(section: section)!.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -90,9 +119,9 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell: RGSScheduleTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleTableViewCellIdentifier, for: indexPath) as! RGSScheduleTableViewCell
-        let event: RGSEventDataModel = events![indexPath.row]
         
+        let cell: RGSScheduleTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleTableViewCellIdentifier, for: indexPath) as! RGSScheduleTableViewCell
+        let event: RGSEventDataModel = eventsForSection(section: indexPath.section)![indexPath.row]
         cell.startDate = event.startDate
         cell.title = event.title
         cell.address = event.location
@@ -133,6 +162,24 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     }
     
     // MARK: - Private Class Methods
+    
+    func eventsForSection (section: Int) -> [RGSEventDataModel]? {
+        if self.events != nil {
+            let from: Date = DateManager.sharedInstance.startOfDay(in: section, from: now)
+            let to: Date = DateManager.sharedInstance.endOfDay(for: from)
+            return eventsInRange(from: from, to: to)
+        }
+        return nil
+    }
+    
+    func eventsInRange (from: Date, to: Date) -> [RGSEventDataModel]? {
+        if let events = self.events {
+            return events.filter({(e: RGSEventDataModel) -> Bool in
+                return (e.startDate! >= from && e.startDate! < to)
+            })
+        }
+        return nil
+    }
     
     func suspendTableViewInteraction(contentOffset offset: CGPoint) {
         tableView.setContentOffset(offset, animated: true)

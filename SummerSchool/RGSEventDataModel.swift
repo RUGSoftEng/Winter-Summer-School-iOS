@@ -115,7 +115,7 @@ extension RGSEventDataModel {
     
     /// Sorting method for an array of class instances.
     static func sort (a: RGSEventDataModel, b: RGSEventDataModel) -> Bool {
-        return (a.startDate! > b.startDate!)
+        return (a.startDate! < b.startDate!)
     }
     
     /// Filtering method for an array of class instances.

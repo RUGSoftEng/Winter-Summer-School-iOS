@@ -40,6 +40,28 @@ final class DateManager {
     
     // MARK: - Public Methods
     
+    /// Returns the starting date for a date 'n' days in the future from the given date.
+    /// - Parameters:
+    ///     - n: The number of days in the future.
+    ///     - from: The starting date.
+    func startOfDay(in n: Int, from: Date) -> Date {
+        return startOfDay(for: calendar.date(byAdding: .day, value: n, to: from)!)
+    }
+    
+    /// Returns a Date instance representing the start of the current day (inclusive!).
+    /// - Parameters:
+    ///     - date: The date instance.
+    func startOfDay(for date: Date) -> Date {
+        return calendar.startOfDay(for: date)
+    }
+    
+    /// Returns a Date instance representing the end of the current day (non-inclusive!)
+    /// - Parameters:
+    ///     - date: The date instance.
+    func endOfDay(for date: Date) -> Date {
+        return calendar.date(byAdding: .day, value: 1, to: startOfDay(for: date))!
+    }
+    
     /// Returns the day of the week as a string for a given Date
     /// instance.
     ///

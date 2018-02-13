@@ -51,7 +51,6 @@ final class DataManager {
         // If the file cannot be opened. Fail.
         if let applicationConfiguration = NSDictionary(contentsOf: fileURL!) as? [String: [String: String]] {
             self.applicationConfiguration = applicationConfiguration
-            print(applicationConfiguration)
             return true
         }
         
