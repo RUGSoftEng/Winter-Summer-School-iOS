@@ -22,7 +22,7 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
     var announcements: [RGSAnnouncementDataModel]! {
         didSet (oldAnnouncements) {
             if (announcements != nil) {
-                tableView.reloadData()
+                tableView.reloadData(in: 0, with: .automatic)
             } else {
                 announcements = oldAnnouncements
             }

@@ -29,7 +29,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     var generalInfo: [RGSGeneralInfoDataModel]! {
         didSet (oldGeneralInfo) {
             if (generalInfo != nil) {
-                tableView.reloadData()
+                tableView.reloadData(in: 0, with: .automatic)
             } else {
                 generalInfo = oldGeneralInfo
                 
