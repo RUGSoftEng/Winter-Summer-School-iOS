@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIScrollViewDelegate, UITableViewDataSource {
     
     // MARK: - Variables & Constants
@@ -285,5 +284,4 @@ extension RGSScheduleViewController {
             }
         })
     }
-    
 }
