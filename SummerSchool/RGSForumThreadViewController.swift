@@ -346,7 +346,7 @@ extension RGSForumThreadViewController {
                     let imageData = URLSession.shared.synchronousDataTask(with: URL(string: resourceURL)!).0,
                     let image = UIImage(data: imageData)
                 else {
-                    resource.append(nil)
+                    resource.append(AppearanceManager.sharedInstance.profilePlaceholderImage)
                     continue
                 }
                 

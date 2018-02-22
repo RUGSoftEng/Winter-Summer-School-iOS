@@ -39,6 +39,9 @@ final class AppearanceManager {
     /// Image: Settings Nut for UINavigationItem
     let settingsNutImage: UIImage = UIImage(named: "NutIcon")!
     
+    /// Image: Placeholder for instances where a profile image is not available.
+    let profilePlaceholderImage: UIImage = UIImage(named: "RUGLogo")!
+    
     /// Singleton instance
     static let sharedInstance = AppearanceManager()
     
