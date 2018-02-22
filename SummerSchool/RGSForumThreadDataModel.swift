@@ -13,7 +13,7 @@ import UIKit
 class RGSForumThreadDataModel: RGSDataModelDelegate {
     
     /// MARK: - Properties.
-    var id, title, body, author, authorID, imagePath: String?
+    var id, schoolId, title, body, author, authorID, imagePath: String?
     var date: Date?
     var commentCount: Int?
     var image: UIImage?
@@ -24,6 +24,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
     static var entityKey: [String : String] = [
         "entityName"    : "ForumThreadEntity",
         "id"            : "id",
+        "schoolId"      : "schoolId",
         "title"         : "title",
         "body"          : "body",
         "author"        : "author",
@@ -41,6 +42,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         
         // Mandatory fields.
         managedObject.setValue(id, forKey: entityKey["id"]!)
+        managedObject.setValue(schoolId, forKey: entityKey["schoolId"]!)
         managedObject.setValue(title, forKey: entityKey["title"]!)
         managedObject.setValue(author, forKey: entityKey["author"]!)
         managedObject.setValue(authorID, forKey: entityKey["authorID"]!)
@@ -67,7 +69,8 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         
         // Mandatory fields.
         guard
-        let id              = json[keys["id"]!] as? String,
+            let id          = json[keys["id"]!] as? String,
+            let schoolId    = json[keys["schoolId"]!] as? String,
             let title       = json[keys["title"]!] as? String,
             let author      = json[keys["author"]!] as? String,
             let authorID    = json[keys["authorId"]!] as? String,
@@ -76,6 +79,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         else { return nil }
         
         self.id = id
+        self.schoolId = schoolId
         self.title = title
         self.author = author
         self.authorID = authorID
@@ -100,6 +104,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         // Mandatory fields.
         guard
             let id              = managedObject.value(forKey: entityKey["id"]!) as? String,
+            let schoolId        = managedObject.value(forKey: entityKey["schoolId"]!) as? String,
             let title           = managedObject.value(forKey: entityKey["title"]!) as? String,
             let author          = managedObject.value(forKey: entityKey["author"]!) as? String,
             let authorID        = managedObject.value(forKey: entityKey["authorID"]!) as? String,
@@ -108,6 +113,7 @@ class RGSForumThreadDataModel: RGSDataModelDelegate {
         else { return nil }
         
         self.id = id
+        self.schoolId = schoolId
         self.title = title
         self.author = author
         self.authorID = authorID
@@ -135,6 +141,14 @@ extension RGSForumThreadDataModel {
         return (a.date! > b.date!)
     }
     
+    // Filtering method for an array of class instances.
+    static func filter (model: RGSForumThreadDataModel) -> Bool {
+        if let schoolId = SpecificationManager.sharedInstance.schoolId {
+            return schoolId == model.schoolId
+        }
+        return false
+    }
+    
     /// Parses a array of JSON objects into an array of data model instances.
     /// - data: Data to be parsed as JSON.
     /// - sort: Sorting method.
@@ -157,8 +171,8 @@ extension RGSForumThreadDataModel {
             models.append(model!)
         }
         
-        // Return sorted models.
-        return models.sorted(by: sort)
+        // Return sorted and filtered models.
+        return models.filter(filter).sorted(by: sort)
     }
     
     /// Retrieves all model entities from Core Data, and returns them in an array
