@@ -15,9 +15,9 @@ The Winter-Summer-School-iOS repository contains the source code for the Univers
 ## Installation
 
 Installation of the Winter-Summer-Schools-iOS App requires a few extra steps if you're building the project on Xcode 8.2.1 (as I am). Namely, I have made the following changes to the repository: 
-* Removed framework: FileProvider.framework from the root directory. 
-* Removed the framework: IOSurface.framework from the root directory.
-* Removed the GoogleService-Info.plist required for FireBase.
+* Removed: `FileProvider.framework` from the root directory. 
+* Removed: `IOSurface.framework` from the root directory.
+* Removed: `GoogleService-Info.plist` required for FireBase.
 The removal of the frameworks was purely due to their inclusion being a workaround to not working on Xcode 9.x. If you're running a later version of Xcode, you should have access to these frameworks by default. Furthermore, the exclusion of files such as the GoogleService property list are for security reasons. If you're planning to use FireBase with this application, you're going to have to obtain a new one for yourself.
 
 

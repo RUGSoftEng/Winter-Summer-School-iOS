@@ -32,17 +32,6 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     /// Empty UITableViewCell Identifier
     let scheduleEmptyTableViewCellIdentifier: String = "scheduleEmptyTableViewCellIdentifier"
     
-    /// UITableViewCell Custom Height
-    let scheduleTableViewCellHeight: CGFloat = 66
-    
-    /// Empty UITableViewCell Custom Height
-    let scheduleEmptyTableViewCellHeight: CGFloat = 44
-    
-    /// TableViewHeaderFooterView Custom Height
-    var scheduleTableViewHeaderFooterViewHeight: CGFloat {
-        return tableView == nil ? CGFloat(44) : CGFloat(tableView.bounds.height / 7)
-    }
-    
     /// Data for the UITableView
     var events: [RGSEventDataModel]? {
         didSet (oldEvents) {
@@ -91,25 +80,26 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        // If no events, return nothing.
+        // If no events, return minimum cell count (1, for empty cell).
         if (events == nil) {
-            return 0
+            return 1
         }
         
         // If the section is zero (today), return only events that have not yet occurred. 
         if (section == 0) {
-            return eventsInRange(from: now, to: DateManager.sharedInstance.endOfDay(for: now))!.count
+            return max(1, eventsInRange(from: now, to: DateManager.sharedInstance.endOfDay(for: now))!.count)
         }
         
         // For all other days, return only events starting that day up till (and not including) end date.
-        return eventsForSection(section: section)!.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return scheduleTableViewCellHeight
+        return max(1, eventsForSection(section: section)!.count)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Disregard taps to the empty cell.
+        if (eventsForSection(section: indexPath.section)?.count == 0) {
+            return
+        }
         
         let cell: RGSScheduleTableViewCell = tableView.cellForRow(at: indexPath) as! RGSScheduleTableViewCell
         tableView.deselectRow(at: indexPath, animated: false)
@@ -117,7 +107,13 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let events = eventsForSection(section: indexPath.section)
         
+        // If no events, return empty cell.
+        if (events?.count == 0) {
+            let cell: RGSEmptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleEmptyTableViewCellIdentifier) as! RGSEmptyTableViewCell
+            return cell
+        }
         
         let cell: RGSScheduleTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleTableViewCellIdentifier, for: indexPath) as! RGSScheduleTableViewCell
         let event: RGSEventDataModel = eventsForSection(section: indexPath.section)![indexPath.row]
@@ -237,6 +233,9 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         let scheduleEmptyTableViewCellNib: UINib = UINib(nibName: "RGSEmptyTableViewCell", bundle: nil)
         tableView.register(scheduleEmptyTableViewCellNib, forCellReuseIdentifier: scheduleEmptyTableViewCellIdentifier)
         
+        // Configure table to do automatic cell sizing.
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         // Attempt to load Schedule Model from Database.
         if let events = RGSEventDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSEventDataModel.sort) {

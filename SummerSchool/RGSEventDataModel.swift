@@ -150,7 +150,8 @@ extension RGSEventDataModel {
         }
         
         // Return filtered and sorted models.
-        return (models.filter(filter)).sorted(by: sort)
+        //return (models.filter(filter)).sorted(by: sort)
+        return models.sorted(by: sort)
     }
     
     /// Retrieves all model entities from Core Data, and returns them in an array
