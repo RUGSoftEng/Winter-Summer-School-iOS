@@ -14,11 +14,18 @@ The Winter-Summer-School-iOS repository contains the source code for the Univers
 
 ## Installation
 
-Installation of the Winter-Summer-School-iOS App should be as simple as cloning the existing repository, opening the project with Xcode Version 8.2.1 or later, and building the project for your target device. There is however, a caveat involved with compiling this App for iOS 10.2 and 10.3 with Xcode 8.2.1. This version of Xcode doesn't supply developer device images for 10.2 and 10.3 by default, and so you'll likely have to download them and install them in `/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport`. Finally, Xcode signs products prior to deploying them on devices, so there *may* be some issues with signing too. Please begin an issue if you encounter any.
+Installation of the Winter-Summer-Schools-iOS App requires a few extra steps if you're building the project on Xcode 8.2.1 (as I am). Namely, I have made the following changes to the repository: 
+* Removed framework: FileProvider.framework from the root directory. 
+* Removed the framework: IOSurface.framework from the root directory.
+* Removed the GoogleService-Info.plist required for FireBase.
+The removal of the frameworks was purely due to their inclusion being a workaround to not working on Xcode 9.x. If you're running a later version of Xcode, you should have access to these frameworks by default. Furthermore, the exclusion of files such as the GoogleService property list are for security reasons. If you're planning to use FireBase with this application, you're going to have to obtain a new one for yourself.
+
 
 ## Usage
 
 This application mostly sticks to well known Apple standards for UI design, and so usage should be completely intuitive to anyone familiar with devices running iOS.
+
+For more guides, see the Github Wiki. 
 
 ## Contributing
 
