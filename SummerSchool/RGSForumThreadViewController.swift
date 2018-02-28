@@ -140,9 +140,9 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     
     /// Initialize a content view cell: The thread content.
     func initializeForumContentTableViewCell (with thread: RGSForumThreadDataModel) -> RGSForumContentTableViewCell {
-        var cell: RGSForumContentTableViewCell?
+        var cell: RGSForumContentTableViewCell? = tableView.dequeueReusableCell(withIdentifier: contentTableViewCellIdentifier) as? RGSForumContentTableViewCell
         
-        if ((cell = tableView.dequeueReusableCell(withIdentifier: contentTableViewCellIdentifier) as! RGSForumContentTableViewCell?) == nil) {
+        if (cell == nil) {
             cell = RGSForumContentTableViewCell()
         }
         
@@ -153,9 +153,9 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     
     /// Initialize a comment view cell: A comment on the thread.
     func initializeForumCommentTableViewCell (with comment: RGSForumCommentDataModel) -> RGSForumCommentTableViewCell {
-        var cell: RGSForumCommentTableViewCell?
+        var cell: RGSForumCommentTableViewCell? = tableView.dequeueReusableCell(withIdentifier: commentTableViewCellIdentifier) as? RGSForumCommentTableViewCell
         
-        if ((cell = tableView.dequeueReusableCell(withIdentifier: commentTableViewCellIdentifier) as! RGSForumCommentTableViewCell?) == nil) {
+        if (cell == nil) {
             cell = RGSForumCommentTableViewCell()
         }
         
@@ -169,9 +169,9 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     
     /// Initialize an input view cell: A cell for authenticating to the forum and submitting comments.
     func initializeForumInputTableViewCell (isAuthenticated: Bool) -> RGSForumInputTableViewCell {
-        var cell: RGSForumInputTableViewCell?
+        var cell: RGSForumInputTableViewCell? = tableView.dequeueReusableCell(withIdentifier: inputTableViewCellIdentifier) as? RGSForumInputTableViewCell
 
-        if ((cell = tableView.dequeueReusableCell(withIdentifier: inputTableViewCellIdentifier) as! RGSForumInputTableViewCell?) == nil) {
+        if (cell == nil) {
             cell = RGSForumInputTableViewCell()
         }
         

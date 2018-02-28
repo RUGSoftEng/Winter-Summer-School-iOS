@@ -162,9 +162,9 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     
     /// Initialize a thread view cell: A thread.
     func initializeForumThreadTableViewCell (with thread: RGSForumThreadDataModel) -> RGSForumThreadTableViewCell {
-        var cell: RGSForumThreadTableViewCell?
+        var cell: RGSForumThreadTableViewCell? = tableView.dequeueReusableCell(withIdentifier: forumThreadTableViewCellIdentifier) as? RGSForumThreadTableViewCell
         
-        if ((cell = tableView.dequeueReusableCell(withIdentifier: forumThreadTableViewCellIdentifier) as! RGSForumThreadTableViewCell?) == nil) {
+        if (cell == nil) {
             cell = RGSForumThreadTableViewCell()
         }
 
@@ -179,9 +179,9 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     
     /// Initialize a button view cell: Buttons for allowing thread posting and signing in/out.
     func initializeForumButtonTableViewCell () -> RGSForumButtonTableViewCell {
-        var cell: RGSForumButtonTableViewCell?
+        var cell: RGSForumButtonTableViewCell? = tableView.dequeueReusableCell(withIdentifier: forumButtonTableViewCellIdentifier) as? RGSForumButtonTableViewCell
         
-        if ((cell = tableView.dequeueReusableCell(withIdentifier: forumButtonTableViewCellIdentifier) as! RGSForumButtonTableViewCell?) == nil) {
+        if (cell == nil) {
             cell = RGSForumButtonTableViewCell()
         }
         

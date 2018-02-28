@@ -29,7 +29,7 @@ class Location: NSObject, MKAnnotation {
     
     /// Returns an MKMapItem instance for use in the Maps application.
     func getMapItem() -> MKMapItem {
-        let addressDictionary = [String(CNPostalAddressStreetKey): title]
+        let addressDictionary: [String: String] = [String(CNPostalAddressStreetKey): title!]
         let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: addressDictionary)
         let mapItem = MKMapItem(placemark: placemark)
         mapItem.name = title
