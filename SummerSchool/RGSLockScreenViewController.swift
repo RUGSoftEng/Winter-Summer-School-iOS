@@ -31,6 +31,12 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     
     /// The help button.
     @IBOutlet weak var helpButton: UIButton!
+    
+    // The contentView height constraint.
+    @IBOutlet weak var contentViewHeight: NSLayoutConstraint!
+    
+    // The leading offset of the contentView from the top of the screen.
+    @IBOutlet weak var contentViewOffset: NSLayoutConstraint!
 
     // MARK: - Actions
     
@@ -42,11 +48,13 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     /// Handler for miscellanous taps outside of the keyboard when the authorization text field is being edited.
     @IBAction func backgroundTap(sender: UIControl) {
         authorizationCodeTextField.resignFirstResponder()
+        self.adjustContentViewOffset(to: recalculateContentViewOffset(), animated: true)
     }
     
     /// Handler for deliberate completion of entry in the authorization text field.
     @IBAction func didFinishEditingAuthorizationCodeTextField(_ sender: UITextField) {
         sender.resignFirstResponder()
+        self.adjustContentViewOffset(to: recalculateContentViewOffset(), animated: true)
         
         let loginCode: String? = authorizationCodeTextField.text
 
@@ -71,6 +79,24 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     private func isValidCodeFormat(_ loginCode: String) -> Bool {
         let validSymbols: [Bool] = loginCode.characters.map({(c: Character) -> Bool in return ActionManager.sharedInstance.isAlnum(c)})
         return validSymbols.count == SpecificationManager.sharedInstance.loginCodeLength && validSymbols.reduce(true, {a,b in a && b})
+    }
+    
+    /// Returns an offset at which to place the popup. Accounts for keyboard if active.
+    private func recalculateContentViewOffset (with keyboardHeight: CGFloat = 0.0) -> CGFloat {
+        let statusBarHeight: CGFloat = UIApplication.shared.statusBarFrame.height
+        let contentHeight: CGFloat = contentViewHeight.constant
+        let screenHeight: CGFloat = UIScreen.main.bounds.height
+        return (screenHeight - statusBarHeight - keyboardHeight - contentHeight) / 2.0
+    }
+    
+    /// Animates the repositioning of the popup.
+    func adjustContentViewOffset(to offset: CGFloat, animated: Bool) -> Void {
+        let duration: TimeInterval = animated ? 0.25 : 0
+        
+        UIView.animate(withDuration: duration, animations: {
+            self.contentViewOffset.constant = offset
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     // MARK: - Public Methods
@@ -137,6 +163,19 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
         return .none
     }
     
+    // MARK: - Notifications
+    
+    func keyboardWillAppear (_ notification: Notification) {
+        if let frame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let rect = frame.cgRectValue
+            self.adjustContentViewOffset(to: recalculateContentViewOffset(with: rect.height), animated: true)
+        }
+    }
+    
+    func keyboardWillDisappear (_ notification: Notification) {
+        self.adjustContentViewOffset(to: recalculateContentViewOffset(), animated: true)
+    }
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -167,16 +206,33 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Subscribe to notifications about the application entering the foreground.
         let app = UIApplication.shared
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground(notification:)), name: .UIApplicationWillEnterForeground, object: app)
+        
+        // Subscribe to notification about keyboard invocation.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        // Subscribe to notification about keyboard disappearing.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        // Determine the proper offset at which to place the popup. It should be centered onscreen.
+        contentViewOffset.constant = recalculateContentViewOffset()
     }
     
     // Overridden to support Settings lockscreen behaviour
     override func viewDidDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Unsubscribe from notifications about the application entering the foreground.
         let app = UIApplication.shared
         NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: app)
+        
+        // Unsubscribe from notification about keyboard invocation.
+        //NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        // Unsubscribe from notification about keyboard disappearing.
+        //NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     override func viewDidLoad() {

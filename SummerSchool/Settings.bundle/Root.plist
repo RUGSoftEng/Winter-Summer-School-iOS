@@ -10,7 +10,7 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>General Settings</string>
+			<string>General Information</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -20,7 +20,7 @@
 			<key>Key</key>
 			<string>applicationVersionNumber</string>
 			<key>DefaultValue</key>
-			<string>1.0</string>
+			<string>1.03</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -31,6 +31,20 @@
 			<string>applicationSchoolName</string>
 			<key>DefaultValue</key>
 			<string>Not Set</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Additional Information</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>Credits</string>
+			<key>File</key>
+			<string>Credits</string>
 		</dict>
 	</array>
 </dict>

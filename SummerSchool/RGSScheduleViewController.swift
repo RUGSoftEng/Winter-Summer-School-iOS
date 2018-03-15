@@ -237,6 +237,9 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         
+        // Explicity set tableView background color to clear to avoid odd animation bug where headers are opaque when sliding in.
+        tableView.backgroundColor = UIColor.clear
+        
         // Attempt to load Schedule Model from Database.
         if let events = RGSEventDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSEventDataModel.sort) {
             self.events = events

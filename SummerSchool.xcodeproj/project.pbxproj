@@ -44,6 +44,8 @@
 		6B7755DB20211115003E2568 /* RGSForumButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */; };
 		6B815C42203599F800E2D09C /* SummerSchoolStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B815C41203599F800E2D09C /* SummerSchoolStyleKit.swift */; };
 		6B8806142023513B00E0594E /* RGSEventDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8806132023513A00E0594E /* RGSEventDataModel.swift */; };
+		6B8A69EE20587BFB0028C262 /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8A69EC20587BFA0028C262 /* FileProvider.framework */; };
+		6B8A69EF20587BFB0028C262 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8A69ED20587BFB0028C262 /* IOSurface.framework */; };
 		6B9D9A2B1F387D2A00776309 /* RGSTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */; };
 		6B9D9A2D1F387D3D00776309 /* RGSTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */; };
 		6BA3F3971F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */; };
@@ -116,6 +118,8 @@
 		6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumButtonTableViewCell.xib; sourceTree = "<group>"; };
 		6B815C41203599F800E2D09C /* SummerSchoolStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummerSchoolStyleKit.swift; sourceTree = "<group>"; };
 		6B8806132023513A00E0594E /* RGSEventDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSEventDataModel.swift; sourceTree = "<group>"; };
+		6B8A69EC20587BFA0028C262 /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
+		6B8A69ED20587BFB0028C262 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSTabView.swift; sourceTree = "<group>"; };
 		6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSTabView.xib; sourceTree = "<group>"; };
 		6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -136,8 +140,6 @@
 		6BB7A9541EE4A7E9005FA5B0 /* RGSForumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumViewController.swift; sourceTree = "<group>"; };
 		6BB7A9581EE4A80C005FA5B0 /* RGSLockScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLockScreenViewController.swift; sourceTree = "<group>"; };
 		6BB7A9631EE4BBAA005FA5B0 /* RGSControlBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSControlBarDelegate.swift; sourceTree = "<group>"; };
-		6BD4C03A2010193B002D881E /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
-		6BD4C03E20101981002D881E /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
 		6BD9C14E20213230007BFAE1 /* RGSContentFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSContentFormViewController.swift; sourceTree = "<group>"; };
 		6BDFBA2C1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSScheduleTableViewCell.xib; sourceTree = "<group>"; };
 		6BDFBA2E1EEC2C0A0018EC84 /* RGSScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSScheduleTableViewCell.swift; sourceTree = "<group>"; };
@@ -154,7 +156,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B8A69EF20587BFB0028C262 /* IOSurface.framework in Frameworks */,
 				DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */,
+				6B8A69EE20587BFB0028C262 /* FileProvider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,8 +236,6 @@
 		6B1E35E01ECF9DE400E2CD77 = {
 			isa = PBXGroup;
 			children = (
-				6BD4C03E20101981002D881E /* FileProvider.framework */,
-				6BD4C03A2010193B002D881E /* IOSurface.framework */,
 				6B1E35EB1ECF9DE400E2CD77 /* SummerSchool */,
 				6B1E35EA1ECF9DE400E2CD77 /* Products */,
 				E9AFF2B3884490ABCE5D55E7 /* Pods */,
@@ -252,6 +254,8 @@
 		6B1E35EB1ECF9DE400E2CD77 /* SummerSchool */ = {
 			isa = PBXGroup;
 			children = (
+				6B8A69EC20587BFA0028C262 /* FileProvider.framework */,
+				6B8A69ED20587BFB0028C262 /* IOSurface.framework */,
 				6B64192E20109F36003DAF91 /* SummerSchool.entitlements */,
 				6BB7A94B1EE4A72B005FA5B0 /* ViewControllers */,
 				6BB7A95B1EE4AC35005FA5B0 /* Views */,
@@ -411,10 +415,13 @@
 					6B1E35E81ECF9DE400E2CD77 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = GRHDPM499W;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 0;
 							};
 						};
 					};
@@ -711,7 +718,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SummerSchool/SummerSchool.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = GRHDPM499W;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -724,8 +731,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nl.rug.summerschool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "9cfcb129-e804-4405-bad9-a0f4b2b7ced3";
+				PROVISIONING_PROFILE_SPECIFIER = "UG Summer School";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -737,7 +744,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SummerSchool/SummerSchool.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = GRHDPM499W;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -750,8 +757,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nl.rug.summerschool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "9cfcb129-e804-4405-bad9-a0f4b2b7ced3";
+				PROVISIONING_PROFILE_SPECIFIER = "UG Summer School";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

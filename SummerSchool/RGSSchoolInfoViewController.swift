@@ -20,8 +20,17 @@ class RGSSchoolInfoViewController: UIViewController, UIPopoverPresentationContro
     
     // MARK: - Outlets
     
+    /// The UIView container for the entire card and button assembly.
+    @IBOutlet weak var containerView: UIView!
+    
     /// The UIView container for the other contents.
     @IBOutlet weak var contentView: UIView!
+    
+    /// The UIView container for the confirm button.
+    @IBOutlet weak var confirmButtonViewContainer: UIView!
+    
+    /// The UIView container for the help button.
+    @IBOutlet weak var helpButtonViewContainer: UIView!
     
     /// ImageView contains a screenshot of the previous ViewController to which the blur is applied.
     @IBOutlet weak var imageView: UIImageView!
@@ -35,17 +44,20 @@ class RGSSchoolInfoViewController: UIViewController, UIPopoverPresentationContro
     /// The help button.
     @IBOutlet weak var helpButton: UIButton!
     
+    /// The confirm button.
+    @IBOutlet weak var confirmButton: UIButton!
+    
     // MARK: - Actions
     
-    /// Handler for taps to the background (used for dismissal of the ViewController).
-    @IBAction func backgroundTap (sender: UIControl) {
-        self.showMainViewController() 
+    /// Handler for taps on the confirm button (used for dismissal of the ViewController).
+    @IBAction func didTapConfirmButton (sender: UIButton) {
+        self.showMainViewController()
     }
     
     /// Handler for a tap on the help button.
     @IBAction func didTapHelpButton (_ sender: UIButton) {
         
-        let actionSheet =  UIAlertController(title: "Wrong School?", message: "If the problem persists, contact your school coordinator. You will now be returned to the login screen.", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let actionSheet =  UIAlertController(title: "Not your school?", message: "If the problem persists, contact your school coordinator. You will now be returned to the login screen.", preferredStyle: UIAlertControllerStyle.actionSheet)
         
         actionSheet.addAction(UIAlertAction(title: "Got it", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
             self.showLockscreenViewController()
@@ -118,6 +130,14 @@ class RGSSchoolInfoViewController: UIViewController, UIPopoverPresentationContro
         // Round the corners of the ContentView, redraw it
         self.contentView.layer.cornerRadius = 15.0
         self.contentView.setNeedsDisplay()
+        
+        // Round the confirm button view container, redraw it.
+        self.confirmButtonViewContainer.layer.cornerRadius = 15.0
+        self.confirmButtonViewContainer.setNeedsDisplay()
+        
+        // Round the help button view container, redraw it.
+        self.helpButtonViewContainer.layer.cornerRadius = 15.0
+        self.helpButtonViewContainer.setNeedsDisplay()
         
         // Set the school name.
         schoolNameLabel.text = SpecificationManager.sharedInstance.schoolName
