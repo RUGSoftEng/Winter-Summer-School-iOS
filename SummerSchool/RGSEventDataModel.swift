@@ -120,7 +120,6 @@ extension RGSEventDataModel {
     
     /// Filtering method for an array of class instances.
     static func filter (model: RGSEventDataModel) -> Bool {
-        
         if let schoolId = SpecificationManager.sharedInstance.schoolId {
             return (schoolId == model.schoolId)
         }
@@ -138,11 +137,11 @@ extension RGSEventDataModel {
             let json = try? JSONSerialization.jsonObject(with: data, options: []),
             let jsonArray = json as? [Any]
             else { return nil }
-        
+        print(json)
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {
             let model: RGSEventDataModel? = RGSEventDataModel(from: item as! [String: Any], with: keys)
-            if (model == nil) {
+            if (model == nil || model?.startDate == nil) {
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
                 return nil
             }
@@ -150,8 +149,7 @@ extension RGSEventDataModel {
         }
         
         // Return filtered and sorted models.
-        //return (models.filter(filter)).sorted(by: sort)
-        return models.sorted(by: sort)
+        return (models.filter(filter)).sorted(by: sort)
     }
     
     /// Retrieves all model entities from Core Data, and returns them in an array

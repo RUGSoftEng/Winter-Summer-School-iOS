@@ -23,7 +23,6 @@
 		6B362F9C1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B362F9B1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift */; };
 		6B362F9F1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B362F9D1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.swift */; };
 		6B362FA01F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B362F9E1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib */; };
-		6B3A5065200FFD59001E594E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B3A5064200FFD59001E594E /* GoogleService-Info.plist */; };
 		6B3CAB78200BE08900126C22 /* RGSForumThreadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3CAB77200BE08900126C22 /* RGSForumThreadViewController.swift */; };
 		6B3CAB7B200BEE3800126C22 /* RGSForumContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3CAB79200BEE3800126C22 /* RGSForumContentTableViewCell.swift */; };
 		6B3CAB7C200BEE3800126C22 /* RGSForumContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B3CAB7A200BEE3800126C22 /* RGSForumContentTableViewCell.xib */; };
@@ -44,8 +43,6 @@
 		6B7755DB20211115003E2568 /* RGSForumButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */; };
 		6B815C42203599F800E2D09C /* SummerSchoolStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B815C41203599F800E2D09C /* SummerSchoolStyleKit.swift */; };
 		6B8806142023513B00E0594E /* RGSEventDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8806132023513A00E0594E /* RGSEventDataModel.swift */; };
-		6B8A69EE20587BFB0028C262 /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8A69EC20587BFA0028C262 /* FileProvider.framework */; };
-		6B8A69EF20587BFB0028C262 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8A69ED20587BFB0028C262 /* IOSurface.framework */; };
 		6B9D9A2B1F387D2A00776309 /* RGSTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */; };
 		6B9D9A2D1F387D3D00776309 /* RGSTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */; };
 		6BA3F3971F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */; };
@@ -73,6 +70,10 @@
 		6BE46BA6200AABCC0022BFA6 /* RGSForumThreadDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */; };
 		6BE46BA8200AB3E70022BFA6 /* RGSForumCommentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */; };
 		6BEDE1021F290EA700A11BBC /* SSDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDE1001F290EA700A11BBC /* SSDataModel.xcdatamodeld */; };
+		6BF1C6B6208B2CB200C247BC /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF1C6B4208B2CB200C247BC /* FileProvider.framework */; };
+		6BF1C6B7208B2CB200C247BC /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF1C6B5208B2CB200C247BC /* IOSurface.framework */; };
+		6BF1C6B9208B3E7100C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */; };
+		6BF1C6BB208B425800C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */; };
 		DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3300877D38C3A192741B588D /* Pods_SummerSchool.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,7 +97,6 @@
 		6B362F9B1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementEventViewController.swift; sourceTree = "<group>"; };
 		6B362F9D1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSGeneralInfoTableViewCell.swift; sourceTree = "<group>"; };
 		6B362F9E1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSGeneralInfoTableViewCell.xib; sourceTree = "<group>"; };
-		6B3A5064200FFD59001E594E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6B3CAB77200BE08900126C22 /* RGSForumThreadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadViewController.swift; sourceTree = "<group>"; };
 		6B3CAB79200BEE3800126C22 /* RGSForumContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumContentTableViewCell.swift; sourceTree = "<group>"; };
 		6B3CAB7A200BEE3800126C22 /* RGSForumContentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumContentTableViewCell.xib; sourceTree = "<group>"; };
@@ -118,8 +118,6 @@
 		6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumButtonTableViewCell.xib; sourceTree = "<group>"; };
 		6B815C41203599F800E2D09C /* SummerSchoolStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummerSchoolStyleKit.swift; sourceTree = "<group>"; };
 		6B8806132023513A00E0594E /* RGSEventDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSEventDataModel.swift; sourceTree = "<group>"; };
-		6B8A69EC20587BFA0028C262 /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
-		6B8A69ED20587BFB0028C262 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSTabView.swift; sourceTree = "<group>"; };
 		6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSTabView.xib; sourceTree = "<group>"; };
 		6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLoadingIndicatorView.swift; sourceTree = "<group>"; };
@@ -147,6 +145,10 @@
 		6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadDataModel.swift; sourceTree = "<group>"; };
 		6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumCommentDataModel.swift; sourceTree = "<group>"; };
 		6BEDE1011F290EA700A11BBC /* SSDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SSDataModel.xcdatamodel; sourceTree = "<group>"; };
+		6BF1C6B4208B2CB200C247BC /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
+		6BF1C6B5208B2CB200C247BC /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
+		6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E349069E9A7584AC1452E3A /* Pods-SummerSchool.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SummerSchool.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool.debug.xcconfig"; sourceTree = "<group>"; };
 		F296E8A692871D5AF0A0E45F /* Pods-SummerSchool.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SummerSchool.release.xcconfig"; path = "Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,9 +158,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B8A69EF20587BFB0028C262 /* IOSurface.framework in Frameworks */,
+				6BF1C6B7208B2CB200C247BC /* IOSurface.framework in Frameworks */,
 				DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */,
-				6B8A69EE20587BFB0028C262 /* FileProvider.framework in Frameworks */,
+				6BF1C6B6208B2CB200C247BC /* FileProvider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +227,7 @@
 				6BA886381F1EAC3F007D0341 /* AppearanceManager.swift */,
 				6BA81F401EEFD51D00386B9C /* ActionManager.swift */,
 				6BA8860A1F1E4E61007D0341 /* SpecificationManager.swift */,
+				6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */,
 				6BA81F3E1EEFC89900386B9C /* DateManager.swift */,
 				6B123B4A1EEDBD6F0006EC08 /* DataManager.swift */,
 				6B123B481EEDA9380006EC08 /* NetworkManager.swift */,
@@ -254,8 +257,8 @@
 		6B1E35EB1ECF9DE400E2CD77 /* SummerSchool */ = {
 			isa = PBXGroup;
 			children = (
-				6B8A69EC20587BFA0028C262 /* FileProvider.framework */,
-				6B8A69ED20587BFB0028C262 /* IOSurface.framework */,
+				6BF1C6B4208B2CB200C247BC /* FileProvider.framework */,
+				6BF1C6B5208B2CB200C247BC /* IOSurface.framework */,
 				6B64192E20109F36003DAF91 /* SummerSchool.entitlements */,
 				6BB7A94B1EE4A72B005FA5B0 /* ViewControllers */,
 				6BB7A95B1EE4AC35005FA5B0 /* Views */,
@@ -270,7 +273,6 @@
 				6B1E35F31ECF9DE400E2CD77 /* Assets.xcassets */,
 				6B1E35F51ECF9DE400E2CD77 /* LaunchScreen.storyboard */,
 				6B1E35F81ECF9DE400E2CD77 /* Info.plist */,
-				6B3A5064200FFD59001E594E /* GoogleService-Info.plist */,
 				6BEDE1001F290EA700A11BBC /* SSDataModel.xcdatamodeld */,
 				6B1D7D0F1F2125EC003B453B /* Settings.bundle */,
 			);
@@ -302,6 +304,7 @@
 		6B9249462022623C0064525A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */,
 				6B34A9FD201FCFDC00D7D5F1 /* applicationConfig.plist */,
 			);
 			name = Resources;
@@ -460,9 +463,10 @@
 				6B362FA01F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib in Resources */,
 				6B34A9FE201FCFDC00D7D5F1 /* applicationConfig.plist in Resources */,
 				6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */,
-				6B3A5065200FFD59001E594E /* GoogleService-Info.plist in Resources */,
 				6BB3EE2B1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib in Resources */,
+				6BF1C6BB208B425800C247BC /* GoogleService-Info.plist in Resources */,
 				6B7755DB20211115003E2568 /* RGSForumButtonTableViewCell.xib in Resources */,
+				6BF1C6B9208B3E7100C247BC /* GoogleService-Info.plist in Resources */,
 				6BDFBA2D1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib in Resources */,
 				6B362F9A1F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib in Resources */,
 				6B1D7D101F2125EC003B453B /* Settings.bundle in Resources */,

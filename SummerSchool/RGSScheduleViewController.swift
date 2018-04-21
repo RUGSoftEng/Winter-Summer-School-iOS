@@ -18,13 +18,7 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     }
     
     /// The current week for which content is being displayed in the tableView
-    var week: Int = 0 {
-        didSet (oldWeek) {
-            if (week != oldWeek) {
-                refreshModelWithDataForWeek(week)
-            }
-        }
-    }
+    var week: Int = 0
     
     /// UITableViewCell Identifier
     let scheduleTableViewCellIdentifier: String = "scheduleTableViewCellIdentifier"
@@ -33,13 +27,16 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     let scheduleEmptyTableViewCellIdentifier: String = "scheduleEmptyTableViewCellIdentifier"
     
     /// Data for the UITableView
-    var events: [RGSEventDataModel]? {
-        didSet (oldEvents) {
-            print("Got data!")
-            let sections = IndexSet(integersIn: 0...self.tableView.numberOfSections - 1)
-            tableView.reloadSections(sections, with: .automatic)
-        }
-    }
+    //var events: [RGSEventDataModel]? {
+    //    didSet (oldEvents) {
+    //        print("Got data: \(events?.count) events!")
+    //        let sections = IndexSet(integersIn: 0...self.tableView.numberOfSections - 1)
+    //        tableView.reloadSections(sections, with: .automatic)
+    //    }
+    //}
+
+    // Data for the UITableView
+    var events: [[RGSEventDataModel]] = [[], [], [], [], [], [], []]
     
     // MARK: - Outlets
     
@@ -73,50 +70,45 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
             return "Today"
         }
         
-        // Otherwise, compute the date "section" numer of days into the future.
+        // Otherwise, compute the date "section" number of days into the future.
         let sectionDate = DateManager.sharedInstance.startOfDay(in: section, from: now)
         return DateManager.sharedInstance.dateToISOString(sectionDate, format: .weekdayDateFormat)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        // If no events, return minimum cell count (1, for empty cell).
-        if (events == nil) {
+        // If there aren't any events in this section's cell, then return 1 for "empty" cell.
+        if (events[section].count == 0) {
             return 1
         }
         
-        // If the section is zero (today), return only events that have not yet occurred. 
-        if (section == 0) {
-            return max(1, eventsInRange(from: now, to: DateManager.sharedInstance.endOfDay(for: now))!.count)
-        }
-        
-        // For all other days, return only events starting that day up till (and not including) end date.
-        return max(1, eventsForSection(section: section)!.count)
+        // Otherwise return the number of events for the section.
+        return events[section].count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         // Disregard taps to the empty cell.
-        if (eventsForSection(section: indexPath.section)?.count == 0) {
+        if (events[indexPath.section].count == 0) {
             return
         }
-        
+
         let cell: RGSScheduleTableViewCell = tableView.cellForRow(at: indexPath) as! RGSScheduleTableViewCell
         tableView.deselectRow(at: indexPath, animated: false)
         performSegue(withIdentifier: "RGSScheduleEventViewController", sender: cell)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let events = eventsForSection(section: indexPath.section)
         
-        // If no events, return empty cell.
-        if (events?.count == 0) {
+        // If no events, return "empty" cell.
+        if (events[indexPath.section].count == 0) {
             let cell: RGSEmptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleEmptyTableViewCellIdentifier) as! RGSEmptyTableViewCell
             return cell
         }
         
+        
         let cell: RGSScheduleTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleTableViewCellIdentifier, for: indexPath) as! RGSScheduleTableViewCell
-        let event: RGSEventDataModel = eventsForSection(section: indexPath.section)![indexPath.row]
+        let event: RGSEventDataModel = events[indexPath.section][indexPath.row]
         cell.startDate = event.startDate
         cell.title = event.title
         cell.address = event.location
@@ -152,28 +144,76 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
             suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
             
             // Manual refresh
-            refreshModelWithDataForWeek(automatic: false, week)
+            refreshModelWithDataForWeeks(automatic: false, [0,1])
         }
     }
     
     // MARK: - Private Class Methods
     
-    func eventsForSection (section: Int) -> [RGSEventDataModel]? {
-        if self.events != nil {
-            let from: Date = DateManager.sharedInstance.startOfDay(in: section, from: now)
-            let to: Date = DateManager.sharedInstance.endOfDay(for: from)
-            return eventsInRange(from: from, to: to)
+    // Coalesces the events object into one superset. 
+    func coalescedEvents () -> [RGSEventDataModel] {
+        var all: [RGSEventDataModel] = []
+        for set in events {
+            all += set
         }
-        return nil
+        return all
     }
     
-    func eventsInRange (from: Date, to: Date) -> [RGSEventDataModel]? {
-        if let events = self.events {
-            return events.filter({(e: RGSEventDataModel) -> Bool in
-                return (e.startDate! >= from && e.startDate! < to)
-            })
+    // Adds only unique events between given sets. If two events share the same ID, only that of the strong set is kept.
+    func uniqueEvents (strong: [RGSEventDataModel], weak: [RGSEventDataModel]) -> [RGSEventDataModel] {
+        var survivors = strong
+        for w in weak {
+            let unique = survivors.filter({(e: RGSEventDataModel) -> Bool in
+                e.id == w.id
+            }).count == 0
+            if (unique) {
+                survivors.append(w)
+            }
         }
-        return nil
+        return survivors
+    }
+    
+    // Merges a set of events into the event structure. Favors latest entry if existing one is found with identical ID. 
+    func mergeEventSet (_ set: [RGSEventDataModel]?) {
+        
+        // Ignore nil sets.
+        if set == nil {
+            return
+        }
+        
+        // Iterate over each section. If there's nothing new for that section, leave it be. 
+        // If there is, replace it entirely.
+        for s in 0...6 {
+            
+            // Extract a set of events that may potentially replace those in that section.
+            let new = eventsForSection(section: s, in: set!).filter(RGSEventDataModel.filter).sorted(by: RGSEventDataModel.sort)
+            
+            // If there's nothing new, then ignore.
+            if (new.count == 0) {
+                continue
+            }
+            
+            // Otherwise replace the current set with the new set.
+            self.events[s] = new
+        }
+        
+        // Reload tableview.
+        let sections = IndexSet(integersIn: 0...self.tableView.numberOfSections - 1)
+        tableView.reloadSections(sections, with: .automatic)
+    }
+
+    // Returns the number of events for a given section.
+    func eventsForSection (section: Int, in set: [RGSEventDataModel]) -> [RGSEventDataModel] {
+        let from: Date = DateManager.sharedInstance.startOfDay(in: section, from: now)
+        let to: Date = DateManager.sharedInstance.endOfDay(for: from)
+        return eventsInRange(from: from, to: to, in: set)
+    }
+    
+    // Returns the number of events that lie within a specific date range.
+    func eventsInRange (from: Date, to: Date, in set: [RGSEventDataModel]) -> [RGSEventDataModel] {
+        return set.filter({(e: RGSEventDataModel) -> Bool in
+            return (e.startDate! >= from && e.startDate! < to)
+        })
     }
     
     func suspendTableViewInteraction(contentOffset offset: CGPoint) {
@@ -188,19 +228,15 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         tableView.setContentOffset(.zero, animated: true)
     }
     
-
-    
     // MARK: - Notifications
     
     /// Handler for when the App is about to suspend execution.
     override func applicationWillResignActive(notification: NSNotification) {
         super.applicationWillResignActive(notification: notification)
         
-        // Save events
-        if (events != nil) {
-            print("Saving schedule data...")
-            RGSEventDataModel.saveDataModel(events!, context: DataManager.sharedInstance.context)
-        }
+        // Save events.
+        print("Saving schedule data...")
+        RGSEventDataModel.saveDataModel(coalescedEvents(), context: DataManager.sharedInstance.context)
     }
     
     
@@ -214,7 +250,8 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         let indexPath: IndexPath = tableView.indexPath(for: sender as! RGSScheduleTableViewCell)!
         
         // Set event to be displayed to that corresponding to the tapped cell.
-        let event: RGSEventDataModel = events![indexPath.row]
+
+        let event: RGSEventDataModel = events[indexPath.section][indexPath.row]
         scheduleEventViewController.event = event
      }
     
@@ -241,12 +278,13 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         tableView.backgroundColor = UIColor.clear
         
         // Attempt to load Schedule Model from Database.
-        if let events = RGSEventDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSEventDataModel.sort) {
-            self.events = events
+        if let set = RGSEventDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSEventDataModel.sort) {
+            mergeEventSet(set)
         }
         
-        // Attempt to refresh Schedule Model by querying the server.
-        self.refreshModelWithDataForWeek(self.week)
+        // Attempt to refresh Schedule Model by querying the server: Get next two weeks.
+        self.refreshModelWithDataForWeeks([0,1])
+        
         
         // Set background color for the UITableView.
         self.tableView.backgroundColor = UIColor.clear
@@ -267,23 +305,33 @@ extension RGSScheduleViewController {
     
     // MARK: - Network GET Requests.
     
-    func refreshModelWithDataForWeek(automatic: Bool = true, _ week: Int) {
+    func refreshModelWithDataForWeeks(automatic: Bool = true, _ weeks: [Int]) {
         
-        // If popup was dismissed, undo upon manual referesh.
+        // If no weeks, return.
+        if (weeks.count == 0) {
+            return
+        }
+        
+        // If popup was dismissed, undo upon manual refresh.
         if (automatic == false) {
             NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
         }
         
-        let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: week)
+        // Obtain URL.
+        let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: weeks.first!)
         
+        // Dispatch request, merge results on completion.
         NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, _ : URLResponse?) -> Void in
             let fetched: [RGSEventDataModel]? = DataManager.sharedInstance.parseEventData(data: data)
             sleep(1)
             DispatchQueue.main.async() {
-                self.events = fetched
+                self.mergeEventSet(fetched)
                 self.resumeTableViewInteraction()
                 self.displayWarningPopupIfNeeded(animated: true)
             }
         })
+        
+        // Perform recursive call.
+        refreshModelWithDataForWeeks(automatic: automatic, Array(weeks.dropFirst(1)))
     }
 }
