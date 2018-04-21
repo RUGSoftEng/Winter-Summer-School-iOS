@@ -70,8 +70,6 @@
 		6BE46BA6200AABCC0022BFA6 /* RGSForumThreadDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */; };
 		6BE46BA8200AB3E70022BFA6 /* RGSForumCommentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */; };
 		6BEDE1021F290EA700A11BBC /* SSDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDE1001F290EA700A11BBC /* SSDataModel.xcdatamodeld */; };
-		6BF1C6B6208B2CB200C247BC /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF1C6B4208B2CB200C247BC /* FileProvider.framework */; };
-		6BF1C6B7208B2CB200C247BC /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF1C6B5208B2CB200C247BC /* IOSurface.framework */; };
 		6BF1C6B9208B3E7100C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */; };
 		6BF1C6BB208B425800C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */; };
 		DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3300877D38C3A192741B588D /* Pods_SummerSchool.framework */; };
@@ -145,8 +143,6 @@
 		6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadDataModel.swift; sourceTree = "<group>"; };
 		6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumCommentDataModel.swift; sourceTree = "<group>"; };
 		6BEDE1011F290EA700A11BBC /* SSDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SSDataModel.xcdatamodel; sourceTree = "<group>"; };
-		6BF1C6B4208B2CB200C247BC /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
-		6BF1C6B5208B2CB200C247BC /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E349069E9A7584AC1452E3A /* Pods-SummerSchool.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SummerSchool.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool.debug.xcconfig"; sourceTree = "<group>"; };
@@ -158,9 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BF1C6B7208B2CB200C247BC /* IOSurface.framework in Frameworks */,
 				DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */,
-				6BF1C6B6208B2CB200C247BC /* FileProvider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,8 +251,6 @@
 		6B1E35EB1ECF9DE400E2CD77 /* SummerSchool */ = {
 			isa = PBXGroup;
 			children = (
-				6BF1C6B4208B2CB200C247BC /* FileProvider.framework */,
-				6BF1C6B5208B2CB200C247BC /* IOSurface.framework */,
 				6B64192E20109F36003DAF91 /* SummerSchool.entitlements */,
 				6BB7A94B1EE4A72B005FA5B0 /* ViewControllers */,
 				6BB7A95B1EE4AC35005FA5B0 /* Views */,

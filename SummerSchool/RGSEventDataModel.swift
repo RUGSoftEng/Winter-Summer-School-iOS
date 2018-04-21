@@ -136,12 +136,12 @@ extension RGSEventDataModel {
         guard
             let json = try? JSONSerialization.jsonObject(with: data, options: []),
             let jsonArray = json as? [Any]
-            else { return nil }
-        print(json)
+        else { return nil }
+
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {
             let model: RGSEventDataModel? = RGSEventDataModel(from: item as! [String: Any], with: keys)
-            if (model == nil || model?.startDate == nil) {
+            if (model == nil || model?.startDate == nil || model?.endDate == nil) {
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
                 return nil
             }
