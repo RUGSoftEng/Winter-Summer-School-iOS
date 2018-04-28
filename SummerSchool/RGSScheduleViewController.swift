@@ -159,20 +159,6 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         return all
     }
     
-    // Adds only unique events between given sets. If two events share the same ID, only that of the strong set is kept.
-    func uniqueEvents (strong: [RGSEventDataModel], weak: [RGSEventDataModel]) -> [RGSEventDataModel] {
-        var survivors = strong
-        for w in weak {
-            let unique = survivors.filter({(e: RGSEventDataModel) -> Bool in
-                e.id == w.id
-            }).count == 0
-            if (unique) {
-                survivors.append(w)
-            }
-        }
-        return survivors
-    }
-    
     // Merges a set of events into the event structure. Favors latest entry if existing one is found with identical ID. 
     func mergeEventSet (_ set: [RGSEventDataModel]?) {
         

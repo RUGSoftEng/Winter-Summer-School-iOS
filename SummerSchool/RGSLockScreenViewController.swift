@@ -26,7 +26,10 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     /// The title displayed under the ImageView
     @IBOutlet weak var titleLabel: UILabel!
     
-    /// The TextField for the code to be entered into
+    /// The TextField for the username to be entered into.
+    @IBOutlet weak var usernameTextField: UITextField!
+    
+    /// The TextField for the code to be entered into.
     @IBOutlet weak var authorizationCodeTextField: UITextField!
     
     /// The help button.
@@ -47,8 +50,14 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     
     /// Handler for miscellanous taps outside of the keyboard when the authorization text field is being edited.
     @IBAction func backgroundTap(sender: UIControl) {
+        usernameTextField.resignFirstResponder()
         authorizationCodeTextField.resignFirstResponder()
         self.adjustContentViewOffset(to: recalculateContentViewOffset(), animated: true)
+    }
+    
+    /// Handler for deliberate completion of entry in the username text field.
+    @IBAction func didFinishEditingUsernameTextField(_ sender: UITextField) {
+        sender.resignFirstResponder()
     }
     
     /// Handler for deliberate completion of entry in the authorization text field.
@@ -59,6 +68,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
         let loginCode: String? = authorizationCodeTextField.text
 
         if (loginCode != nil && isValidCodeFormat(loginCode!)) {
+            usernameTextField.isEnabled = false
             authorizationCodeTextField.isEnabled = false
             SecurityManager.sharedInstance.authenticateLoginCode(loginCode!, callback: authenticationCallback)
         } else {
@@ -128,6 +138,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
                     // Otherwise, update user settings.
                     SpecificationManager.sharedInstance.setUserSettings(false, name!, schoolId!, start!, end!)
                     
+                    self.usernameTextField.isEnabled = true
                     self.authorizationCodeTextField.isEnabled = true
                     self.showSchoolInfoViewController()
                 }
@@ -180,9 +191,6 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        // Clear logincode field.
-        self.authorizationCodeTextField.text = ""
-        
         if (segue.identifier == "DisplayHelpPopover") {
             let destination = segue.destination
             if let popover = destination.popoverPresentationController {
@@ -194,6 +202,11 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
         }
         
         if (segue.identifier == "showSchoolInfoViewController") {
+            
+            // Clear logincode and username field.
+            self.usernameTextField.text = ""
+            self.authorizationCodeTextField.text = ""
+            
             if let schoolInfoViewController: RGSSchoolInfoViewController = segue.destination as? RGSSchoolInfoViewController {
                 schoolInfoViewController.screenShot = self.screenShot
             }

@@ -818,10 +818,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X9K-p7-KFc">
                                 <rect key="frame" x="46" y="204" width="283" height="259"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Authorization Code" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hrP-kB-3V4">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hrP-kB-3V4">
                                         <rect key="frame" x="55" y="168" width="173" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="173" id="LVW-tG-ILm"/>
+                                            <constraint firstAttribute="width" constant="173" id="wWd-te-p65"/>
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -837,7 +837,7 @@
                                             <constraint firstAttribute="width" constant="89" id="rgx-OK-JcB"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                        <state key="normal" title="What code?">
+                                        <state key="normal" title="What's this?">
                                             <color key="titleColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -847,15 +847,6 @@
                                             </segue>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Winter &amp; Summer Schools" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLt-fZ-VSu">
-                                        <rect key="frame" x="8" y="123" width="267" height="37"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="37" id="qoP-FT-Zae"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
-                                        <color key="textColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RUGLogoWhite" translatesAutoresizingMaskIntoConstraints="NO" id="v4c-bQ-26L">
                                         <rect key="frame" x="88" y="8" width="107" height="107"/>
                                         <constraints>
@@ -863,21 +854,33 @@
                                             <constraint firstAttribute="height" constant="107" id="uTt-QL-zaz"/>
                                         </constraints>
                                     </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nua-rT-RNi">
+                                        <rect key="frame" x="55" y="130" width="173" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="R3Q-Qi-VM2"/>
+                                            <constraint firstAttribute="width" constant="173" id="u7w-ue-zjO"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" keyboardAppearance="light" returnKeyType="done"/>
+                                        <connections>
+                                            <action selector="didFinishEditingUsernameTextField:" destination="DwC-Yb-c8X" eventType="editingDidEndOnExit" id="TqR-AT-ooe"/>
+                                        </connections>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.80000000000000004" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="v4c-bQ-26L" firstAttribute="centerX" secondItem="X9K-p7-KFc" secondAttribute="centerX" id="0xK-5k-5y5"/>
-                                    <constraint firstItem="LLt-fZ-VSu" firstAttribute="leading" secondItem="X9K-p7-KFc" secondAttribute="leading" constant="8" id="AtU-Vu-Rdc"/>
+                                    <constraint firstItem="hrP-kB-3V4" firstAttribute="centerX" secondItem="X9K-p7-KFc" secondAttribute="centerX" id="5o0-Wv-bOT"/>
                                     <constraint firstItem="v4c-bQ-26L" firstAttribute="top" secondItem="X9K-p7-KFc" secondAttribute="top" constant="8" id="Hc8-tz-PcC"/>
                                     <constraint firstAttribute="bottom" secondItem="3Ka-r6-hNt" secondAttribute="bottom" constant="8" id="IK6-gs-8d2"/>
-                                    <constraint firstItem="hrP-kB-3V4" firstAttribute="top" secondItem="LLt-fZ-VSu" secondAttribute="bottom" constant="8" id="KD0-6b-XOC"/>
-                                    <constraint firstItem="hrP-kB-3V4" firstAttribute="centerX" secondItem="X9K-p7-KFc" secondAttribute="centerX" id="UqU-iG-pVj"/>
+                                    <constraint firstItem="hrP-kB-3V4" firstAttribute="top" secondItem="Nua-rT-RNi" secondAttribute="bottom" constant="8" id="TZC-Di-bT7"/>
+                                    <constraint firstItem="Nua-rT-RNi" firstAttribute="centerX" secondItem="X9K-p7-KFc" secondAttribute="centerX" id="a9D-62-t5A"/>
                                     <constraint firstAttribute="width" constant="283" id="dfT-QO-XTZ"/>
+                                    <constraint firstItem="Nua-rT-RNi" firstAttribute="top" secondItem="v4c-bQ-26L" secondAttribute="bottom" constant="15" id="egx-SY-LUp"/>
                                     <constraint firstItem="3Ka-r6-hNt" firstAttribute="centerX" secondItem="X9K-p7-KFc" secondAttribute="centerX" id="f6M-Om-AjK"/>
                                     <constraint firstAttribute="height" constant="259" id="jAa-c7-jdV"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="283" id="lD0-Jp-YSW"/>
-                                    <constraint firstItem="LLt-fZ-VSu" firstAttribute="top" secondItem="v4c-bQ-26L" secondAttribute="bottom" constant="8" id="r3g-H0-f3L"/>
-                                    <constraint firstAttribute="trailing" secondItem="LLt-fZ-VSu" secondAttribute="trailing" constant="8" id="yM3-xF-uPa"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -901,7 +904,7 @@
                         <outlet property="contentViewOffset" destination="IGa-mm-tKy" id="3km-6m-Ldo"/>
                         <outlet property="helpButton" destination="3Ka-r6-hNt" id="46Z-B0-Msk"/>
                         <outlet property="imageView" destination="hs5-8H-PCE" id="ZpA-Dm-y7X"/>
-                        <outlet property="titleLabel" destination="LLt-fZ-VSu" id="WoU-HP-9gB"/>
+                        <outlet property="usernameTextField" destination="Nua-rT-RNi" id="Efp-TR-YRb"/>
                         <segue destination="Rqq-vr-RM6" kind="presentation" identifier="showSchoolInfoViewController" modalTransitionStyle="crossDissolve" id="gt1-JT-8JA"/>
                         <segue destination="KJ8-l7-7Kd" kind="unwind" identifier="unwindToMain" animates="NO" unwindAction="unwindToMain:" id="O1x-1a-Cs3"/>
                     </connections>
@@ -923,7 +926,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="220" height="160"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The authorization code should have been emailed to you by the program coordinators. Check your inbox!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMt-aW-7D9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your program coordinators should provide your login details. Check your inbox!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMt-aW-7D9">
                                 <rect key="frame" x="14" y="19" width="192" height="123"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="123" id="8CI-NY-26R"/>

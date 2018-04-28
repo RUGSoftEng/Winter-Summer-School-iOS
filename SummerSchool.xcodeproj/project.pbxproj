@@ -36,6 +36,8 @@
 		6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B461E691F1FB80500C7992B /* RGSEmptyTableViewCell.xib */; };
 		6B4C43871FE6CFED00CC827E /* RGSDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4C43861FE6CFED00CC827E /* RGSDataModelDelegate.swift */; };
 		6B6311F5202BAFAB001AC217 /* RGSLecturerDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6311F4202BAFAB001AC217 /* RGSLecturerDataModel.swift */; };
+		6B67AA34208C8AAD0007463E /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B67AA32208C8AAD0007463E /* FileProvider.framework */; };
+		6B67AA35208C8AAD0007463E /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B67AA33208C8AAD0007463E /* IOSurface.framework */; };
 		6B686ED41FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B686ED21FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift */; };
 		6B686ED51FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B686ED31FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib */; };
 		6B7118931FE46D25000F4917 /* RGSAnnouncementDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7118921FE46D25000F4917 /* RGSAnnouncementDataModel.swift */; };
@@ -109,6 +111,8 @@
 		6B4C43861FE6CFED00CC827E /* RGSDataModelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSDataModelDelegate.swift; sourceTree = "<group>"; };
 		6B6311F4202BAFAB001AC217 /* RGSLecturerDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLecturerDataModel.swift; sourceTree = "<group>"; };
 		6B64192E20109F36003DAF91 /* SummerSchool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SummerSchool.entitlements; sourceTree = "<group>"; };
+		6B67AA32208C8AAD0007463E /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
+		6B67AA33208C8AAD0007463E /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		6B686ED21FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadTableViewCell.swift; sourceTree = "<group>"; };
 		6B686ED31FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumThreadTableViewCell.xib; sourceTree = "<group>"; };
 		6B7118921FE46D25000F4917 /* RGSAnnouncementDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementDataModel.swift; sourceTree = "<group>"; };
@@ -154,7 +158,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B67AA35208C8AAD0007463E /* IOSurface.framework in Frameworks */,
 				DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */,
+				6B67AA34208C8AAD0007463E /* FileProvider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +258,8 @@
 			isa = PBXGroup;
 			children = (
 				6B64192E20109F36003DAF91 /* SummerSchool.entitlements */,
+				6B67AA32208C8AAD0007463E /* FileProvider.framework */,
+				6B67AA33208C8AAD0007463E /* IOSurface.framework */,
 				6BB7A94B1EE4A72B005FA5B0 /* ViewControllers */,
 				6BB7A95B1EE4AC35005FA5B0 /* Views */,
 				6BB7A95A1EE4A89B005FA5B0 /* Nibs */,
