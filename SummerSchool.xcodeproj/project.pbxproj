@@ -36,8 +36,6 @@
 		6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B461E691F1FB80500C7992B /* RGSEmptyTableViewCell.xib */; };
 		6B4C43871FE6CFED00CC827E /* RGSDataModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4C43861FE6CFED00CC827E /* RGSDataModelDelegate.swift */; };
 		6B6311F5202BAFAB001AC217 /* RGSLecturerDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6311F4202BAFAB001AC217 /* RGSLecturerDataModel.swift */; };
-		6B67AA34208C8AAD0007463E /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B67AA32208C8AAD0007463E /* FileProvider.framework */; };
-		6B67AA35208C8AAD0007463E /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B67AA33208C8AAD0007463E /* IOSurface.framework */; };
 		6B686ED41FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B686ED21FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift */; };
 		6B686ED51FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B686ED31FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib */; };
 		6B7118931FE46D25000F4917 /* RGSAnnouncementDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7118921FE46D25000F4917 /* RGSAnnouncementDataModel.swift */; };
@@ -71,6 +69,8 @@
 		6BE46BA4200A70840022BFA6 /* RGSGeneralInfoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA3200A70840022BFA6 /* RGSGeneralInfoDataModel.swift */; };
 		6BE46BA6200AABCC0022BFA6 /* RGSForumThreadDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */; };
 		6BE46BA8200AB3E70022BFA6 /* RGSForumCommentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */; };
+		6BEA90F120976BC10069249D /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEA90EF20976BC10069249D /* FileProvider.framework */; };
+		6BEA90F220976BC10069249D /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEA90F020976BC10069249D /* IOSurface.framework */; };
 		6BEDE1021F290EA700A11BBC /* SSDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDE1001F290EA700A11BBC /* SSDataModel.xcdatamodeld */; };
 		6BF1C6B9208B3E7100C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */; };
 		6BF1C6BB208B425800C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */; };
@@ -111,8 +111,6 @@
 		6B4C43861FE6CFED00CC827E /* RGSDataModelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSDataModelDelegate.swift; sourceTree = "<group>"; };
 		6B6311F4202BAFAB001AC217 /* RGSLecturerDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSLecturerDataModel.swift; sourceTree = "<group>"; };
 		6B64192E20109F36003DAF91 /* SummerSchool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SummerSchool.entitlements; sourceTree = "<group>"; };
-		6B67AA32208C8AAD0007463E /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
-		6B67AA33208C8AAD0007463E /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		6B686ED21FE1A78C000F5396 /* RGSForumThreadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadTableViewCell.swift; sourceTree = "<group>"; };
 		6B686ED31FE1A78C000F5396 /* RGSForumThreadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumThreadTableViewCell.xib; sourceTree = "<group>"; };
 		6B7118921FE46D25000F4917 /* RGSAnnouncementDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementDataModel.swift; sourceTree = "<group>"; };
@@ -146,6 +144,8 @@
 		6BE46BA3200A70840022BFA6 /* RGSGeneralInfoDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSGeneralInfoDataModel.swift; sourceTree = "<group>"; };
 		6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadDataModel.swift; sourceTree = "<group>"; };
 		6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumCommentDataModel.swift; sourceTree = "<group>"; };
+		6BEA90EF20976BC10069249D /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
+		6BEA90F020976BC10069249D /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		6BEDE1011F290EA700A11BBC /* SSDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SSDataModel.xcdatamodel; sourceTree = "<group>"; };
 		6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -158,9 +158,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B67AA35208C8AAD0007463E /* IOSurface.framework in Frameworks */,
+				6BEA90F220976BC10069249D /* IOSurface.framework in Frameworks */,
 				DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */,
-				6B67AA34208C8AAD0007463E /* FileProvider.framework in Frameworks */,
+				6BEA90F120976BC10069249D /* FileProvider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +239,8 @@
 		6B1E35E01ECF9DE400E2CD77 = {
 			isa = PBXGroup;
 			children = (
+				6BEA90EF20976BC10069249D /* FileProvider.framework */,
+				6BEA90F020976BC10069249D /* IOSurface.framework */,
 				6B1E35EB1ECF9DE400E2CD77 /* SummerSchool */,
 				6B1E35EA1ECF9DE400E2CD77 /* Products */,
 				E9AFF2B3884490ABCE5D55E7 /* Pods */,
@@ -258,8 +260,6 @@
 			isa = PBXGroup;
 			children = (
 				6B64192E20109F36003DAF91 /* SummerSchool.entitlements */,
-				6B67AA32208C8AAD0007463E /* FileProvider.framework */,
-				6B67AA33208C8AAD0007463E /* IOSurface.framework */,
 				6BB7A94B1EE4A72B005FA5B0 /* ViewControllers */,
 				6BB7A95B1EE4AC35005FA5B0 /* Views */,
 				6BB7A95A1EE4A89B005FA5B0 /* Nibs */,

@@ -234,6 +234,7 @@ extension RGSLecturerViewController {
     
     /// Dispatches a task to update all lecturer images.
     func refreshSecondaryModelData (model: [RGSLecturerDataModel]) -> Void {
+        let serverAddress: String = NetworkManager.sharedInstance.serverAddress
         
         if self.lecturers == nil {
             return
@@ -246,10 +247,10 @@ extension RGSLecturerViewController {
             var resource: [UIImage?] = []
             
             for item in model {
-                
+ 
                 guard
-                    let resourceURL = item.imagePath,
-                    let imageData = URLSession.shared.synchronousDataTask(with: URL(string: resourceURL)!).0,
+                    let path = item.imagePath,
+                    let imageData = URLSession.shared.synchronousDataTask(with: URL(string: serverAddress + path)!).0,
                     let image = UIImage(data: imageData)
                 else {
                     resource.append(AppearanceManager.sharedInstance.profilePlaceholderImage)
