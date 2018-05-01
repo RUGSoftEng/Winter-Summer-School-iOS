@@ -10,4 +10,8 @@ target 'SummerSchool' do
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Google'
   pod 'FirebaseUI/Facebook'
+  
+  # Pods for Crashlytics
+  pod 'Fabric'
+  pod 'Crashlytics'
 end

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MapKit
+import Crashlytics
 
 /// Enumeration of all valid keys for use with UserDefaults
 enum UserDefaultKey: String {
@@ -155,6 +156,9 @@ final class SpecificationManager {
         defaults.setValue(self.schoolId, forKey: UserDefaultKey.SchoolId.rawValue)
         
         print("SpecificationManager: Status Change!\n\tLockScreen Status: \(shouldShowLockScreen)\n\tSchool Name: \(schoolName)\n\tSchool Id: \(schoolId)")
+        
+        // Update Crashlytics.
+        Crashlytics.sharedInstance().setUserName(self.schoolName)
         
         // Synchronize defaults.
         defaults.synchronize()

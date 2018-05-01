@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 import Firebase
 import FirebaseAuthUI
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configure Firebase.
         FirebaseApp.configure()
+        
+        // Configure Crashlytics.
+        Fabric.with([Crashlytics.self])
         
         return true
     }

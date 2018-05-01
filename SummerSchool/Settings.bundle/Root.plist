@@ -20,7 +20,7 @@
 			<key>Key</key>
 			<string>applicationVersionNumber</string>
 			<key>DefaultValue</key>
-			<string>1.07</string>
+			<string>1.08</string>
 		</dict>
 		<dict>
 			<key>Type</key>

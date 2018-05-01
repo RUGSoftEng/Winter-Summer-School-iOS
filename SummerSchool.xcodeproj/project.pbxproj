@@ -69,8 +69,6 @@
 		6BE46BA4200A70840022BFA6 /* RGSGeneralInfoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA3200A70840022BFA6 /* RGSGeneralInfoDataModel.swift */; };
 		6BE46BA6200AABCC0022BFA6 /* RGSForumThreadDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */; };
 		6BE46BA8200AB3E70022BFA6 /* RGSForumCommentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */; };
-		6BEA90F120976BC10069249D /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEA90EF20976BC10069249D /* FileProvider.framework */; };
-		6BEA90F220976BC10069249D /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEA90F020976BC10069249D /* IOSurface.framework */; };
 		6BEDE1021F290EA700A11BBC /* SSDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDE1001F290EA700A11BBC /* SSDataModel.xcdatamodeld */; };
 		6BF1C6B9208B3E7100C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */; };
 		6BF1C6BB208B425800C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */; };
@@ -144,8 +142,6 @@
 		6BE46BA3200A70840022BFA6 /* RGSGeneralInfoDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSGeneralInfoDataModel.swift; sourceTree = "<group>"; };
 		6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumThreadDataModel.swift; sourceTree = "<group>"; };
 		6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumCommentDataModel.swift; sourceTree = "<group>"; };
-		6BEA90EF20976BC10069249D /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
-		6BEA90F020976BC10069249D /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		6BEDE1011F290EA700A11BBC /* SSDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SSDataModel.xcdatamodel; sourceTree = "<group>"; };
 		6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -158,9 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BEA90F220976BC10069249D /* IOSurface.framework in Frameworks */,
 				DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */,
-				6BEA90F120976BC10069249D /* FileProvider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,8 +233,6 @@
 		6B1E35E01ECF9DE400E2CD77 = {
 			isa = PBXGroup;
 			children = (
-				6BEA90EF20976BC10069249D /* FileProvider.framework */,
-				6BEA90F020976BC10069249D /* IOSurface.framework */,
 				6B1E35EB1ECF9DE400E2CD77 /* SummerSchool */,
 				6B1E35EA1ECF9DE400E2CD77 /* Products */,
 				E9AFF2B3884490ABCE5D55E7 /* Pods */,
@@ -395,6 +387,7 @@
 				6B1E35E71ECF9DE400E2CD77 /* Resources */,
 				9E68850A1B87A51DCABA969C /* [CP] Embed Pods Frameworks */,
 				018FDD85A5026AA229E74CC1 /* [CP] Copy Pods Resources */,
+				6B5607882098F3320099795D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -497,6 +490,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		6B5607882098F3320099795D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 33ac040d6feb15e62ece0ac2c07977109f49f3d3 7686f525637effcd1c75946f4511916ac531f3ed88bfb962eac2f9d9e9bf2b2d";
 		};
 		719AB268E12B2BB10603938D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -723,6 +729,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SummerSchool/SummerSchool.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = GRHDPM499W;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
