@@ -71,7 +71,7 @@ extension UIView {
     func rotate(duration: CFTimeInterval = 1.0, degrees:Double, completionDelegate: CAAnimationDelegate? = nil) {
         let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
         rotateAnimation.fromValue = 0.0
-        let radians = CGFloat(degrees * M_PI / degrees)
+        let radians = CGFloat(degrees * .pi / degrees)
         rotateAnimation.toValue = CGFloat(radians)
         rotateAnimation.duration = duration
         

@@ -43,6 +43,12 @@
       "idiom" : "iphone",
       "filename" : "180 - iPhone 6 Plus.png",
       "scale" : "3x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "1024 - App Store Icon.png",
+      "scale" : "1x"
     }
   ],
   "info" : {

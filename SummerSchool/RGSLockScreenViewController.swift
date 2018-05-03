@@ -87,7 +87,7 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     
     /// Returns True if the code entered is in the correct format.
     private func isValidCodeFormat(_ loginCode: String) -> Bool {
-        let validSymbols: [Bool] = loginCode.characters.map({(c: Character) -> Bool in return ActionManager.sharedInstance.isAlnum(c)})
+        let validSymbols: [Bool] = loginCode.map({(c: Character) -> Bool in return ActionManager.sharedInstance.isAlnum(c)})
         return validSymbols.count == SpecificationManager.sharedInstance.loginCodeLength && validSymbols.reduce(true, {a,b in a && b})
     }
     

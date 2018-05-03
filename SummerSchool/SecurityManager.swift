@@ -57,7 +57,7 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
     /// Broadcasts a notification about a change in the user authentication state.
     /// - userInfo: A dictionary containing the user display name, image url, and identity.
     func broadcastUserAuthenticationStateChange (_ userInfo: [String: String]?) {
-        print("SecurityManager: Broadcasting a change of state in user authentication status: \(userInfo)")
+        print("SecurityManager: Broadcasting a change of state in user authentication status: \(String(describing: userInfo))")
         let notificationCenter = NotificationCenter.default
         let notification = Notification.init(name: Notification.Name(rawValue: "NSUserAuthenticationStateChange"), object: self, userInfo: userInfo)
         notificationCenter.post(notification)
@@ -130,7 +130,7 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
             
             let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
             let schoolInfo: (String, String, String)? = DataManager.sharedInstance.parseSchoolInfoResponseData(data: data)
-            print("schoolInfo = \(schoolInfo)")
+            print("schoolInfo = \(String(describing: schoolInfo))")
             
             // Status Code isn't 200 or schoolInfo is nil -> Bad network connection.
             if (httpResponse.statusCode != 200 || schoolInfo == nil) {
@@ -159,7 +159,7 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
             
             let httpResponse: HTTPURLResponse = response as! HTTPURLResponse
             let schoolId: String? = DataManager.sharedInstance.parseLoginCodeResponseData(data: data)
-            print("SecurityManager: Authentication Status\n\tRequest URL: \(requestURL)\n\tResponse Code: \(httpResponse.statusCode)\n\tSchool ID: \(schoolId)")
+            print("SecurityManager: Authentication Status\n\tRequest URL: \(requestURL)\n\tResponse Code: \(httpResponse.statusCode)\n\tSchool ID: \(String(describing: schoolId))")
     
             // Status Code isn't 200 -> Incorrect login code.
             if (httpResponse.statusCode != 200) {
@@ -195,7 +195,7 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         var userInfo: [String: String]? = nil
         if let userInstance = user {
-            print("SecurityManager: FireBase Status\n\tDisplayName: \(userInstance.displayName)\n\tProfile Image URL: \(userInstance.photoURL)\n\tEmail: \(userInstance.email)")
+            print("SecurityManager: FireBase Status\n\tDisplayName: \(String(describing: userInstance.displayName))\n\tProfile Image URL: \(String(describing: userInstance.photoURL))\n\tEmail: \(String(describing: userInstance.email))")
             // Assign all local variables.
             self.userDisplayName = userInstance.displayName
             self.userImageURL = adjustedImageURL(url: userInstance.photoURL, with: userInstance.providerData)
@@ -254,7 +254,7 @@ final class SecurityManager: NSObject, FUIAuthDelegate {
             print("SecurityManager: Verifying school...")
             self.verifySchoolInfo(schoolId: schoolId)
         }
-        print("SecurityManager initialized with: userDisplayName: \(self.userDisplayName), userImageURL: \(self.userImageURL), userIdentity: \(self.userIdentity)")
+        print("SecurityManager initialized with: userDisplayName: \(String(describing: self.userDisplayName)), userImageURL: \(String(describing: self.userImageURL)), userIdentity: \(String(describing: self.userIdentity))")
     }
 }
 

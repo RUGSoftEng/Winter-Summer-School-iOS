@@ -215,7 +215,7 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     /// Method for when the user submits content.
     /// contentString: - A string composing the body of the submitted content.
     func userDidSubmitContent (contentString: String?, sender: UITableViewCell) -> Void {
-        print("User did request to submit comment: \(contentString)")
+        print("User did request to submit comment: \(String(describing: contentString))")
         if let comment = contentString {
             dispatchCommentPostRequest(comment)
         }
@@ -238,7 +238,7 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
         
         // Test.
         if let userInfo = notification.userInfo as? [String: String] {
-            print("Signed In As \(userInfo["userDisplayName"])!")
+            print("Signed In As \(String(describing: userInfo["userDisplayName"]))!")
         } else {
             print("Signed Out!")
         }

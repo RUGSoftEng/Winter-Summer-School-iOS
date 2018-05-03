@@ -106,7 +106,9 @@ class RGSBaseViewController: UIViewController {
             print("You tapped settings!")
             
             // Temporarily open the Settings page in the Settings application
-            UIApplication.shared.open(NSURL(string: UIApplicationOpenSettingsURLString) as! URL, options: [:], completionHandler: nil)
+            if let url = NSURL(string: UIApplicationOpenSettingsURLString) as URL? {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         }
     }
     

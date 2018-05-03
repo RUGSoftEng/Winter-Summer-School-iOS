@@ -49,11 +49,11 @@ final class ActionManager {
         }
         
         // Build URL
-        for char in string!.characters {
+        for char in string! {
             if isAlnum(char) {
                 mapURL.append(char)
             } else {
-                if (mapURL.characters.last != "+") {
+                if (mapURL.last != "+") {
                     mapURL.append("+")
                 }
             }
