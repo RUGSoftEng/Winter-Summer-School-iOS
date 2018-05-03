@@ -166,7 +166,10 @@ final class NetworkManager {
         let session: URLSession = URLSession.shared
         
         // Start Network Activity Indicator
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
+        
         
         let task = session.dataTask(with: request) {data, response, err in
             

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import Crashlytics
 
 /// Category: Each value determines what icon is set in the view.
 enum InfoCategory: Int {
@@ -119,6 +120,12 @@ extension RGSGeneralInfoDataModel {
         for item in jsonArray {
             let model: RGSGeneralInfoDataModel? = RGSGeneralInfoDataModel(from: item as! [String: Any], with: keys)
             if (model == nil) {
+                
+                // Log failure with Crashlytics.
+                let err: RGSDataError = RGSDataError(title: "Failed to parse JSON!", className: String(describing: type(of: self)), data: item as? String)
+                Crashlytics.sharedInstance().recordError(err)
+                
+                
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
                 return nil
             }

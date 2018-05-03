@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import Crashlytics
 
 class RGSEventDataModel: RGSDataModelDelegate {
     
@@ -75,7 +76,7 @@ class RGSEventDataModel: RGSDataModelDelegate {
         self.endDate                = DateManager.sharedInstance.ISOStringToDate(endDateString, format: .JSONGeneralDateFormat)
         
         // Optional fields.
-        if let location = json["location"] as? String {
+        if let location = json[keys["location"]!] as? String {
             self.location = location
         }
         
@@ -142,7 +143,11 @@ extension RGSEventDataModel {
         for item in jsonArray {
             let model: RGSEventDataModel? = RGSEventDataModel(from: item as! [String: Any], with: keys)
             if (model == nil || model?.startDate == nil || model?.endDate == nil) {
-                debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
+                
+                // Log failure with Crashlytics.
+                let err: RGSDataError = RGSDataError(title: "Failed to parse JSON!", className: String(describing: type(of: self)), data: item as? String)
+                Crashlytics.sharedInstance().recordError(err)
+                
                 return nil
             }
             models.append(model!)

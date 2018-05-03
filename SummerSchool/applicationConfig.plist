@@ -66,6 +66,8 @@
 	</dict>
 	<key>eventKeys</key>
 	<dict>
+		<key>location</key>
+		<string>location</string>
 		<key>schoolId</key>
 		<string>school</string>
 		<key>id</key>

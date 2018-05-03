@@ -10,6 +10,13 @@ import Foundation
 import CoreData
 import UIKit
 
+// MARK: - Data Error Type.
+struct RGSDataError: RGSDataErrorDelegate {
+    var title: String
+    var className: String
+    var data: String?
+}
+
 // MARK: - Class DataManager
 
 final class DataManager {

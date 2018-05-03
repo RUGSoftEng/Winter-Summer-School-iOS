@@ -70,8 +70,8 @@
 		6BE46BA6200AABCC0022BFA6 /* RGSForumThreadDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA5200AABCC0022BFA6 /* RGSForumThreadDataModel.swift */; };
 		6BE46BA8200AB3E70022BFA6 /* RGSForumCommentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE46BA7200AB3E70022BFA6 /* RGSForumCommentDataModel.swift */; };
 		6BEDE1021F290EA700A11BBC /* SSDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDE1001F290EA700A11BBC /* SSDataModel.xcdatamodeld */; };
-		6BF1C6B9208B3E7100C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */; };
 		6BF1C6BB208B425800C247BC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */; };
+		9A0508AC209B481800339308 /* RGSDataErrorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0508AB209B481800339308 /* RGSDataErrorDelegate.swift */; };
 		9ACDF681209B175C006493B2 /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ACDF67F209B0E7A006493B2 /* FileProvider.framework */; };
 		DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3300877D38C3A192741B588D /* Pods_SummerSchool.framework */; };
 /* End PBXBuildFile section */
@@ -147,6 +147,7 @@
 		6BF1C6B8208B3E7100C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6BF1C6BA208B425800C247BC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E349069E9A7584AC1452E3A /* Pods-SummerSchool.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SummerSchool.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool.debug.xcconfig"; sourceTree = "<group>"; };
+		9A0508AB209B481800339308 /* RGSDataErrorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGSDataErrorDelegate.swift; sourceTree = "<group>"; };
 		9ACDF67F209B0E7A006493B2 /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileProvider.framework; path = System/Library/Frameworks/FileProvider.framework; sourceTree = SDKROOT; };
 		F296E8A692871D5AF0A0E45F /* Pods-SummerSchool.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SummerSchool.release.xcconfig"; path = "Pods/Target Support Files/Pods-SummerSchool/Pods-SummerSchool.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -365,6 +366,7 @@
 				6BB7A9631EE4BBAA005FA5B0 /* RGSControlBarDelegate.swift */,
 				6B4C43861FE6CFED00CC827E /* RGSDataModelDelegate.swift */,
 				6B3D4944200D4DB7006E6DF4 /* RGSAuthenticatableObjectDelegate.swift */,
+				9A0508AB209B481800339308 /* RGSDataErrorDelegate.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -409,13 +411,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = RUG;
 				TargetAttributes = {
 					6B1E35E81ECF9DE400E2CD77 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = GRHDPM499W;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -463,7 +465,6 @@
 				6BB3EE2B1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib in Resources */,
 				6BF1C6BB208B425800C247BC /* GoogleService-Info.plist in Resources */,
 				6B7755DB20211115003E2568 /* RGSForumButtonTableViewCell.xib in Resources */,
-				6BF1C6B9208B3E7100C247BC /* GoogleService-Info.plist in Resources */,
 				6BDFBA2D1EEC2BCB0018EC84 /* RGSScheduleTableViewCell.xib in Resources */,
 				6B362F9A1F2A2A960021F31F /* RGSAnnouncementTableViewCell.xib in Resources */,
 				6B1D7D101F2125EC003B453B /* Settings.bundle in Resources */,
@@ -605,6 +606,7 @@
 				6BDFBA2F1EEC2C0A0018EC84 /* RGSScheduleTableViewCell.swift in Sources */,
 				6BEDE1021F290EA700A11BBC /* SSDataModel.xcdatamodeld in Sources */,
 				6B123B491EEDA9380006EC08 /* NetworkManager.swift in Sources */,
+				9A0508AC209B481800339308 /* RGSDataErrorDelegate.swift in Sources */,
 				6B1E35ED1ECF9DE400E2CD77 /* AppDelegate.swift in Sources */,
 				6BA3F3971F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift in Sources */,
 				6B2DD0DF1F33A79E00B6D3A2 /* Extensions.swift in Sources */,
@@ -647,15 +649,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -696,15 +706,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -733,14 +751,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8E349069E9A7584AC1452E3A /* Pods-SummerSchool.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					"(including",
-					"64-bit)",
-				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SummerSchool/SummerSchool.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = GRHDPM499W;
 				ENABLE_BITCODE = NO;
@@ -754,8 +769,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nl.rug.summerschool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9cfcb129-e804-4405-bad9-a0f4b2b7ced3";
-				PROVISIONING_PROFILE_SPECIFIER = "UG Summer School";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7 armv7s";
@@ -766,14 +781,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F296E8A692871D5AF0A0E45F /* Pods-SummerSchool.release.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					"(including",
-					"64-bit)",
-				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SummerSchool/SummerSchool.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GRHDPM499W;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -786,8 +797,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nl.rug.summerschool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9cfcb129-e804-4405-bad9-a0f4b2b7ced3";
-				PROVISIONING_PROFILE_SPECIFIER = "UG Summer School";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7 armv7s";
