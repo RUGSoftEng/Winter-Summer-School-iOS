@@ -62,6 +62,14 @@ final class DateManager {
         return calendar.date(byAdding: .day, value: 1, to: startOfDay(for: date))!
     }
     
+    /// Returns the offset (1 -> 7) of a given Date in a week.
+    func weekDayOffsetFromDate (_ date: Date) -> Int {
+        stringFormatter.dateFormat = "e"
+        let day: String = stringFormatter.string(from: date)
+        stringFormatter.dateStyle = .full
+        return Int(day)! - 1
+    }
+    
     /// Returns the day of the week as a string for a given Date
     /// instance.
     ///
@@ -69,12 +77,37 @@ final class DateManager {
     ///     - date: The Date instance.
     func weekDayFromDate(_ date: Date?) -> String? {
         if (date == nil) {
-            return nil;
+            return nil
         }
-        stringFormatter.dateFormat = "EEEE"
+        stringFormatter.dateFormat = "E"
         let day: String = stringFormatter.string(from: date!)
         stringFormatter.dateStyle = .full
         return day
+    }
+    
+    /// Returns the number (date) of the month as a string for a given Date.
+    func monthDayFromDate (_ date: Date?) -> String? {
+        if (date == nil) {
+            return nil
+        }
+        stringFormatter.dateFormat = "d"
+        let day: String = stringFormatter.string(from: date!)
+        stringFormatter.dateStyle = .full
+        return day
+    }
+    
+    /// Returns the abbreviated month as a string for a given Date instance.
+    ///
+    /// - Parameters:
+    ///     - date: The Date instance.
+    func monthFromDate(_ date: Date?) -> String? {
+        if (date == nil) {
+            return nil
+        }
+        stringFormatter.dateFormat = "MMM"
+        let month: String = stringFormatter.string(from: date!)
+        stringFormatter.dateStyle = .full
+        return month
     }
     
     /// Attempts to convert an ISO-8601

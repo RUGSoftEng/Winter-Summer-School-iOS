@@ -99,6 +99,7 @@ final class DataManager {
         guard
             let json = try? JSONSerialization.jsonObject(with: data!, options: []),
             let jsonArray = json as? [Any],
+            jsonArray.count >= 1,
             let jsonData = jsonArray[0] as? [String: Any],
             let schoolName = jsonData[keys["schoolName"]!] as? String,
             let schoolStartDateString = jsonData[keys["startDateString"]!] as? String,

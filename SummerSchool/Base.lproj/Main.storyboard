@@ -379,35 +379,80 @@
                                     <constraint firstAttribute="width" constant="45" id="uhP-6M-Js4"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="chZ-hI-ZQd">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hXp-qy-lVJ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EaU-v3-Uj7">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
                                 <connections>
-                                    <outlet property="dataSource" destination="T6J-SD-IM6" id="Evh-yN-D9k"/>
-                                    <outlet property="delegate" destination="T6J-SD-IM6" id="MZd-Mo-LL2"/>
+                                    <outlet property="dataSource" destination="T6J-SD-IM6" id="z7L-tG-pxj"/>
+                                    <outlet property="delegate" destination="T6J-SD-IM6" id="i7p-nQ-zpf"/>
                                 </connections>
-                            </tableView>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XQL-Gf-vtb" firstAttribute="top" secondItem="chZ-hI-ZQd" secondAttribute="bottom" id="Cf7-vW-oY5"/>
-                            <constraint firstItem="chZ-hI-ZQd" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="EH6-zS-YSh"/>
-                            <constraint firstItem="chZ-hI-ZQd" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" id="Kch-n1-ZCA"/>
+                            <constraint firstAttribute="trailing" secondItem="hXp-qy-lVJ" secondAttribute="trailing" id="DA2-E6-PTu"/>
+                            <constraint firstItem="hXp-qy-lVJ" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="HhI-Vp-iRJ"/>
+                            <constraint firstItem="hXp-qy-lVJ" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" id="TRW-Ge-e6T"/>
+                            <constraint firstItem="XQL-Gf-vtb" firstAttribute="top" secondItem="hXp-qy-lVJ" secondAttribute="bottom" id="YE1-Qp-1WA"/>
                             <constraint firstItem="5c1-CI-cI5" firstAttribute="centerX" secondItem="VxF-mh-CWm" secondAttribute="centerX" id="ZLO-Ak-UzQ"/>
                             <constraint firstItem="5c1-CI-cI5" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" constant="8" id="eVm-Mn-w18"/>
-                            <constraint firstAttribute="trailing" secondItem="chZ-hI-ZQd" secondAttribute="trailing" id="fMl-c0-ACD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cjs-Rx-Bhp"/>
                     <connections>
+                        <outlet property="collectionView" destination="hXp-qy-lVJ" id="9xT-R8-RwB"/>
                         <outlet property="loadingIndicator" destination="5c1-CI-cI5" id="KYE-B1-N8H"/>
-                        <outlet property="tableView" destination="chZ-hI-ZQd" id="cnv-F7-sNG"/>
-                        <segue destination="d1i-pk-8EY" kind="show" identifier="RGSScheduleEventViewController" id="gjR-aK-uAm"/>
+                        <segue destination="VbK-oK-fKQ" kind="show" identifier="RGSScheduleEventsViewController" id="GCb-x8-oEx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GuE-jz-3XK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2957.5999999999999" y="2129.6851574212897"/>
+        </scene>
+        <!--Schedule Events View Controller-->
+        <scene sceneID="WSU-J3-mrK">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="VbK-oK-fKQ" customClass="RGSScheduleEventsViewController" customModule="SummerSchool" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Jvd-pY-QZn"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZCx-2D-183"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="y35-2m-Ss1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fPK-jD-DRG">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="VbK-oK-fKQ" id="Yx9-He-sEs"/>
+                                    <outlet property="delegate" destination="VbK-oK-fKQ" id="zW5-fX-6Xf"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ZCx-2D-183" firstAttribute="top" secondItem="fPK-jD-DRG" secondAttribute="bottom" id="J00-gm-tjo"/>
+                            <constraint firstItem="fPK-jD-DRG" firstAttribute="top" secondItem="Jvd-pY-QZn" secondAttribute="bottom" id="M0B-st-CJS"/>
+                            <constraint firstAttribute="trailing" secondItem="fPK-jD-DRG" secondAttribute="trailing" id="gW8-jE-i5F"/>
+                            <constraint firstItem="fPK-jD-DRG" firstAttribute="leading" secondItem="y35-2m-Ss1" secondAttribute="leading" id="xWI-Pt-h0M"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="fPK-jD-DRG" id="ojn-zj-Ff3"/>
+                        <segue destination="d1i-pk-8EY" kind="show" identifier="RGSScheduleEventViewController" id="w9v-Sm-kH7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G7Y-Qd-VWw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3757.5999999999999" y="2129.6851574212897"/>
         </scene>
         <!--Schedule Event View Controller-->
         <scene sceneID="vDm-CM-DUa">
@@ -491,7 +536,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DKX-ne-taf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3717.5999999999999" y="2129.6851574212897"/>
+            <point key="canvasLocation" x="3759" y="2848"/>
         </scene>
         <!--Info Detail View Controller-->
         <scene sceneID="e6j-eP-ybL">

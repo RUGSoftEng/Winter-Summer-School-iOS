@@ -16,6 +16,9 @@
 		6B1E35F21ECF9DE400E2CD77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B1E35F01ECF9DE400E2CD77 /* Main.storyboard */; };
 		6B1E35F41ECF9DE400E2CD77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B1E35F31ECF9DE400E2CD77 /* Assets.xcassets */; };
 		6B1E35F71ECF9DE400E2CD77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B1E35F51ECF9DE400E2CD77 /* LaunchScreen.storyboard */; };
+		6B2408E720C72EEF001C7CBB /* RGSScheduleEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2408E620C72EEF001C7CBB /* RGSScheduleEventsViewController.swift */; };
+		6B29E9DC20C68367003185AC /* RGSScheduleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B29E9DA20C68367003185AC /* RGSScheduleCollectionViewCell.swift */; };
+		6B29E9DD20C68367003185AC /* RGSScheduleCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B29E9DB20C68367003185AC /* RGSScheduleCollectionViewCell.xib */; };
 		6B2DD0DF1F33A79E00B6D3A2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2DD0DE1F33A79E00B6D3A2 /* Extensions.swift */; };
 		6B34A9FE201FCFDC00D7D5F1 /* applicationConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B34A9FD201FCFDC00D7D5F1 /* applicationConfig.plist */; };
 		6B362F991F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B362F971F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift */; };
@@ -42,6 +45,8 @@
 		6B7755DA20211115003E2568 /* RGSForumButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7755D820211115003E2568 /* RGSForumButtonTableViewCell.swift */; };
 		6B7755DB20211115003E2568 /* RGSForumButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */; };
 		6B815C42203599F800E2D09C /* SummerSchoolStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B815C41203599F800E2D09C /* SummerSchoolStyleKit.swift */; };
+		6B87CF6B20C57F5B00B7E2F9 /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B87CF6920C57F5B00B7E2F9 /* FileProvider.framework */; };
+		6B87CF6C20C57F5B00B7E2F9 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B87CF6A20C57F5B00B7E2F9 /* IOSurface.framework */; };
 		6B8806142023513B00E0594E /* RGSEventDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8806132023513A00E0594E /* RGSEventDataModel.swift */; };
 		6B9D9A2B1F387D2A00776309 /* RGSTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */; };
 		6B9D9A2D1F387D3D00776309 /* RGSTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */; };
@@ -88,6 +93,9 @@
 		6B1E35F31ECF9DE400E2CD77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B1E35F61ECF9DE400E2CD77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B1E35F81ECF9DE400E2CD77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B2408E620C72EEF001C7CBB /* RGSScheduleEventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSScheduleEventsViewController.swift; sourceTree = "<group>"; };
+		6B29E9DA20C68367003185AC /* RGSScheduleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSScheduleCollectionViewCell.swift; sourceTree = "<group>"; };
+		6B29E9DB20C68367003185AC /* RGSScheduleCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSScheduleCollectionViewCell.xib; sourceTree = "<group>"; };
 		6B2DD0DE1F33A79E00B6D3A2 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6B34A9FD201FCFDC00D7D5F1 /* applicationConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = applicationConfig.plist; sourceTree = "<group>"; };
 		6B362F971F2A2A960021F31F /* RGSAnnouncementTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSAnnouncementTableViewCell.swift; sourceTree = "<group>"; };
@@ -115,6 +123,8 @@
 		6B7755D820211115003E2568 /* RGSForumButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSForumButtonTableViewCell.swift; sourceTree = "<group>"; };
 		6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSForumButtonTableViewCell.xib; sourceTree = "<group>"; };
 		6B815C41203599F800E2D09C /* SummerSchoolStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummerSchoolStyleKit.swift; sourceTree = "<group>"; };
+		6B87CF6920C57F5B00B7E2F9 /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FileProvider.framework; sourceTree = "<group>"; };
+		6B87CF6A20C57F5B00B7E2F9 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOSurface.framework; sourceTree = "<group>"; };
 		6B8806132023513A00E0594E /* RGSEventDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSEventDataModel.swift; sourceTree = "<group>"; };
 		6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGSTabView.swift; sourceTree = "<group>"; };
 		6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RGSTabView.xib; sourceTree = "<group>"; };
@@ -154,7 +164,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B87CF6C20C57F5B00B7E2F9 /* IOSurface.framework in Frameworks */,
 				DC3620251CB8C69D9E0AAC36 /* Pods_SummerSchool.framework in Frameworks */,
+				6B87CF6B20C57F5B00B7E2F9 /* FileProvider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				6BB7A9521EE4A7D2005FA5B0 /* RGSScheduleViewController.swift */,
+				6B2408E620C72EEF001C7CBB /* RGSScheduleEventsViewController.swift */,
 				6B116DA91F1D616500E01BBB /* RGSScheduleEventViewController.swift */,
 			);
 			name = Schedule;
@@ -233,6 +246,8 @@
 		6B1E35E01ECF9DE400E2CD77 = {
 			isa = PBXGroup;
 			children = (
+				6B87CF6920C57F5B00B7E2F9 /* FileProvider.framework */,
+				6B87CF6A20C57F5B00B7E2F9 /* IOSurface.framework */,
 				6B1E35EB1ECF9DE400E2CD77 /* SummerSchool */,
 				6B1E35EA1ECF9DE400E2CD77 /* Products */,
 				E9AFF2B3884490ABCE5D55E7 /* Pods */,
@@ -332,6 +347,7 @@
 				6B7755D920211115003E2568 /* RGSForumButtonTableViewCell.xib */,
 				6B3D4941200D45FB006E6DF4 /* RGSForumInputTableViewCell.xib */,
 				6B9D9A2C1F387D3D00776309 /* RGSTabView.xib */,
+				6B29E9DB20C68367003185AC /* RGSScheduleCollectionViewCell.xib */,
 			);
 			name = Nibs;
 			sourceTree = "<group>";
@@ -351,6 +367,7 @@
 				6B3D4940200D45FB006E6DF4 /* RGSForumInputTableViewCell.swift */,
 				6B9D9A2A1F387D2A00776309 /* RGSTabView.swift */,
 				6BA3F3961F3A4EC200F2C209 /* RGSLoadingIndicatorView.swift */,
+				6B29E9DA20C68367003185AC /* RGSScheduleCollectionViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -456,6 +473,7 @@
 				6B362FA01F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.xib in Resources */,
 				6B34A9FE201FCFDC00D7D5F1 /* applicationConfig.plist in Resources */,
 				6B461E6B1F1FB80500C7992B /* RGSEmptyTableViewCell.xib in Resources */,
+				6B29E9DD20C68367003185AC /* RGSScheduleCollectionViewCell.xib in Resources */,
 				6BB3EE2B1F2F70E900CE3CE7 /* RGSLecturerCollectionViewCell.xib in Resources */,
 				6BF1C6BB208B425800C247BC /* GoogleService-Info.plist in Resources */,
 				6B7755DB20211115003E2568 /* RGSForumButtonTableViewCell.xib in Resources */,
@@ -573,6 +591,7 @@
 				6B3CAB7B200BEE3800126C22 /* RGSForumContentTableViewCell.swift in Sources */,
 				6B3CAB78200BE08900126C22 /* RGSForumThreadViewController.swift in Sources */,
 				6B362F9C1F2A347F0021F31F /* RGSAnnouncementEventViewController.swift in Sources */,
+				6B29E9DC20C68367003185AC /* RGSScheduleCollectionViewCell.swift in Sources */,
 				6B815C42203599F800E2D09C /* SummerSchoolStyleKit.swift in Sources */,
 				6B9D9A2B1F387D2A00776309 /* RGSTabView.swift in Sources */,
 				6B6311F5202BAFAB001AC217 /* RGSLecturerDataModel.swift in Sources */,
@@ -589,6 +608,7 @@
 				6B3D493E200D2B69006E6DF4 /* RGSForumCommentTableViewCell.swift in Sources */,
 				6BA50F7C1F21FE0C0049E0C0 /* SecurityManager.swift in Sources */,
 				6BA81F3F1EEFC89900386B9C /* DateManager.swift in Sources */,
+				6B2408E720C72EEF001C7CBB /* RGSScheduleEventsViewController.swift in Sources */,
 				6B362F9F1F2A90EB0021F31F /* RGSGeneralInfoTableViewCell.swift in Sources */,
 				6B461E6A1F1FB80500C7992B /* RGSEmptyTableViewCell.swift in Sources */,
 				6B8806142023513B00E0594E /* RGSEventDataModel.swift in Sources */,
