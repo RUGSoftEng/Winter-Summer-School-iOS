@@ -150,7 +150,12 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        var offset: CGPoint = scrollView.contentOffset
+        let offset: CGPoint = scrollView.contentOffset
+        
+        // Set opacity.
+        let x_max: CGFloat = SpecificationManager.sharedInstance.collectionViewContentPageOffset + 30.0
+        self.collectionView.alpha = 1.0 - fabs(offset.x) / x_max
+        self.collectionView.setNeedsDisplay()
         
         // If the CollectionView is enabled, animate reload indicator when tugging. If it is disabled, then lock it to the reload position.
         if (scrollView.isUserInteractionEnabled) {
@@ -159,27 +164,11 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
                 loadingIndicator.progress = progress
             }
         } else {
-            if (offset.y >= SpecificationManager.sharedInstance.collectionViewContentReloadOffset) {
-                
-                // Reload offset depends on whether or not we're paging.
-                var reloadOffset: CGPoint = .zero
-                if (paging) {
-                    let dir: CGFloat = (offset.x < 0) ? -1 : 1;
-                    let buf: CGFloat = 10
-                    let limit: CGFloat = SpecificationManager.sharedInstance.collectionViewContentPageOffset
-                    reloadOffset = CGPoint(x: limit * dir - buf, y: 0)
-                } else {
-                    reloadOffset = CGPoint(x: 0, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset)
-                }
+            if (offset.y >= SpecificationManager.sharedInstance.collectionViewContentReloadOffset && !paging) {
+                let reloadOffset: CGPoint = CGPoint(x: 0, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset)
                 collectionView.contentOffset = reloadOffset
             }
         }
-        
-        // Set opacity.
-        offset = scrollView.contentOffset
-        let x_max: CGFloat = SpecificationManager.sharedInstance.collectionViewContentPageOffset + 30.0
-        self.collectionView.alpha = 1.0 - fabs(offset.x) / x_max
-        self.collectionView.setNeedsDisplay()
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -198,15 +187,14 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
         
         // Content paging.
         if (fabs(offset.x) > SpecificationManager.sharedInstance.collectionViewContentPageOffset) {
-            let x = SpecificationManager.sharedInstance.collectionViewContentPageOffset * (offset.x < 0 ? -1 : 1)
             print("Paging \(offset.x < 0 ? "left" : "right")")
             week += (offset.x < 0 ? -1 : 1)
             
             // Suspend interaction during paging.
-            suspendCollectionViewPagingInteraction(contentOffset: CGPoint(x: x, y: 0.0))
+            suspendCollectionViewPagingInteraction()
             
             // Automatic refresh.
-            self.refreshModelWithDataForWeeks(automatic: true, [-1, 0, 1], set: [], paging: true)
+            self.refreshModelWithDataForWeeks(automatic: true, [-1, 0, 1], paging: true)
         }
     }
     
@@ -245,17 +233,17 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
     }
     
     // Suspends interaction with the UICollectionView during paging.
-    func suspendCollectionViewPagingInteraction(contentOffset offset: CGPoint) {
-        collectionView.setContentOffset(offset, animated: true)
+    func suspendCollectionViewPagingInteraction() {
+        loadingIndicator.startAnimation()
+        collectionView.setContentOffset(.zero, animated: true)
         collectionView.isUserInteractionEnabled = false
-        collectionView.setNeedsDisplay()
         paging = true
     }
     
     // Resumes interaction with the UICollectionView after paging.
     func resumeCollectionViewPagingInteraction() {
+        loadingIndicator.stopAnimation()
         collectionView.isUserInteractionEnabled = true
-        collectionView.setNeedsDisplay()
         paging = false
     }
     
@@ -339,40 +327,43 @@ extension RGSScheduleViewController {
     
     // MARK: - Network GET Requests.
     
-    func refreshModelWithDataForWeeks (automatic: Bool = true, _ weeks: [Int], set: [RGSEventDataModel] = [], paging: Bool = false) {
-        
-        // If no weeks in the set: Return.
-        if (weeks.count == 0) {
-            DispatchQueue.main.async {
-                sleep(1)
-                if (paging) {
-                    self.resumeCollectionViewPagingInteraction()
-                } else {
-                    self.resumeCollectionViewInteraction()
-                }
-                self.displayWarningPopupIfNeeded(animated: true)
-                self.events = set
-            }
-            return
-        }
+    func refreshModelWithDataForWeeks (automatic: Bool = true, _ weeks: [Int], paging: Bool = false) {
+        var set: [RGSEventDataModel] = []
         
         // If popup was dismissed, undo upon manual refresh.
         if (automatic == false) {
             NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
         }
         
-        // Obtain URL.
-        let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: weeks.first!)
-        
-        // Dispatch request, merge results on completion.
-        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, _ : URLResponse?) -> Void in
-            let fetched = DataManager.sharedInstance.parseEventData(data: data)
-            if (fetched == nil) {
-                self.refreshModelWithDataForWeeks(automatic: automatic, Array(weeks.dropFirst(1)), set: set)
-            } else {
-                self.refreshModelWithDataForWeeks(automatic: automatic, Array(weeks.dropFirst(1)), set: set + fetched!)
+        // Allow a dedicated thread to synchronously fetch all data.
+        DispatchQueue.global(qos: .default).async {
+            
+            // Fetch data for each week specified.
+            for week in weeks {
+                
+                // Create URL.
+                let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: week)
+                
+                // Perform synchronous request.
+                let (data, _) = NetworkManager.sharedInstance.makeSynchronousGetRequest(url: url)
+                
+                // Add to set.
+                if let items = DataManager.sharedInstance.parseEventData(data: data) {
+                    set += items
+                }
             }
-        })
+            
+            // Induce small delay, unlock interaction, set events.
+            sleep(1)
+            DispatchQueue.main.async {
+                if (paging) {
+                    self.resumeCollectionViewPagingInteraction()
+                } else {
+                    self.resumeCollectionViewInteraction()
+                }
+                self.displayWarningPopupIfNeeded(animated: true)
+                self.events = set.sorted(by: RGSEventDataModel.sort)
+            }
+        }
     }
-    
 }
