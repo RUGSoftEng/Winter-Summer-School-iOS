@@ -164,6 +164,13 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
     
     // MARK: - Class Method Overrides
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Because this is the first viewcontroller shown, I re-fetch so that sign in doesn't expose other announcements.
+        self.refreshModelData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarTheme()
