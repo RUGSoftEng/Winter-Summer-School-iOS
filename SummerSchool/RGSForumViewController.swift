@@ -295,6 +295,13 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     
     
     // MARK: - Class Method Overrides
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Try to refresh forum.
+        self.refreshModelData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
