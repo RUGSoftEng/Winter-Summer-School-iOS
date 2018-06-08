@@ -148,7 +148,7 @@ extension RGSEventDataModel {
                 let err: RGSDataError = RGSDataError(title: "Failed to parse JSON!", className: String(describing: type(of: self)), data: item as? String)
                 Crashlytics.sharedInstance().recordError(err)
                 
-                return nil
+                continue
             }
             models.append(model!)
         }

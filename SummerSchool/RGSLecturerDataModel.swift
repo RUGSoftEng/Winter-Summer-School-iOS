@@ -14,7 +14,7 @@ import Crashlytics
 class RGSLecturerDataModel: RGSDataModelDelegate {
     
     /// MARK: - Properties.
-    var id, name, body, website, imagePath: String?
+    var id, schoolId, name, body, website, imagePath: String?
     var image: UIImage?
     
     /// MARK: - Protocol Methods.
@@ -23,6 +23,7 @@ class RGSLecturerDataModel: RGSDataModelDelegate {
     static var entityKey: [String : String] = [
         "entityName"    : "LecturerEntity",
         "id"            : "id",
+        "schoolId"      : "schoolId",
         "name"          : "name",
         "body"          : "body",
         "website"       : "website",
@@ -37,6 +38,7 @@ class RGSLecturerDataModel: RGSDataModelDelegate {
         
         // Mandatory fields.
         managedObject.setValue(id, forKey: entityKey["id"]!)
+        managedObject.setValue(schoolId, forKey: entityKey["schoolId"]!)
         managedObject.setValue(name, forKey: entityKey["name"]!)
         managedObject.setValue(body, forKey: entityKey["body"]!)
         
@@ -59,11 +61,13 @@ class RGSLecturerDataModel: RGSDataModelDelegate {
         // Mandatory fields.
         guard
             let id                  = json[keys["id"]!] as? String,
+            let schoolId            = json[keys["schoolId"]!] as? String,
             let name                = json[keys["name"]!] as? String,
             let body                = json[keys["body"]!] as? String
         else { return nil }
         
         self.id                     = id
+        self.schoolId               = schoolId
         self.name                   = name
         self.body                   = body
         
@@ -84,11 +88,13 @@ class RGSLecturerDataModel: RGSDataModelDelegate {
         // Mandatory fields.
         guard
             let id                  = managedObject.value(forKey: entityKey["id"]!) as? String,
+            let schoolId            = managedObject.value(forKey: entityKey["schoolId"]!) as? String,
             let name                = managedObject.value(forKey: entityKey["name"]!) as? String,
             let body                = managedObject.value(forKey: entityKey["body"]!) as? String
         else { return nil }
         
         self.id                     = id
+        self.schoolId               = schoolId
         self.name                   = name
         self.body                   = body
         
@@ -113,6 +119,14 @@ extension RGSLecturerDataModel {
         return (a.name! > b.name!)
     }
     
+    /// Filtering method for an array of class instances.
+    static func filter (model: RGSLecturerDataModel) -> Bool {
+        if (SpecificationManager.sharedInstance.schoolId != nil) {
+            return (model.schoolId == SpecificationManager.sharedInstance.schoolId!)
+        }
+        return true
+    }
+    
     /// Parses a array of JSON objects into an array of data model instances.
     /// - data: Data to be parsed as JSON.
     /// - sort: Sorting method.
@@ -135,13 +149,13 @@ extension RGSLecturerDataModel {
                 Crashlytics.sharedInstance().recordError(err)
                 
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
-                return nil
+                continue;
             }
             models.append(model!)
         }
         
-        // Return sorted models.
-        return (models.sorted(by: sort))
+        // Return sorted and filtered models.
+        return (models.sorted(by: sort)).filter(RGSLecturerDataModel.filter)
     }
     
     /// Retrieves all model entities from Core Data, and returns them in an array

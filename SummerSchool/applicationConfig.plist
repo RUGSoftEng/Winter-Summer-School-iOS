@@ -59,6 +59,8 @@
 	<dict>
 		<key>id</key>
 		<string>_id</string>
+		<key>schoolId</key>
+		<string>school</string>
 		<key>name</key>
 		<string>name</string>
 		<key>body</key>

@@ -75,7 +75,7 @@ extension RGSForumCommentDataModel {
                 Crashlytics.sharedInstance().recordError(err)
                 
                 debugPrint("Failed to parse JSON: ", item, " in class ", String(describing: type(of: self)))
-                return nil
+                continue
             }
             models.append(model!)
         }
