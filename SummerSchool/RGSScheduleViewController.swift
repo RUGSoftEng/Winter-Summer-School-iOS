@@ -8,46 +8,60 @@
 
 import UIKit
 
-class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIScrollViewDelegate, UITableViewDataSource {
+class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // MARK: - Variables & Constants
     
     /// The current day.
     var now: Date {
-        return Date()
+        return DateManager.sharedInstance.startOfDay(for: Date())
+    }
+    
+    /// The current weekday offset.
+    var currentWeekday: Int {
+        return DateManager.sharedInstance.weekDayOffsetFromDate(now)
     }
     
     /// The current week for which content is being displayed in the tableView
     var week: Int = 0
     
-    /// UITableViewCell Identifier
-    let scheduleTableViewCellIdentifier: String = "scheduleTableViewCellIdentifier"
+    /// UICollectionViewCell Identifier.
+    let scheduleCollectionViewCellIdentifier: String = "scheduleCollectionViewCellIdentifier"
     
-    /// Empty UITableViewCell Identifier
-    let scheduleEmptyTableViewCellIdentifier: String = "scheduleEmptyTableViewCellIdentifier"
+    /// The number of items per row.
+    let itemsPerRow: CGFloat = 3
     
-    /// Data for the UITableView
-    //var events: [RGSEventDataModel]? {
-    //    didSet (oldEvents) {
-    //        print("Got data: \(events?.count) events!")
-    //        let sections = IndexSet(integersIn: 0...self.tableView.numberOfSections - 1)
-    //        tableView.reloadSections(sections, with: .automatic)
-    //    }
-    //}
-
-    // Data for the UITableView
-    var events: [[RGSEventDataModel]] = [[], [], [], [], [], [], []]
+    /// Section insets.
+    let sectionInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+    
+    /// The events data model.
+    var events: [RGSEventDataModel] = [] {
+        didSet(oldEvents) {
+            self.collectionView.performBatchUpdates({
+                let indexSet = IndexSet(integer: 0)
+                self.collectionView.reloadSections(indexSet)
+            }, completion: nil)
+        }
+    }
+    
+    /// The events-per-day data model. This is set during during the creation of each collectionView cell.
+    var eventsPerDay: [[RGSEventDataModel]] = [[], [], [], [], [], [], []]
+    
+    /// The display data model.
+    var weekdays: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon"]
+    
+    /// Boolean variable indicating whether the controller is currently paging.
+    var paging: Bool = false
     
     // MARK: - Outlets
     
-    /// The UITableView
-    @IBOutlet weak var tableView: UITableView!
+    /// The UICollectionView
+    @IBOutlet weak var collectionView: UICollectionView!
     
     /// The RGSLoadingIndicatorView
     @IBOutlet weak var loadingIndicator: RGSLoadingIndicatorView!
     
     // MARK: - Actions
-    
     
     // MARK: - Superclass Method Overrides
     
@@ -57,109 +71,136 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
     
     // MARK: - UITableViewDelegate/DataSource Protocol Methods
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        
-        // A section for each of the next seven days, starting from the current day.
-        return 7
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        // If the section is zero (today), simply return that instead.
-        if (section == 0) {
-            return "Today"
-        }
-        
-        // Otherwise, compute the date "section" number of days into the future.
-        let sectionDate = DateManager.sharedInstance.startOfDay(in: section, from: now)
-        return DateManager.sharedInstance.dateToISOString(sectionDate, format: .weekdayDateFormat)
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return weekdays.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell: RGSScheduleCollectionViewCell = collectionView.cellForItem(at: indexPath) as! RGSScheduleCollectionViewCell
+        collectionView.deselectItem(at: indexPath, animated: false)
         
-        // If there aren't any events in this section's cell, then return 1 for "empty" cell.
-        if (events[section].count == 0) {
-            return 1
+        if (indexPath.row % 8 == 0 || eventsPerDay[indexPath.row - 1].count == 0) {
+            print("You have no business visiting this cell!")
+        } else {
+            print("You tapped: \(weekdays[indexPath.row]) with exactly: \(eventsPerDay[indexPath.row - 1].count)")
+            self.performSegue(withIdentifier: "RGSScheduleEventsViewController", sender: cell)
         }
-        
-        // Otherwise return the number of events for the section.
-        return events[section].count
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        // Disregard taps to the empty cell.
-        if (events[indexPath.section].count == 0) {
-            return
+        /// Create the cell.
+        let cell: RGSScheduleCollectionViewCell  = collectionView.dequeueReusableCell(withReuseIdentifier: scheduleCollectionViewCellIdentifier, for: indexPath) as! RGSScheduleCollectionViewCell
+        
+        /// Compute and set the current date.
+        let offset: Int = (indexPath.row - currentWeekday) + (7 * week)
+        let date: Date = DateManager.sharedInstance.startOfDay(in: offset, from: now)
+        cell.date = date
+        
+        /// Filter and set all events for indices (1 -> 7). Do not calculate for the faded out padding days at indices (0,8)
+        if (indexPath.row % 8 != 0) {
+            let from: Date = DateManager.sharedInstance.startOfDay(in: offset, from: now)
+            let to: Date = DateManager.sharedInstance.endOfDay(for: from)
+            self.eventsPerDay[indexPath.row - 1] = eventsInRange(from: from, to: to, in: self.events)
+            
+            // Set the number of events: Remember to adjust the row value down.
+            cell.eventCount = self.eventsPerDay[indexPath.row - 1].count
+        } else {
+            cell.eventCount = 0
         }
-
-        let cell: RGSScheduleTableViewCell = tableView.cellForRow(at: indexPath) as! RGSScheduleTableViewCell
-        tableView.deselectRow(at: indexPath, animated: false)
-        performSegue(withIdentifier: "RGSScheduleEventViewController", sender: cell)
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        // If no events, return "empty" cell.
-        if (events[indexPath.section].count == 0) {
-            let cell: RGSEmptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleEmptyTableViewCellIdentifier) as! RGSEmptyTableViewCell
-            return cell
+        // Set the highlight.
+        if (offset == 0) {
+            cell.setColorScheme(scheme: -1)
+        } else {
+            cell.setColorScheme(scheme: indexPath.row % 8)
         }
         
-        
-        let cell: RGSScheduleTableViewCell = tableView.dequeueReusableCell(withIdentifier: scheduleTableViewCellIdentifier, for: indexPath) as! RGSScheduleTableViewCell
-        let event: RGSEventDataModel = events[indexPath.section][indexPath.row]
-        cell.startDate = event.startDate
-        cell.title = event.title
-        cell.address = event.location
         return cell
     }
     
-    // MARK: - UITableView ScrollView Delegate Protocol Methods
+    // MARK: - UICollectionViewDelegateFlowLayout Methods
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let horizontalPaddingSpace = sectionInsets.right * (itemsPerRow + 1)
+        let availableWidth = collectionView.frame.width - horizontalPaddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        
+        let itemsPerColumn: CGFloat = 3
+        let verticalPaddingSpace = sectionInsets.top * (itemsPerColumn + 1)
+        let availableHeight = collectionView.frame.height - verticalPaddingSpace
+        let heightPerItem = availableHeight / itemsPerColumn
+        
+        return CGSize(width: widthPerItem, height: heightPerItem)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.left
+    }
+    
+    // MARK: - UICollectionView ScrollView Delegate Protocol Methods
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset: CGPoint = scrollView.contentOffset
         
-        // If the TableView is enabled, animate reload indicator when tugging. If it is disabled, lock to reload position.
-        if (tableView.isUserInteractionEnabled) {
-            
+        // Set opacity.
+        let x_max: CGFloat = SpecificationManager.sharedInstance.collectionViewContentPageOffset + 30.0
+        self.collectionView.alpha = 1.0 - fabs(offset.x) / x_max
+        self.collectionView.setNeedsDisplay()
+        
+        // If the CollectionView is enabled, animate reload indicator when tugging. If it is disabled, then lock it to the reload position.
+        if (scrollView.isUserInteractionEnabled) {
             if (offset.y <= 0) {
-                let progress = CGFloat(offset.y / SpecificationManager.sharedInstance.tableViewContentRefreshOffset)
+                let progress = CGFloat(offset.y / SpecificationManager.sharedInstance.collectionViewContentRefreshOffset)
                 loadingIndicator.progress = progress
             }
-            
         } else {
-            
-            if (offset.y >= SpecificationManager.sharedInstance.tableViewContentReloadOffset) {
-                let reloadOffset: CGPoint = CGPoint(x: 0, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset)
-                tableView.contentOffset = reloadOffset
+            if (offset.y >= SpecificationManager.sharedInstance.collectionViewContentReloadOffset && !paging) {
+                let reloadOffset: CGPoint = CGPoint(x: 0, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset)
+                collectionView.contentOffset = reloadOffset
             }
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset: CGPoint = scrollView.contentOffset
-        if (offset.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
+        
+        // Content reload.
+        if (offset.y <= SpecificationManager.sharedInstance.collectionViewContentRefreshOffset) {
             print("Should reload content now!")
-            suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
+            suspendCollectionViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset))
             
-            // Manual refresh
-            refreshModelWithDataForWeeks(automatic: false, [0,1])
+            // Manual refresh.
+            self.refreshModelWithDataForWeeks([-1, 0, 1])
+            
+            return
+        }
+        
+        // Content paging.
+        if (fabs(offset.x) > SpecificationManager.sharedInstance.collectionViewContentPageOffset) {
+            print("Paging \(offset.x < 0 ? "left" : "right")")
+            week += (offset.x < 0 ? -1 : 1)
+            
+            // Suspend interaction during paging.
+            suspendCollectionViewPagingInteraction()
+            
+            // Automatic refresh.
+            self.refreshModelWithDataForWeeks(automatic: true, [-1, 0, 1], paging: true)
         }
     }
     
     // MARK: - Private Class Methods
     
-    // Coalesces the events object into one superset. 
-    func coalescedEvents () -> [RGSEventDataModel] {
-        var all: [RGSEventDataModel] = []
-        for set in events {
-            all += set
-        }
-        return all
-    }
-    
-    // Merges a set of events into the event structure. Favors latest entry if existing one is found with identical ID. 
+    // Merges a set of events into the event structure. Favors latest entry if existing one is found with identical ID.
     func mergeEventSet (_ set: [RGSEventDataModel]?) {
         
         // Ignore nil sets.
@@ -167,27 +208,16 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
             return
         }
         
-        // Iterate over each section. If there's nothing new for that section, leave it be. 
-        // If there is, replace it entirely.
-        for s in 0...6 {
-            
-            // Extract a set of events that may potentially replace those in that section.
-            let new = eventsForSection(section: s, in: set!).filter(RGSEventDataModel.filter).sorted(by: RGSEventDataModel.sort)
-            
-            // If there's nothing new, then ignore.
-            if (new.count == 0) {
-                continue
-            }
-            
-            // Otherwise replace the current set with the new set.
-            self.events[s] = new
-        }
+        // Add to the current events set.
+        self.events += set!
+        
+        // Sort events again.
+        self.events.sort(by: RGSEventDataModel.sort)
         
         // Reload tableview.
-        let sections = IndexSet(integersIn: 0...self.tableView.numberOfSections - 1)
-        tableView.reloadSections(sections, with: .automatic)
+        self.collectionView.reloadData()
     }
-
+    
     // Returns the number of events for a given section.
     func eventsForSection (section: Int, in set: [RGSEventDataModel]) -> [RGSEventDataModel] {
         let from: Date = DateManager.sharedInstance.startOfDay(in: section, from: now)
@@ -202,16 +232,33 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         })
     }
     
-    func suspendTableViewInteraction(contentOffset offset: CGPoint) {
-        tableView.setContentOffset(offset, animated: true)
-        tableView.isUserInteractionEnabled = false
+    // Suspends interaction with the UICollectionView during paging.
+    func suspendCollectionViewPagingInteraction() {
+        loadingIndicator.startAnimation()
+        collectionView.setContentOffset(.zero, animated: true)
+        collectionView.isUserInteractionEnabled = false
+        paging = true
+    }
+    
+    // Resumes interaction with the UICollectionView after paging.
+    func resumeCollectionViewPagingInteraction() {
+        loadingIndicator.stopAnimation()
+        collectionView.isUserInteractionEnabled = true
+        paging = false
+    }
+    
+    // Suspends interaction with the UICollectionView during reload.
+    func suspendCollectionViewInteraction(contentOffset offset: CGPoint) {
+        collectionView.setContentOffset(offset, animated: true)
+        collectionView.isUserInteractionEnabled = false
         loadingIndicator.startAnimation()
     }
     
-    func resumeTableViewInteraction() {
+    // Resumes interaction with the UICollectionView after reload.
+    func resumeCollectionViewInteraction() {
         loadingIndicator.stopAnimation()
-        tableView.isUserInteractionEnabled = true
-        tableView.setContentOffset(.zero, animated: true)
+        collectionView.isUserInteractionEnabled = true
+        collectionView.setContentOffset(.zero, animated: true)
     }
     
     // MARK: - Notifications
@@ -222,24 +269,24 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         
         // Save events.
         print("Saving schedule data...")
-        RGSEventDataModel.saveDataModel(coalescedEvents(), context: DataManager.sharedInstance.context)
+        RGSEventDataModel.saveDataModel(events, context: DataManager.sharedInstance.context)
     }
     
     
     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         // Extract destination ViewController, cell tapped in question.
-        let scheduleEventViewController: RGSScheduleEventViewController = segue.destination as! RGSScheduleEventViewController
-        let indexPath: IndexPath = tableView.indexPath(for: sender as! RGSScheduleTableViewCell)!
+        let scheduleEventsViewController: RGSScheduleEventsViewController = segue.destination as! RGSScheduleEventsViewController
+        let indexPath: IndexPath = collectionView.indexPath(for: sender as! RGSScheduleCollectionViewCell)!
         
-        // Set event to be displayed to that corresponding to the tapped cell.
-
-        let event: RGSEventDataModel = events[indexPath.section][indexPath.row]
-        scheduleEventViewController.event = event
-     }
+        // Set date, and events to be displayed.
+        let events: [RGSEventDataModel] = eventsPerDay[indexPath.row - 1]
+        scheduleEventsViewController.events = events
+        scheduleEventsViewController.date = (sender as! RGSScheduleCollectionViewCell).date!
+    }
     
     
     // MARK: - Class Method Overrides
@@ -248,41 +295,30 @@ class RGSScheduleViewController: RGSBaseViewController, UITableViewDelegate, UIS
         super.viewDidLoad()
         setNavigationBarTheme()
         
-        // Register custom UITableViewCell
-        let scheduleTableViewCellNib: UINib = UINib(nibName: "RGSScheduleTableViewCell", bundle: nil)
-        tableView.register(scheduleTableViewCellNib, forCellReuseIdentifier: scheduleTableViewCellIdentifier)
+        // Register custom UICollectionViewCell
+        let scheduleCollectionViewCellNib: UINib = UINib(nibName: "RGSScheduleCollectionViewCell", bundle: nil)
+        collectionView.register(scheduleCollectionViewCellNib, forCellWithReuseIdentifier: scheduleCollectionViewCellIdentifier)
         
-        // Register custom Empty UITableViewCell
-        let scheduleEmptyTableViewCellNib: UINib = UINib(nibName: "RGSEmptyTableViewCell", bundle: nil)
-        tableView.register(scheduleEmptyTableViewCellNib, forCellReuseIdentifier: scheduleEmptyTableViewCellIdentifier)
-        
-        // Configure table to do automatic cell sizing.
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableViewAutomaticDimension
-        
-        // Explicity set tableView background color to clear to avoid odd animation bug where headers are opaque when sliding in.
-        tableView.backgroundColor = UIColor.clear
+        // Set UICollectionView directional lock to avoid diagonal scrolling.
+        self.collectionView.isDirectionalLockEnabled = true
         
         // Attempt to load Schedule Model from Database.
         if let set = RGSEventDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSEventDataModel.sort) {
-            mergeEventSet(set)
+            print("Loaded set okay (\(set.count))!")
+            self.events = set
         }
         
         // Attempt to refresh Schedule Model by querying the server: Get next two weeks.
-        self.refreshModelWithDataForWeeks([0,1])
-        
-        
-        // Set background color for the UITableView.
-        self.tableView.backgroundColor = UIColor.clear
+        self.refreshModelWithDataForWeeks([-1, 0, 1])
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
         // Flushing events
         events = [];
     }
-
+    
 }
 
 extension RGSScheduleViewController {
@@ -291,33 +327,43 @@ extension RGSScheduleViewController {
     
     // MARK: - Network GET Requests.
     
-    func refreshModelWithDataForWeeks(automatic: Bool = true, _ weeks: [Int]) {
-        
-        // If no weeks, return.
-        if (weeks.count == 0) {
-            return
-        }
+    func refreshModelWithDataForWeeks (automatic: Bool = true, _ weeks: [Int], paging: Bool = false) {
+        var set: [RGSEventDataModel] = []
         
         // If popup was dismissed, undo upon manual refresh.
         if (automatic == false) {
             NetworkManager.sharedInstance.userAcknowledgedNetworkError = false
         }
         
-        // Obtain URL.
-        let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: weeks.first!)
-        
-        // Dispatch request, merge results on completion.
-        NetworkManager.sharedInstance.makeGetRequest(url: url, onCompletion: {(data: Data?, _ : URLResponse?) -> Void in
-            let fetched: [RGSEventDataModel]? = DataManager.sharedInstance.parseEventData(data: data)
-            sleep(1)
-            DispatchQueue.main.async() {
-                self.mergeEventSet(fetched)
-                self.resumeTableViewInteraction()
-                self.displayWarningPopupIfNeeded(animated: true)
+        // Allow a dedicated thread to synchronously fetch all data.
+        DispatchQueue.global(qos: .default).async {
+            
+            // Fetch data for each week specified.
+            for week in weeks {
+                
+                // Create URL.
+                let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: week)
+                
+                // Perform synchronous request.
+                let (data, _) = NetworkManager.sharedInstance.makeSynchronousGetRequest(url: url)
+                
+                // Add to set.
+                if let items = DataManager.sharedInstance.parseEventData(data: data) {
+                    set += items
+                }
             }
-        })
-        
-        // Perform recursive call.
-        refreshModelWithDataForWeeks(automatic: automatic, Array(weeks.dropFirst(1)))
+            
+            // Induce small delay, unlock interaction, set events.
+            sleep(1)
+            DispatchQueue.main.async {
+                if (paging) {
+                    self.resumeCollectionViewPagingInteraction()
+                } else {
+                    self.resumeCollectionViewInteraction()
+                }
+                self.displayWarningPopupIfNeeded(animated: true)
+                self.events = set.sorted(by: RGSEventDataModel.sort)
+            }
+        }
     }
 }

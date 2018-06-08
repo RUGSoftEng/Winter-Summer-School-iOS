@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="scheduleCollectionViewCellIdentifier" id="gTV-IL-0wX" customClass="RGSScheduleCollectionViewCell" customModule="SummerSchool" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="83" height="94"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="83" height="94"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLk-gW-zCU">
+                        <rect key="frame" x="0.0" y="62" width="83" height="32"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pyo-pu-pVf">
+                                <rect key="frame" x="8" y="8" width="67" height="16"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92156862750000001" green="0.25490196079999999" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Pyo-pu-pVf" secondAttribute="bottom" constant="8" id="C1d-4Z-hAq"/>
+                            <constraint firstItem="Pyo-pu-pVf" firstAttribute="leading" secondItem="fLk-gW-zCU" secondAttribute="leading" constant="8" id="DYn-iu-4dT"/>
+                            <constraint firstItem="Pyo-pu-pVf" firstAttribute="top" secondItem="fLk-gW-zCU" secondAttribute="top" constant="8" id="Fll-Kv-6qD"/>
+                            <constraint firstAttribute="trailing" secondItem="Pyo-pu-pVf" secondAttribute="trailing" constant="8" id="Qr8-vH-Eqg"/>
+                            <constraint firstAttribute="height" constant="32" id="uYp-5b-H6z"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cil-mL-GZk">
+                        <rect key="frame" x="54" y="0.0" width="29" height="29"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ic-0e-Ld1">
+                                <rect key="frame" x="4" y="4" width="21" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.93054349260000002" green="0.1973439145" blue="0.11530824369999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="5Ic-0e-Ld1" secondAttribute="bottom" constant="4" id="JRE-Z9-sPk"/>
+                            <constraint firstAttribute="height" constant="29" id="KV9-H1-JfH"/>
+                            <constraint firstItem="5Ic-0e-Ld1" firstAttribute="top" secondItem="Cil-mL-GZk" secondAttribute="top" constant="4" id="c3l-Z9-TQD"/>
+                            <constraint firstAttribute="width" constant="29" id="gdg-X2-9Y9"/>
+                            <constraint firstItem="5Ic-0e-Ld1" firstAttribute="leading" secondItem="Cil-mL-GZk" secondAttribute="leading" constant="4" id="lBl-6Y-ymi"/>
+                            <constraint firstAttribute="trailing" secondItem="5Ic-0e-Ld1" secondAttribute="trailing" constant="4" id="x7h-gy-WRi"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="29" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uil-y4-daO">
+                        <rect key="frame" x="8" y="8" width="67" height="54"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="32"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="fLk-gW-zCU" secondAttribute="trailing" id="04G-Ll-Yw2"/>
+                <constraint firstAttribute="trailing" secondItem="Cil-mL-GZk" secondAttribute="trailing" id="1xP-hv-hsN"/>
+                <constraint firstItem="uil-y4-daO" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="6Eb-Hk-wC5"/>
+                <constraint firstItem="fLk-gW-zCU" firstAttribute="top" secondItem="uil-y4-daO" secondAttribute="bottom" id="C2B-kr-CCL"/>
+                <constraint firstAttribute="trailing" secondItem="uil-y4-daO" secondAttribute="trailing" constant="8" id="Cu8-1c-buZ"/>
+                <constraint firstAttribute="bottom" secondItem="fLk-gW-zCU" secondAttribute="bottom" id="KUl-vV-b9r"/>
+                <constraint firstItem="fLk-gW-zCU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="OQX-Az-Rds"/>
+                <constraint firstItem="uil-y4-daO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="i5Y-7H-raa"/>
+                <constraint firstItem="Cil-mL-GZk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="jQs-ET-9Zd"/>
+            </constraints>
+            <size key="customSize" width="83" height="94"/>
+            <connections>
+                <outlet property="eventCountHighlightView" destination="Cil-mL-GZk" id="fQ6-rg-j3C"/>
+                <outlet property="eventCountLabel" destination="5Ic-0e-Ld1" id="sjw-Er-07r"/>
+                <outlet property="monthDayLabel" destination="uil-y4-daO" id="igZ-H6-RBW"/>
+                <outlet property="weekdayLabel" destination="Pyo-pu-pVf" id="1hq-ZT-7Zp"/>
+                <outlet property="weekdayLabelView" destination="fLk-gW-zCU" id="7Uw-Q0-qWk"/>
+            </connections>
+            <point key="canvasLocation" x="-242.5" y="-270"/>
+        </collectionViewCell>
+    </objects>
+</document>

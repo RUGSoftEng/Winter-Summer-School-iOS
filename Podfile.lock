@@ -76,7 +76,7 @@ DEPENDENCIES:
   - FirebaseUI/Google
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Bolts
     - Crashlytics
     - Fabric
@@ -114,4 +114,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ed478861d2b2ce65476d08412291295544de418b
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3
