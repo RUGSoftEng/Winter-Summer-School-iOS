@@ -69,6 +69,9 @@ final class SpecificationManager {
     /// The offset at which a UICollectionView should rest when running a reload animation.
     let collectionViewContentReloadOffset: CGFloat = -45
     
+    /// The offset at which a UICollectionView will page over.
+    let collectionViewContentPageOffset: CGFloat = 45
+    
     /// The minimum allowed height for a title label.
     let titleLabelMinimumHeight: CGFloat = 72
     

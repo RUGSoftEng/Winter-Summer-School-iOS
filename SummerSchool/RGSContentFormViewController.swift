@@ -94,6 +94,10 @@ class RGSContentFormViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    func textViewDidChange(_ textView: UITextView) {
+        submitButton.isEnabled = requiredFieldsComplete()
+    }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.resignFirstResponder()
         submitButton.isEnabled = requiredFieldsComplete()

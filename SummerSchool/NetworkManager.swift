@@ -188,6 +188,41 @@ final class NetworkManager {
         task.resume()
     }
     
+    /// Performs a synchronous GET request to the given URL. Executes a callback with the
+    /// retreived data. The results may be nil.
+    ///
+    /// - Parameters:
+    ///     - url: A string describing the resource to aim the request at.
+    ///     - onCompletion: A closure to execute upon completion.
+    func makeSynchronousGetRequest (url: String) -> (Data?, URLResponse?) {
+        
+        // Construct Request.
+        var request: URLRequest = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
+        let session: URLSession = URLSession.shared
+        
+        // Start Network Activity Indicator.
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }
+        
+        // Perform sychronous request.
+        let (data, response, _) = session.synchronousDataTask(with: URL(string:url)!)
+        
+        // Stop Network Activity Indicator
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }
+        
+        // Update network status. Assumes all requests require a data response.
+        DispatchQueue.main.async {
+            self.hasNetworkConnection = (data != nil)
+        }
+        
+        // Return results of synchronous request.
+        return (data, response)
+    }
+    
     /// Performs a POST request to the given URL, executes a callback with the response
     /// from the server.
     ///

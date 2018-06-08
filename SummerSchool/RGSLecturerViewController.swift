@@ -179,7 +179,7 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
         super.viewDidLoad()
         setNavigationBarTheme()
         
-        // Register Custom UITableViewCell
+        // Register Custom UICollectionViewCell
         let lecturerCollectionViewCellNib: UINib = UINib(nibName: "RGSLecturerCollectionViewCell", bundle: nil)
         collectionView.register(lecturerCollectionViewCellNib, forCellWithReuseIdentifier: lecturerCollectionViewCellIdentifier)
         

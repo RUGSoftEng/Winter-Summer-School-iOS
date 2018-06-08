@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G20015" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="a5b-ub-UTL">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="a5b-ub-UTL">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -379,35 +379,80 @@
                                     <constraint firstAttribute="width" constant="45" id="uhP-6M-Js4"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="chZ-hI-ZQd">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RnM-7P-YMo">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="d4h-Ca-2Qe">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
                                 <connections>
-                                    <outlet property="dataSource" destination="T6J-SD-IM6" id="Evh-yN-D9k"/>
-                                    <outlet property="delegate" destination="T6J-SD-IM6" id="MZd-Mo-LL2"/>
+                                    <outlet property="dataSource" destination="T6J-SD-IM6" id="hgc-8z-wdO"/>
+                                    <outlet property="delegate" destination="T6J-SD-IM6" id="W7M-TH-fzv"/>
                                 </connections>
-                            </tableView>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XQL-Gf-vtb" firstAttribute="top" secondItem="chZ-hI-ZQd" secondAttribute="bottom" id="Cf7-vW-oY5"/>
-                            <constraint firstItem="chZ-hI-ZQd" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="EH6-zS-YSh"/>
-                            <constraint firstItem="chZ-hI-ZQd" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" id="Kch-n1-ZCA"/>
+                            <constraint firstItem="RnM-7P-YMo" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="6Lt-a8-ySb"/>
+                            <constraint firstAttribute="trailing" secondItem="RnM-7P-YMo" secondAttribute="trailing" id="Tbq-Sc-7DC"/>
                             <constraint firstItem="5c1-CI-cI5" firstAttribute="centerX" secondItem="VxF-mh-CWm" secondAttribute="centerX" id="ZLO-Ak-UzQ"/>
+                            <constraint firstItem="XQL-Gf-vtb" firstAttribute="top" secondItem="RnM-7P-YMo" secondAttribute="bottom" id="aKU-8w-Oy9"/>
                             <constraint firstItem="5c1-CI-cI5" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" constant="8" id="eVm-Mn-w18"/>
-                            <constraint firstAttribute="trailing" secondItem="chZ-hI-ZQd" secondAttribute="trailing" id="fMl-c0-ACD"/>
+                            <constraint firstItem="RnM-7P-YMo" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" id="hKT-Be-oBX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cjs-Rx-Bhp"/>
                     <connections>
+                        <outlet property="collectionView" destination="RnM-7P-YMo" id="ORC-7F-DnU"/>
                         <outlet property="loadingIndicator" destination="5c1-CI-cI5" id="KYE-B1-N8H"/>
-                        <outlet property="tableView" destination="chZ-hI-ZQd" id="cnv-F7-sNG"/>
-                        <segue destination="d1i-pk-8EY" kind="show" identifier="RGSScheduleEventViewController" id="gjR-aK-uAm"/>
+                        <segue destination="i6J-Sw-VcV" kind="show" identifier="RGSScheduleEventsViewController" id="57R-L3-ibb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GuE-jz-3XK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2957.5999999999999" y="2129.6851574212897"/>
+        </scene>
+        <!--Schedule Events View Controller-->
+        <scene sceneID="kYB-bY-ggL">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="i6J-Sw-VcV" customClass="RGSScheduleEventsViewController" customModule="SummerSchool" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="81Y-Mt-pFD"/>
+                        <viewControllerLayoutGuide type="bottom" id="Yoy-ml-YBB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dL5-9J-Ukq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ksm-Ty-nxS">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="i6J-Sw-VcV" id="CRU-5Y-ZQd"/>
+                                    <outlet property="delegate" destination="i6J-Sw-VcV" id="Bg5-Yk-dMJ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Ksm-Ty-nxS" firstAttribute="top" secondItem="81Y-Mt-pFD" secondAttribute="bottom" id="Xx5-O7-4Xa"/>
+                            <constraint firstAttribute="trailing" secondItem="Ksm-Ty-nxS" secondAttribute="trailing" id="Zfj-J3-IlG"/>
+                            <constraint firstItem="Yoy-ml-YBB" firstAttribute="top" secondItem="Ksm-Ty-nxS" secondAttribute="bottom" id="rJ3-Ai-RYa"/>
+                            <constraint firstItem="Ksm-Ty-nxS" firstAttribute="leading" secondItem="dL5-9J-Ukq" secondAttribute="leading" id="vrC-kI-bZH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="Ksm-Ty-nxS" id="qEL-0H-GRK"/>
+                        <segue destination="d1i-pk-8EY" kind="show" identifier="RGSScheduleEventViewController" id="SvE-fF-iDJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VCL-ih-tKL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3728.8000000000002" y="2129.6851574212897"/>
         </scene>
         <!--Schedule Event View Controller-->
         <scene sceneID="vDm-CM-DUa">
@@ -491,7 +536,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DKX-ne-taf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3717.5999999999999" y="2129.6851574212897"/>
+            <point key="canvasLocation" x="3730" y="2831"/>
         </scene>
         <!--Info Detail View Controller-->
         <scene sceneID="e6j-eP-ybL">
@@ -1102,12 +1147,11 @@
                     <tabBarItem key="tabBarItem" title="Info" image="InfoIcon" id="jR0-Xv-eRC"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Fpt-zF-JX9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="hqM-e8-lUw">
-                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -1125,7 +1169,7 @@
                     <tabBarItem key="tabBarItem" title="Announcements" image="AnnouncementIcon" id="D3G-fl-qmg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dHh-vR-yiL">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1144,7 +1188,7 @@
                     <tabBarItem key="tabBarItem" title="Staff" image="LecturerIcon" id="zc0-T6-99u"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Vr6-gT-L6p">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1163,7 +1207,7 @@
                     <tabBarItem key="tabBarItem" title="Schedule" image="ScheduleIcon" id="u9x-IE-y4w"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="b5c-Jc-n4C">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1182,7 +1226,7 @@
                     <tabBarItem key="tabBarItem" title="Forum" image="ForumIcon" id="mnA-SW-rZg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dcl-re-1yo">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
