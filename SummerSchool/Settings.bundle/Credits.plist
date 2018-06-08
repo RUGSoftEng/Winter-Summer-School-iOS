@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>StringsTable</key>
+	<string>Credits</string>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Service Infrastructure</string>
+		</dict>
+		<dict>
+			<key>Key</key>
+			<string>contributor1</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Nikolas Hadjipanayi</string>
+			<key>DefaultValue</key>
+			<string>Backend</string>
+		</dict>
+		<dict>
+			<key>Key</key>
+			<string>contributor2</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Daan Raatjes</string>
+			<key>DefaultValue</key>
+			<string>Backend</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Mobile Applications</string>
+		</dict>
+		<dict>
+			<key>Key</key>
+			<string>contributor3</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Jeongkyun Oh</string>
+			<key>DefaultValue</key>
+			<string>Android</string>
+		</dict>
+		<dict>
+			<key>Key</key>
+			<string>contributor4</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Charles Randolph</string>
+			<key>DefaultValue</key>
+			<string>iOS</string>
+		</dict>
+	</array>
+</dict>
+</plist>
