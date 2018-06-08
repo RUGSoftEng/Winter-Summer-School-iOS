@@ -832,12 +832,12 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="IGZ-BO-FyE" kind="relationship" relationship="viewControllers" id="iBG-Zm-VdZ"/>
-                        <segue destination="sTk-X4-IfY" kind="relationship" relationship="viewControllers" id="JCf-JY-J49"/>
-                        <segue destination="C9G-kN-NRI" kind="relationship" relationship="viewControllers" id="pWY-Li-uqz"/>
-                        <segue destination="gJc-uQ-eIB" kind="relationship" relationship="viewControllers" id="VJW-YZ-Sg2"/>
-                        <segue destination="vXv-jV-zAE" kind="relationship" relationship="viewControllers" id="C1U-qT-EVf"/>
                         <segue destination="DwC-Yb-c8X" kind="presentation" identifier="showLockScreenViewController" modalTransitionStyle="crossDissolve" id="rsm-cz-ixa"/>
+                        <segue destination="sTk-X4-IfY" kind="relationship" relationship="viewControllers" id="epc-NU-E9K"/>
+                        <segue destination="IGZ-BO-FyE" kind="relationship" relationship="viewControllers" id="ZAs-zj-hUw"/>
+                        <segue destination="C9G-kN-NRI" kind="relationship" relationship="viewControllers" id="5DE-RM-9rh"/>
+                        <segue destination="gJc-uQ-eIB" kind="relationship" relationship="viewControllers" id="rNg-XQ-enh"/>
+                        <segue destination="vXv-jV-zAE" kind="relationship" relationship="viewControllers" id="chf-eC-YVk"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ot-91-5b4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1179,7 +1179,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vGJ-xi-UL6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-14" y="1334"/>
+            <point key="canvasLocation" x="-4" y="1334"/>
         </scene>
         <!--Staff-->
         <scene sceneID="AnF-sG-6pZ">
