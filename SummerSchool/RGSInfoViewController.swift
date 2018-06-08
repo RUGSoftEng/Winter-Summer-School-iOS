@@ -61,12 +61,12 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (generalInfo == nil) ? 0 : generalInfo!.count
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return generalInfoTableViewCellHeight + 4
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return generalInfoTableViewCellHeight
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return (generalInfo == nil) ? 0 : generalInfo!.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -80,6 +80,7 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
         let generalInfoItem: RGSGeneralInfoDataModel = generalInfo[indexPath.row]
         cell.title = generalInfoItem.title
         cell.category = generalInfoItem.category
+        cell.isAdmin = (generalInfoItem.schoolId == SpecificationManager.sharedInstance.adminSchoolId)
         return cell
     }
     

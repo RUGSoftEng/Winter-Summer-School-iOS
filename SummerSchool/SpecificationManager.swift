@@ -57,6 +57,11 @@ final class SpecificationManager {
     
     /// ***************************************************************************
     
+    /// The schoolId for the administrator account.
+    let adminSchoolId: String = "000000000000000000000001"
+    
+    /// ***************************************************************************
+    
     /// The drag offset at which a UITableView should refresh its contents
     let tableViewContentRefreshOffset: CGFloat = -100
     

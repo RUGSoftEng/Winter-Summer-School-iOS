@@ -89,6 +89,7 @@ class RGSScheduleCollectionViewCell: UICollectionViewCell {
     // MARK: - Class Method Overrides
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         
         // Force subviews to be drawn before changes are made.
         self.layoutIfNeeded()

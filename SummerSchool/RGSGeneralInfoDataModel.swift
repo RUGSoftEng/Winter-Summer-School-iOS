@@ -26,7 +26,7 @@ func toInfoCategory (category: String) -> InfoCategory {
 class RGSGeneralInfoDataModel: RGSDataModelDelegate {
     
     /// MARK: - Properties
-    var id, title, description: String?
+    var id, schoolId, title, description: String?
     var category: InfoCategory?
     var date: Date?
     
@@ -36,6 +36,7 @@ class RGSGeneralInfoDataModel: RGSDataModelDelegate {
     static var entityKey: [String: String] = [
         "entityName"    : "GeneralInfoEntity",
         "id"            : "id",
+        "schoolId"      : "schoolId",
         "title"         : "title",
         "description"   : "generalInfoDescription",
         "category"      : "category",
@@ -47,6 +48,7 @@ class RGSGeneralInfoDataModel: RGSDataModelDelegate {
     func saveTo (managedObject: NSManagedObject) {
         let entityKey = RGSGeneralInfoDataModel.entityKey
         managedObject.setValue(id, forKey: entityKey["id"]!)
+        managedObject.setValue(schoolId, forKey: entityKey["schoolId"]!)
         managedObject.setValue(title, forKey: entityKey["title"]!)
         managedObject.setValue(description, forKey: entityKey["description"]!)
         managedObject.setValue(NSNumber.init(integerLiteral: (category?.rawValue)!), forKey: entityKey["category"]!)
@@ -62,6 +64,7 @@ class RGSGeneralInfoDataModel: RGSDataModelDelegate {
         // Mandatory fields.
         guard
             let id              = json[keys["id"]!] as? String,
+            let schoolId        = json[keys["schoolId"]!] as? String,
             let title           = json[keys["title"]!] as? String,
             let description     = json[keys["body"]!] as? String,
             let categoryString  = json[keys["category"]!] as? String,
@@ -69,6 +72,7 @@ class RGSGeneralInfoDataModel: RGSDataModelDelegate {
         else { return nil }
         
         self.id                 = id
+        self.schoolId           = schoolId
         self.title              = title
         self.description        = description
         self.category           = toInfoCategory(category: categoryString)
@@ -83,6 +87,7 @@ class RGSGeneralInfoDataModel: RGSDataModelDelegate {
         // Mandatory fields.
         guard
             let id              = managedObject.value(forKey: entityKey["id"]!) as? String,
+            let schoolId        = managedObject.value(forKey: entityKey["schoolId"]!) as? String,
             let title           = managedObject.value(forKey: entityKey["title"]!) as? String,
             let description     = managedObject.value(forKey: entityKey["description"]!) as? String,
             let category        = managedObject.value(forKey: entityKey["category"]!) as? Int,
@@ -90,6 +95,7 @@ class RGSGeneralInfoDataModel: RGSDataModelDelegate {
         else { return nil }
         
         self.id                 = id
+        self.schoolId           = schoolId
         self.title              = title
         self.description        = description
         self.category           = InfoCategory.init(rawValue: category)
@@ -102,6 +108,14 @@ extension RGSGeneralInfoDataModel {
     /// Sorting method for an array of class instances.
     static func sort (a: RGSGeneralInfoDataModel, b: RGSGeneralInfoDataModel) -> Bool {
         return (a.date! > b.date!)
+    }
+    
+    /// Filtering method for an array of class instances.
+    static func filter (model: RGSGeneralInfoDataModel) -> Bool {
+        if (SpecificationManager.sharedInstance.schoolId != nil) {
+            return (model.schoolId == SpecificationManager.sharedInstance.schoolId! || model.schoolId == SpecificationManager.sharedInstance.adminSchoolId)
+        }
+        return true
     }
     
     /// Parses a array of JSON objects into an array of data model instances.
@@ -132,8 +146,8 @@ extension RGSGeneralInfoDataModel {
             models.append(model!)
         }
         
-        // Return sorted models.
-        return models.sorted(by: sort)
+        // Return sorted and filtered models.
+        return models.sorted(by: sort).filter(RGSGeneralInfoDataModel.filter)
     }
     
     /// Retrieves all model entities from Core Data, and returns them in an array
