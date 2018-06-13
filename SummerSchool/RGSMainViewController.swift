@@ -50,16 +50,6 @@ class RGSMainViewController: UITabBarController {
     
     // MARK: - Private Methods
     
-    /// Takes a screenshot of the current screen for use with the LockScreen ViewContoller
-    private func getScreenShot() -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, true, 1.0)
-        self.view.drawHierarchy(in: self.view.bounds, afterScreenUpdates: true)
-        let screenShot: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return screenShot
-    }
-    
-    
     // MARK: - Class Method Overrides
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,9 +90,6 @@ class RGSMainViewController: UITabBarController {
         
         // Fetch LockScreen ViewController.
         let lockScreenViewController: RGSLockScreenViewController = segue.destination as! RGSLockScreenViewController
-        
-        // Set the ScreenShot for the background.
-        lockScreenViewController.screenShot = getScreenShot()
 
     }
  

@@ -60,7 +60,6 @@ class RGSInfoDetailViewController: RGSBaseViewController, NSLayoutManagerDelegat
             
             // Set title, adjust height to best fit.
             if let title = generalInfoItem.title {
-                print(title)
                 titleLabel.text = title
                 let heightThatFits: CGFloat = UILabel.heightForString(text: title, with: titleLabel.font, bounded: titleLabel.bounds.width)
                 titleLabelHeight.constant = max(min(SpecificationManager.sharedInstance.titleLabelMaximumHeight, heightThatFits), SpecificationManager.sharedInstance.titleLabelMinimumHeight)

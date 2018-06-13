@@ -128,7 +128,6 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset: CGPoint = scrollView.contentOffset
         if (offset.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
-            print("Should reload content now!")
             suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
             
             // Manual refresh.
@@ -197,7 +196,6 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     
     /// Method for when user invokes authentication button.
     func userDidRequestAuthentication(sender: UITableViewCell) -> Void {
-        print("User did request authentication!")
         
         // Initialize and present the authentication view controller.
         let authViewController = SecurityManager.sharedInstance.authenticationUI!.authViewController()
@@ -206,7 +204,6 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     
     /// Method for when user invokes deauthentication button.
     func userDidRequestDeauthentication (sender: UITableViewCell) -> Void{
-        print("User did request deauthentication!")
         
         // Signal to SecurityManager to sign the user out.
         SecurityManager.sharedInstance.deauthenticateUser()
@@ -215,7 +212,6 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     /// Method for when the user submits content.
     /// contentString: - A string composing the body of the submitted content.
     func userDidSubmitContent (contentString: String?, sender: UITableViewCell) -> Void {
-        print("User did request to submit comment: \(String(describing: contentString))")
         if let comment = contentString {
             dispatchCommentPostRequest(comment)
         }
@@ -234,15 +230,7 @@ class RGSForumThreadViewController: RGSBaseViewController, UITableViewDelegate, 
     
     /// Handler for changes to user authentication state.
     func userAuthenticationStateDidChange (_ notification: Notification) -> Void {
-        print("RGSForumThread: Received change of notification state message!")
-        
-        // Test.
-        if let userInfo = notification.userInfo as? [String: String] {
-            print("Signed In As \(String(describing: userInfo["userDisplayName"]))!")
-        } else {
-            print("Signed Out!")
-        }
-        
+
         // Update inputCell appearance.
         if let inputTableViewCell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? RGSForumInputTableViewCell {
             inputTableViewCell.isAuthenticated = (notification.userInfo != nil)
@@ -398,7 +386,6 @@ extension RGSForumThreadViewController {
                 if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
                     self.displayNetworkActionAlert("Unable to submit comment!")
                 } else {
-                    print("The thread was submitted. Refreshing the model data...")
                     self.refreshModelData()
                 }
             }
@@ -427,7 +414,6 @@ extension RGSForumThreadViewController {
                 if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
                     self.displayNetworkActionAlert("Unable to delete comment!")
                 } else {
-                    print("The thread was deleted. Refreshing the model data...")
                     self.refreshModelData()
                 }
             }

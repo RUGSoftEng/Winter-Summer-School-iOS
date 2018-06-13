@@ -87,7 +87,6 @@ class RGSScheduleEventViewController: RGSBaseViewController, RGSTabViewDelegate,
     // MARK: - Actions
     
     @IBAction func didPressTimesButton(_ sender: UIControl) -> Void {
-        print("Doing nothing!")
     }
     
     // MARK: - Superclass Method Overrides

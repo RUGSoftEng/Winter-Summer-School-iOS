@@ -103,7 +103,6 @@ class RGSBaseViewController: UIViewController {
     
     func pushSettingsController(_ sender: UIBarButtonItem?) {
         if (self.navigationController != nil) {
-            print("You tapped settings!")
             
             // Temporarily open the Settings page in the Settings application
             if let url = NSURL(string: UIApplicationOpenSettingsURLString) as URL? {

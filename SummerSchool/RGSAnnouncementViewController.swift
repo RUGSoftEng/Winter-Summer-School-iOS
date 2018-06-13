@@ -96,7 +96,6 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset: CGPoint = scrollView.contentOffset
         if (offset.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
-            print("Should reload content now!")
             suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
             
             // Manual refresh.
@@ -144,7 +143,6 @@ class RGSAnnouncementViewController: RGSBaseViewController, UITableViewDelegate,
         super.applicationWillResignActive(notification: notification)
         
         if (announcements != nil) {
-            print("Saving announcement data...")
             RGSAnnouncementDataModel.saveDataModel(announcements, context: DataManager.sharedInstance.context)
         }
     }

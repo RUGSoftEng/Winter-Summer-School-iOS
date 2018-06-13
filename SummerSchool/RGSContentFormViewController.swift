@@ -60,13 +60,11 @@ class RGSContentFormViewController: UIViewController, UITextViewDelegate {
     
     /// Action for tap on the cancel button.
     @IBAction func userDidTapCancelButton (sender: UIControl) {
-        print("User cancelled!")
         showParentViewController()
     }
     
     /// Action for tap on the submit button.
     @IBAction func userDidTapSubmitButton (sender: UIControl) {
-        print("User submits their post...")
         if (delegate != nil) {
             delegate?.submitContentForm(with: titleText!, and: bodyText!)
         }

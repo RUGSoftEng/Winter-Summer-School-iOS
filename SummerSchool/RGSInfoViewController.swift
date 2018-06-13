@@ -109,7 +109,6 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset: CGPoint = scrollView.contentOffset
         if (offset.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
-            print("Should reload content now!")
             suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
             
             // Manual refresh
@@ -157,7 +156,6 @@ class RGSInfoViewController: RGSBaseViewController, UITableViewDelegate, UITable
         super.applicationWillResignActive(notification: notification)
         
         if (generalInfo != nil) {
-            print("Saving generalInfo data...")
             RGSGeneralInfoDataModel.saveDataModel(generalInfo, context: DataManager.sharedInstance.context)
         }
     }

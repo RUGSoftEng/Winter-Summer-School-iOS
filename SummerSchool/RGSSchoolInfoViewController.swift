@@ -15,9 +15,6 @@ class RGSSchoolInfoViewController: UIViewController, UIPopoverPresentationContro
     /// Default placeholder string for the date range.
     let defaultDuration: String = "<Unknown Range>"
     
-    /// The background over which a blurred effect will be placed.
-    var screenShot: UIImage?
-    
     // MARK: - Outlets
     
     /// The UIView container for the entire card and button assembly.
@@ -117,15 +114,6 @@ class RGSSchoolInfoViewController: UIViewController, UIPopoverPresentationContro
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Set screenshot
-        self.imageView.image = screenShot
-        
-        // Apply a blur effect
-        let blurEffect = UIBlurEffect(style: .light)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        blurView.frame = self.imageView.bounds
-        self.imageView.addSubview(blurView)
         
         // Round the corners of the ContentView, redraw it
         self.contentView.layer.cornerRadius = 15.0

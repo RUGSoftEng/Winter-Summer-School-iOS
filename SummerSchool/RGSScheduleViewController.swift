@@ -32,7 +32,7 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
     let itemsPerRow: CGFloat = 3
     
     /// Section insets.
-    let sectionInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+    let sectionInsets = UIEdgeInsets(top: 10.0, left: 15.0, bottom: 10.0, right: 15.0)
     
     /// The events data model.
     var events: [RGSEventDataModel] = [] {
@@ -84,9 +84,7 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
         collectionView.deselectItem(at: indexPath, animated: false)
         
         if (indexPath.row % 8 == 0 || eventsPerDay[indexPath.row - 1].count == 0) {
-            print("You have no business visiting this cell!")
         } else {
-            print("You tapped: \(weekdays[indexPath.row]) with exactly: \(eventsPerDay[indexPath.row - 1].count)")
             self.performSegue(withIdentifier: "RGSScheduleEventsViewController", sender: cell)
         }
     }
@@ -176,7 +174,6 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
         
         // Content reload.
         if (offset.y <= SpecificationManager.sharedInstance.collectionViewContentRefreshOffset) {
-            print("Should reload content now!")
             suspendCollectionViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset))
             
             // Manual refresh.
@@ -187,7 +184,6 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
         
         // Content paging.
         if (fabs(offset.x) > SpecificationManager.sharedInstance.collectionViewContentPageOffset) {
-            print("Paging \(offset.x < 0 ? "left" : "right")")
             week += (offset.x < 0 ? -1 : 1)
             
             // Suspend interaction during paging.
@@ -268,7 +264,6 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
         super.applicationWillResignActive(notification: notification)
         
         // Save events.
-        print("Saving schedule data...")
         RGSEventDataModel.saveDataModel(events, context: DataManager.sharedInstance.context)
     }
     
@@ -304,7 +299,6 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
         
         // Attempt to load Schedule Model from Database.
         if let set = RGSEventDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSEventDataModel.sort) {
-            print("Loaded set okay (\(set.count))!")
             self.events = set
         }
         

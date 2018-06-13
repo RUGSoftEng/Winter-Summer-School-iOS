@@ -12,9 +12,6 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
     
     // MARK: - Variables & Constants
     
-    /// The background over which a blurred effect will be placed.
-    var screenShot: UIImage?
-    
     // MARK: - Outlets
     
     /// The UIView container for the other contents.
@@ -207,9 +204,6 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
             self.usernameTextField.text = ""
             self.authorizationCodeTextField.text = ""
             
-            if let schoolInfoViewController: RGSSchoolInfoViewController = segue.destination as? RGSSchoolInfoViewController {
-                schoolInfoViewController.screenShot = self.screenShot
-            }
         }
     }
 
@@ -250,15 +244,6 @@ class RGSLockScreenViewController: UIViewController, UIPopoverPresentationContro
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Set screenshot
-        self.imageView.image = screenShot
-        
-        // Apply a blur effect
-        let blurEffect = UIBlurEffect(style: .light)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        blurView.frame = self.imageView.bounds
-        self.imageView.addSubview(blurView)
         
         // Round the corners of the ContentView, redraw it
         self.contentView.layer.cornerRadius = 15.0

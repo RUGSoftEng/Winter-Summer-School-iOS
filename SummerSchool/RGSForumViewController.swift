@@ -33,10 +33,7 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     /// Data for the UITableView
     var forumThreads: [RGSForumThreadDataModel]! {
         didSet (oldForumThreads) {
-            if (forumThreads != nil) {
-                print("Got data!")
-                print(forumThreads)
-            } else {
+            if (forumThreads == nil) {
                 forumThreads = oldForumThreads
             }
         }
@@ -111,14 +108,9 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        print("forumThread count prior = \(forumThreads.count)")
         
         // Extract thread.
         let thread: RGSForumThreadDataModel = forumThreads.remove(at: indexPath.row)
-
-        print("IndexPath info: section = \(indexPath.section), row = \(indexPath.row)!")
-        
-        print("forumThread count after = \(forumThreads.count)")
         
         // Animate removal.
         tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
@@ -150,7 +142,6 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset: CGPoint = scrollView.contentOffset
         if (offset.y <= SpecificationManager.sharedInstance.tableViewContentRefreshOffset) {
-            print("Should reload content now!")
             suspendTableViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.tableViewContentReloadOffset))
             
             // Manual refresh.
@@ -207,7 +198,6 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     
     /// Method for when user invokes authentication button.
     func userDidRequestAuthentication(sender: UITableViewCell) -> Void {
-        print("User did request authentication!")
         
         // Initialize and present the authentication view controller.
         let authViewController = SecurityManager.sharedInstance.authenticationUI!.authViewController()
@@ -216,7 +206,6 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     
     /// Method for when user invokes deauthentication button.
     func userDidRequestDeauthentication (sender: UITableViewCell) -> Void{
-        print("User did request deauthentication!")
         
         // Signal to SecurityManager to sign the user out.
         SecurityManager.sharedInstance.deauthenticateUser()
@@ -225,7 +214,6 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
     /// Method for when the user submits content.
     /// contentString: - A string composing the body of the submitted content.
     func userDidSubmitContent (contentString: String?, sender: UITableViewCell) -> Void {
-        print("User did request to submit thread")
         performSegue(withIdentifier: contentFormSegueIdentifier, sender: self)
     }
     
@@ -252,14 +240,12 @@ class RGSForumViewController: RGSBaseViewController, UITableViewDelegate, UITabl
         super.applicationWillResignActive(notification: notification)
         
         if (forumThreads != nil) {
-            print("Saving forum threads...")
             RGSForumThreadDataModel.saveDataModel(forumThreads, context: DataManager.sharedInstance.context)
         }
     }
     
     /// Handler for changes to user authentication state.
     func userAuthenticationStateDidChange (_ notification: Notification) -> Void {
-        print("RGSForumViewController: Received change of notification state!")
         
         // Update buttonCell appearance.
         if let buttonTableViewCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RGSForumButtonTableViewCell {
@@ -412,7 +398,6 @@ extension RGSForumViewController {
                 for (i, item) in model.enumerated() {
                     item.image = resource[i]
                 }
-                print("Reloading secondary data!")
                 self.tableView.reloadData(in: 1, with: .fade)
             }
             
@@ -451,7 +436,6 @@ extension RGSForumViewController {
                 if response == nil || (response as! HTTPURLResponse).statusCode != 200 {
                     self.displayNetworkActionAlert("Unable to submit thread!")
                 } else {
-                    print("The thread was submitted. Refreshing the model data...")
                     self.refreshModelData()
                 }
             }
@@ -482,7 +466,6 @@ extension RGSForumViewController {
                 if (response == nil || (response as! HTTPURLResponse).statusCode != 200) {
                     self.displayNetworkActionAlert("Unable to delete thread!")
                 } else {
-                    print("The thread deletion was sent! Refreshing the model data...")
                     self.refreshModelData()
                 }
             }

@@ -116,7 +116,6 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset: CGPoint = scrollView.contentOffset
         if (offset.y <= SpecificationManager.sharedInstance.collectionViewContentRefreshOffset) {
-            print("Should reload content now!")
             suspendCollectionViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset))
             
             // Manual refresh.
@@ -133,7 +132,6 @@ class RGSLecturerViewController: RGSBaseViewController, UICollectionViewDelegate
         super.applicationWillResignActive(notification: notification)
         
         if lecturers != nil {
-            print("Saving lecturer data ...")
             RGSLecturerDataModel.saveDataModel(lecturers, context: DataManager.sharedInstance.context)
         }
     }
@@ -270,7 +268,6 @@ extension RGSLecturerViewController {
                 for (i, item) in model.enumerated() {
                     item.image = resource[i]
                 }
-                print("Reloading secondary data!")
                 self.collectionView.performBatchUpdates({
                     let indexSet = IndexSet(integer: 0)
                     self.collectionView.reloadSections(indexSet)
