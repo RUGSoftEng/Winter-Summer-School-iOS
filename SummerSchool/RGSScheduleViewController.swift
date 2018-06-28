@@ -177,7 +177,7 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
             suspendCollectionViewInteraction(contentOffset: CGPoint(x: offset.x, y: SpecificationManager.sharedInstance.collectionViewContentReloadOffset))
             
             // Manual refresh.
-            self.refreshModelWithDataForWeeks([-1, 0, 1])
+            self.refreshModelData()
             
             return
         }
@@ -190,7 +190,7 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
             suspendCollectionViewPagingInteraction()
             
             // Automatic refresh.
-            self.refreshModelWithDataForWeeks(automatic: true, [-1, 0, 1], paging: true)
+            self.refreshModelData(automatic: true, paging: true)
         }
     }
     
@@ -303,7 +303,7 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
         }
         
         // Attempt to refresh Schedule Model by querying the server: Get next two weeks.
-        self.refreshModelWithDataForWeeks([-1, 0, 1])
+        self.refreshModelData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -321,7 +321,7 @@ extension RGSScheduleViewController {
     
     // MARK: - Network GET Requests.
     
-    func refreshModelWithDataForWeeks (automatic: Bool = true, _ weeks: [Int], paging: Bool = false) {
+    func refreshModelData (automatic: Bool = true, paging: Bool = false) {
         var set: [RGSEventDataModel] = []
         
         // If popup was dismissed, undo upon manual refresh.
@@ -332,19 +332,15 @@ extension RGSScheduleViewController {
         // Allow a dedicated thread to synchronously fetch all data.
         DispatchQueue.global(qos: .default).async {
             
-            // Fetch data for each week specified.
-            for week in weeks {
-                
-                // Create URL.
-                let url: String = NetworkManager.sharedInstance.URLForEventsByWeek(offset: week)
-                
-                // Perform synchronous request.
-                let (data, _) = NetworkManager.sharedInstance.makeSynchronousGetRequest(url: url)
-                
-                // Add to set.
-                if let items = DataManager.sharedInstance.parseEventData(data: data) {
-                    set += items
-                }
+            // Construct URL:
+            let url: String = NetworkManager.sharedInstance.URLForScheduleEvents(SpecificationManager.sharedInstance.schoolId)
+            
+            // Perform synchronous request.
+            let (data, _) = NetworkManager.sharedInstance.makeSynchronousGetRequest(url: url)
+            
+            // Add to set.
+            if let items = DataManager.sharedInstance.parseEventData(data: data) {
+                set += items
             }
             
             // Induce small delay, unlock interaction, set events.

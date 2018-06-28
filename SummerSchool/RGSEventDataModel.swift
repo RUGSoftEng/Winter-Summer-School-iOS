@@ -138,6 +138,7 @@ extension RGSEventDataModel {
             let json = try? JSONSerialization.jsonObject(with: data, options: []),
             let jsonArray = json as? [Any]
         else { return nil }
+        
 
         // Map JSON representations to data model instances. Signal error and return on bad parse.
         for item in jsonArray {

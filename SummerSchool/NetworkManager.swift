@@ -142,14 +142,14 @@ final class NetworkManager {
         return serverAddress + path
     }
     
-    /// Returns the address needed to extract events for the specified week
+    /// Returns the address needed to extract events for the specified school.
     /// from the server.
     ///
     /// - Parameters:
-    ///     - offset: The offset from the current week from which to
-    ///               extract events. -1 = last week, 2 = next next week.
-    func URLForEventsByWeek (offset: Int) -> String {
-        return serverAddress + serverPathWithOptions(path: .eventPath, options: "week=\(offset)")
+    ///     - school: The school to be specified in the URL parameters.
+    ///
+    func URLForScheduleEvents (_ school: String) -> String {
+        return serverAddress + serverPathWithOptions(path: .eventPath, options: "school=\(school)")
     }
     
     /// Performs a GET request to the given URL, executes a callback with the retrieved
