@@ -19,7 +19,7 @@ class RGSScheduleCollectionViewCell: UICollectionViewCell {
             /// Extract and set day of the month label.
             monthDayLabel.text = DateManager.sharedInstance.monthDayFromDate(date)
             
-            /// Extract and set Month.
+            /// Extract and set weekday.
             weekdayLabel.text = DateManager.sharedInstance.weekDayFromDate(date)
             
         }

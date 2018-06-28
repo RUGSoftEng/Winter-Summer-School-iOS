@@ -371,12 +371,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g5Q-lb-bev">
+                                <rect key="frame" x="326" y="72" width="41" height="25"/>
+                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="9S9-XD-rwc"/>
+                                    <constraint firstAttribute="width" constant="41" id="I1h-mA-mgR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5c1-CI-cI5" customClass="RGSLoadingIndicatorView" customModule="SummerSchool" customModuleProvider="target">
                                 <rect key="frame" x="165" y="72" width="45" height="45"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="ptt-td-Ww9"/>
-                                    <constraint firstAttribute="width" constant="45" id="uhP-6M-Js4"/>
+                                    <constraint firstAttribute="width" constant="45" id="soM-HB-s3q"/>
+                                    <constraint firstAttribute="height" constant="45" id="ueH-aG-9tZ"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RnM-7P-YMo">
@@ -397,18 +408,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="RnM-7P-YMo" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="6Lt-a8-ySb"/>
-                            <constraint firstAttribute="trailing" secondItem="RnM-7P-YMo" secondAttribute="trailing" id="Tbq-Sc-7DC"/>
-                            <constraint firstItem="5c1-CI-cI5" firstAttribute="centerX" secondItem="VxF-mh-CWm" secondAttribute="centerX" id="ZLO-Ak-UzQ"/>
-                            <constraint firstItem="XQL-Gf-vtb" firstAttribute="top" secondItem="RnM-7P-YMo" secondAttribute="bottom" id="aKU-8w-Oy9"/>
-                            <constraint firstItem="5c1-CI-cI5" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" constant="8" id="eVm-Mn-w18"/>
-                            <constraint firstItem="RnM-7P-YMo" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" id="hKT-Be-oBX"/>
+                            <constraint firstItem="XQL-Gf-vtb" firstAttribute="top" secondItem="RnM-7P-YMo" secondAttribute="bottom" id="GSJ-lx-iSH"/>
+                            <constraint firstItem="g5Q-lb-bev" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" constant="8" id="HkV-nY-51I"/>
+                            <constraint firstAttribute="trailing" secondItem="RnM-7P-YMo" secondAttribute="trailing" id="Hwn-0T-e9s"/>
+                            <constraint firstAttribute="trailing" secondItem="g5Q-lb-bev" secondAttribute="trailing" constant="8" id="rxH-vT-kXe"/>
+                            <constraint firstItem="RnM-7P-YMo" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" id="t3j-6a-aKr"/>
+                            <constraint firstItem="5c1-CI-cI5" firstAttribute="centerX" secondItem="VxF-mh-CWm" secondAttribute="centerX" id="tAn-zA-OGL"/>
+                            <constraint firstItem="5c1-CI-cI5" firstAttribute="top" secondItem="d4c-8o-rs4" secondAttribute="bottom" constant="8" id="vfy-Js-teT"/>
+                            <constraint firstItem="RnM-7P-YMo" firstAttribute="leading" secondItem="VxF-mh-CWm" secondAttribute="leading" id="zok-is-Ffj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cjs-Rx-Bhp"/>
                     <connections>
                         <outlet property="collectionView" destination="RnM-7P-YMo" id="ORC-7F-DnU"/>
                         <outlet property="loadingIndicator" destination="5c1-CI-cI5" id="KYE-B1-N8H"/>
+                        <outlet property="monthLabel" destination="g5Q-lb-bev" id="7Qb-Mj-bvr"/>
                         <segue destination="i6J-Sw-VcV" kind="show" identifier="RGSScheduleEventsViewController" id="57R-L3-ibb"/>
                     </connections>
                 </viewController>

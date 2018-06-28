@@ -21,9 +21,9 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
     var currentWeekday: Int {
         return DateManager.sharedInstance.weekDayOffsetFromDate(now)
     }
-    
+
     /// The current week for which content is being displayed in the tableView
-    var week: Int = 0
+    var week: Int = 0 
     
     /// UICollectionViewCell Identifier.
     let scheduleCollectionViewCellIdentifier: String = "scheduleCollectionViewCellIdentifier"
@@ -40,7 +40,14 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
             self.collectionView.performBatchUpdates({
                 let indexSet = IndexSet(integer: 0)
                 self.collectionView.reloadSections(indexSet)
-            }, completion: nil)
+            }, completion: {(_ : Bool) -> Void in
+                
+                // Update the month label.
+                if let centerCell = self.collectionView.cellForItem(at: IndexPath(item: 3, section: 0)) as? RGSScheduleCollectionViewCell {
+                    self.monthLabel.text = DateManager.sharedInstance.monthFromDate(centerCell.date)
+                }
+            })
+            
         }
     }
     
@@ -60,6 +67,9 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
     
     /// The RGSLoadingIndicatorView
     @IBOutlet weak var loadingIndicator: RGSLoadingIndicatorView!
+    
+    /// The month label.
+    @IBOutlet weak var monthLabel: UILabel!
     
     // MARK: - Actions
     
@@ -301,6 +311,11 @@ class RGSScheduleViewController: RGSBaseViewController, UICollectionViewDelegate
         if let set = RGSEventDataModel.loadDataModel(context: DataManager.sharedInstance.context, sort: RGSEventDataModel.sort) {
             self.events = set
         }
+        
+        /// Round the corners of the month label to improve aesthetics.
+        self.monthLabel.layer.cornerRadius = 5.0
+        self.monthLabel.layer.masksToBounds = true
+        self.monthLabel.clipsToBounds = true
         
         // Attempt to refresh Schedule Model by querying the server: Get next two weeks.
         self.refreshModelData()
